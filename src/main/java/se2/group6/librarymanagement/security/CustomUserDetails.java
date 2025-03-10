@@ -7,7 +7,6 @@ import se2.group6.librarymanagement.model.User;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
     private final User user;

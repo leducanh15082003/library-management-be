@@ -1,57 +1,53 @@
 package se2.group6.librarymanagement.security;
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Component
 public class JwtTokenProvider {
-    @Value("${app.jwtSecret}")
-    private String jwtSecret;
+
+    private final SecretKey jwtSecretKey;
 
     @Value("${app.jwtExpirationInMs}")
     private int jwtExpirationInMs;
 
-    // Tạo JWT dựa trên thông tin Authentication
+    public JwtTokenProvider() {
+        this.jwtSecretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    }
+
     public String generateToken(Authentication authentication) {
-        CustomUserDetails userPrincipal = (CustomUserDetails) authentication.getPrincipal();
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + jwtExpirationInMs);
+
         return Jwts.builder()
-                .setSubject(userPrincipal.getUsername())
+                .setSubject(authentication.getName())
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .signWith(jwtSecretKey, SignatureAlgorithm.HS512)
                 .compact();
     }
 
-    // Lấy username từ token
     public String getUsernameFromJWT(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(jwtSecret)
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(jwtSecretKey)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
         return claims.getSubject();
     }
 
-    // Kiểm tra tính hợp lệ của token
-    public boolean validateToken(String authToken) {
+    public boolean validateToken(String token) {
         try {
-            Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+            Jwts.parserBuilder().setSigningKey(jwtSecretKey).build().parseClaimsJws(token);
             return true;
-        } catch (SignatureException ex) {
-            System.out.println("Invalid JWT signature");
-        } catch (MalformedJwtException ex) {
-            System.out.println("Invalid JWT token");
-        } catch (ExpiredJwtException ex) {
-            System.out.println("Expired JWT token");
-        } catch (UnsupportedJwtException ex) {
-            System.out.println("Unsupported JWT token");
-        } catch (IllegalArgumentException ex) {
-            System.out.println("JWT claims string is empty.");
+        } catch (JwtException | IllegalArgumentException ex) {
+            // log exception
         }
         return false;
     }
