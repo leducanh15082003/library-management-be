@@ -1,4 +1,4 @@
-package se2.group6.librarymanagement.security;
+package se2.group6.librarymanagement.config.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

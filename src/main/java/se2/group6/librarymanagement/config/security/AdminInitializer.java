@@ -1,4 +1,4 @@
-package se2.group6.librarymanagement.security;
+package se2.group6.librarymanagement.config.security;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
@@ -13,13 +13,13 @@ public class AdminInitializer {
     @Bean
     public CommandLineRunner initAdmin(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {
-            if (userRepository.findUserByUserName("admin").isEmpty()) {
+            if (userRepository.findUserByUserName("admin@gmail.com").isEmpty()) {
                 User admin = new User();
-                admin.setUserName("admin");
-                admin.setPassword(passwordEncoder.encode("123456"));
-                admin.setRole(Role.LIBRARIAN);
+                admin.setUserName("admin@gmail.com");
+                admin.setPassword(passwordEncoder.encode("12345678"));
+                admin.setRole(Role.LIBRARY_PATRON);
                 userRepository.save(admin);
-                System.out.println("Admin created! admin / 123456");
+                System.out.println("Admin created! admin@gmail.com / 12345678");
             }
         };
     }
