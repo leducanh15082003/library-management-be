@@ -13,13 +13,13 @@ public class AdminInitializer {
     @Bean
     public CommandLineRunner initAdmin(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {
-            if (userRepository.findUserByUserName("admin@gmail.com").isEmpty()) {
+            if (userRepository.findUserByUserName("admin1").isEmpty()) {
                 User admin = new User();
-                admin.setUserName("admin@gmail.com");
-                admin.setPassword(passwordEncoder.encode("12345678"));
-                admin.setRole(Role.LIBRARY_PATRON);
+                admin.setUserName("admin1");
+                admin.setPassword(passwordEncoder.encode("123456"));
+                admin.setRole(Role.LIBRARIAN);
                 userRepository.save(admin);
-                System.out.println("Admin created! admin@gmail.com / 12345678");
+                System.out.println("Admin created! admin1 / 123456");
             }
         };
     }

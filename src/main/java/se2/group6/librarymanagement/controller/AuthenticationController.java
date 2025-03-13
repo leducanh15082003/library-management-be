@@ -48,8 +48,6 @@ public class AuthenticationController {
         user.setUserName(loginRequestDTO.getUsername());
         user.setPassword(passwordEncoder.encode(loginRequestDTO.getPassword()));
         user.setRole(Role.LIBRARY_PATRON);
-        user.setRoomBookings(null);
-        user.setBorrowedRecords(null);
         return userService.saveUser(user);
     }
 
