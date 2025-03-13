@@ -43,10 +43,13 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public User createNewUser(@RequestBody User user) {
-        user.setUserName(user.getUserName());
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public User createNewUser(@RequestBody LoginRequestDTO loginRequestDTO) {
+        User user = new User();
+        user.setUserName(loginRequestDTO.getUsername());
+        user.setPassword(passwordEncoder.encode(loginRequestDTO.getPassword()));
         user.setRole(Role.LIBRARY_PATRON);
+        user.setRoomBookings(null);
+        user.setBorrowedRecords(null);
         return userService.saveUser(user);
     }
 
