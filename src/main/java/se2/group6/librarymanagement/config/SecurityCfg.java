@@ -42,11 +42,11 @@ public class SecurityCfg {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/auth/**",
-                                "/swagger-ui/**", // Cho Swagger UI mới (Spring Boot 3+)
-                                "/swagger-ui.html", // Cho Swagger UI cũ
-                                "/v3/api-docs/**", // OpenAPI v3
-                                "/v2/api-docs/**", // OpenAPI v2
-                                "/swagger-resources/**", // Tài nguyên Swagger
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**",
+                                "/v2/api-docs/**",
+                                "/swagger-resources/**",
                                 "/configuration/ui",
                                 "/configuration/security",
                                 "/webjars/**")
