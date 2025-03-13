@@ -47,7 +47,6 @@ public class UserController {
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             user.setUserName(userDetail.getUserName());
-            user.setEmail(userDetail.getEmail());
             user.setPassword(userDetail.getPassword());
             user.setRole(userDetail.getRole());
             user.setBorrowedRecords(null);
