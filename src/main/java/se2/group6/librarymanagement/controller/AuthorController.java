@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import se2.group6.librarymanagement.dto.AuthorResponseDTO;
 import se2.group6.librarymanagement.model.Author;
+import se2.group6.librarymanagement.model.Book;
 import se2.group6.librarymanagement.service.AuthorService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -22,9 +25,20 @@ public class AuthorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Author>> getAllAuthors() {
+    public ResponseEntity<List<AuthorResponseDTO>> getAllAuthors() {
         List<Author> authors = authorService.getAllAuthors();
-        return new ResponseEntity<>(authors, HttpStatus.OK);
+        List<AuthorResponseDTO> response = authors.stream().map(author -> {
+            List<Long> bookIds = author.getBooks().stream()
+                    .map(Book::getId)
+                    .collect(Collectors.toList());
+            return new AuthorResponseDTO(
+                    author.getId(),
+                    author.getName(),
+                    author.getBio(),
+                    bookIds
+            );
+        }).toList();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

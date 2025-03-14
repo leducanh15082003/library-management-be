@@ -37,8 +37,12 @@ public class Book {
     private String status;
 
     @ManyToOne
-    @JoinColumn(name = "subject_id" , nullable = false)
+    @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
+
+    // New field for storing image URL (optional)
+    @Column(name = "image_url")
+    private String imageUrl;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
@@ -51,14 +55,7 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BorrowedRecord> borrowedRecords = new ArrayList<>();
 
-    public List<BorrowedRecord> getBorrowedRecords() {
-        return borrowedRecords;
-    }
-
-    public void setBorrowedRecords(List<BorrowedRecord> borrowedRecords) {
-        this.borrowedRecords = borrowedRecords;
-    }
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -123,6 +120,22 @@ public class Book {
         this.status = status;
     }
 
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
@@ -139,11 +152,11 @@ public class Book {
         this.updatedAt = updatedAt;
     }
 
-    public Subject getSubject() {
-        return subject;
+    public List<BorrowedRecord> getBorrowedRecords() {
+        return borrowedRecords;
     }
 
-    public void setSubject(Subject subject) {
-        this.subject = subject;
+    public void setBorrowedRecords(List<BorrowedRecord> borrowedRecords) {
+        this.borrowedRecords = borrowedRecords;
     }
 }
