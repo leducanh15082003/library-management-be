@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import se2.group6.librarymanagement.dto.BookResponseDTO;
 import se2.group6.librarymanagement.model.Author;
 import se2.group6.librarymanagement.model.Book;
 import se2.group6.librarymanagement.model.Subject;
@@ -13,6 +14,7 @@ import se2.group6.librarymanagement.service.SubjectService;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -30,9 +32,24 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Book>> getAllBooks() {
+    public ResponseEntity<List<BookResponseDTO>> getAllBooks() {
         List<Book> books = bookService.getAllBooks();
-        return new ResponseEntity<>(books, HttpStatus.OK);
+        List<BookResponseDTO> response = books.stream()
+                .map(book -> new BookResponseDTO(
+                        book.getId(),
+                        book.getTitle(),
+                        book.getAuthor().getId(),
+                        book.getIsbn(),
+                        book.getGenre(),
+                        book.getPublisher(),
+                        book.getPublishedYear(),
+                        book.getStatus(),
+                        book.getCreatedAt(),
+                        book.getUpdatedAt(),
+                        book.getImageUrl()
+                ))
+                .toList();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")

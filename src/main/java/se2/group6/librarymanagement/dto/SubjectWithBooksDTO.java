@@ -1,25 +1,23 @@
-package se2.group6.librarymanagement.model;
+package se2.group6.librarymanagement.dto;
 
-import jakarta.persistence.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "subject")
-public class Subject {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class SubjectWithBooksDTO {
     private Long id;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "description")
     private String description;
+    private List<BookResponseDTO> books;
 
-    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Book> books = new ArrayList<Book>();
+    public SubjectWithBooksDTO() {
+    }
+
+    public SubjectWithBooksDTO(Long id, String name, String description, List<BookResponseDTO> books) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.books = books;
+    }
+
 
     public Long getId() {
         return id;
@@ -45,11 +43,11 @@ public class Subject {
         this.description = description;
     }
 
-    public List<Book> getBooks() {
+    public List<BookResponseDTO> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(List<BookResponseDTO> books) {
         this.books = books;
     }
 }
