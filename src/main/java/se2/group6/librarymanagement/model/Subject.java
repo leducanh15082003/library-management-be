@@ -18,6 +18,9 @@ public class Subject {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Book> books = new ArrayList<Book>();
 
@@ -51,5 +54,13 @@ public class Subject {
 
     public void setBooks(List<Book> books) {
         this.books = books;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
