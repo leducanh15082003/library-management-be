@@ -53,7 +53,8 @@ public class AuthenticationController {
                 .findFirst()
                 .map(GrantedAuthority::getAuthority)
                 .orElse("");
-        return ResponseEntity.ok(new JwtAuthenticationResponseDTO(jwt, role));
+        String username = authentication.getName();
+        return ResponseEntity.ok(new JwtAuthenticationResponseDTO(jwt, role, username));
     }
 
     @PostMapping("/register")
