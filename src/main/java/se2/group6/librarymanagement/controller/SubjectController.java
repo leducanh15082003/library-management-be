@@ -55,7 +55,6 @@ public class SubjectController {
                     book.getGenre(),
                     book.getPublisher(),
                     book.getPublishedYear(),
-                    book.getStatus(),
                     book.getCreatedAt(),
                     book.getUpdatedAt(),
                     book.getImageUrl()

@@ -33,9 +33,6 @@ public class Book {
     @Column(name = "published_year")
     private String publishedYear;
 
-    @Column(name = "status")
-    private String status;
-
     @ManyToOne
     @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
@@ -109,14 +106,6 @@ public class Book {
 
     public void setPublishedYear(String publishedYear) {
         this.publishedYear = publishedYear;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public Subject getSubject() {

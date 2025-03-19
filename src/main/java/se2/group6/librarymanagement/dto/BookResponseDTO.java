@@ -10,7 +10,6 @@ public class BookResponseDTO {
     private String genre;
     private String publisher;
     private String publishedYear;
-    private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String imageUrl;
@@ -18,7 +17,7 @@ public class BookResponseDTO {
     public BookResponseDTO() {
     }
 
-    public BookResponseDTO(Long id, String title, Long authorId, String isbn, String genre, String publisher, String publishedYear, String status, LocalDateTime createdAt, LocalDateTime updatedAt, String imageUrl) {
+    public BookResponseDTO(Long id, String title, Long authorId, String isbn, String genre, String publisher, String publishedYear, LocalDateTime createdAt, LocalDateTime updatedAt, String imageUrl) {
         this.id = id;
         this.title = title;
         this.authorId = authorId;
@@ -26,7 +25,6 @@ public class BookResponseDTO {
         this.genre = genre;
         this.publisher = publisher;
         this.publishedYear = publishedYear;
-        this.status = status;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.imageUrl = imageUrl;
@@ -88,14 +86,6 @@ public class BookResponseDTO {
 
     public void setPublishedYear(String publishedYear) {
         this.publishedYear = publishedYear;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public LocalDateTime getCreatedAt() {
