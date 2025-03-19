@@ -43,7 +43,6 @@ public class BookController {
                         book.getGenre(),
                         book.getPublisher(),
                         book.getPublishedYear(),
-                        book.getStatus(),
                         book.getCreatedAt(),
                         book.getUpdatedAt(),
                         book.getImageUrl()
@@ -81,7 +80,6 @@ public class BookController {
             book.setGenre(bookDetail.getGenre());
             book.setPublisher(bookDetail.getPublisher());
             book.setPublishedYear(bookDetail.getPublishedYear());
-            book.setStatus(bookDetail.getStatus());
 
             Subject subject = subjectService.getSubjectById(bookDetail.getSubject().getId())
                             .orElseThrow(() -> new RuntimeException("Subject not found"));
