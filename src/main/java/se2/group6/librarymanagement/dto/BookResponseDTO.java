@@ -29,7 +29,7 @@ public class BookResponseDTO {
         this.status = status;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.imageUrl = "";
+        this.imageUrl = imageUrl;
     }
 
     // Getters and Setters

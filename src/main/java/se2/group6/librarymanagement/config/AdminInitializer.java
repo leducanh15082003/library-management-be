@@ -1,4 +1,4 @@
-package se2.group6.librarymanagement.config.security;
+package se2.group6.librarymanagement.config;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

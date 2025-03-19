@@ -40,7 +40,6 @@ public class Book {
     @JoinColumn(name = "subject_id", nullable = false)
     private Subject subject;
 
-    // New field for storing image URL (optional)
     @Column(name = "image_url")
     private String imageUrl;
 
