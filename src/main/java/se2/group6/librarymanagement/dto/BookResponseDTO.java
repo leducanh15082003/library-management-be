@@ -13,11 +13,12 @@ public class BookResponseDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String imageUrl;
+    private int viewCount;
 
     public BookResponseDTO() {
     }
 
-    public BookResponseDTO(Long id, String title, Long authorId, String isbn, String genre, String publisher, String publishedYear, LocalDateTime createdAt, LocalDateTime updatedAt, String imageUrl) {
+    public BookResponseDTO(Long id, int viewCount, String title, Long authorId, String isbn, String genre, String publisher, String publishedYear, LocalDateTime createdAt, LocalDateTime updatedAt, String imageUrl) {
         this.id = id;
         this.title = title;
         this.authorId = authorId;
@@ -28,6 +29,7 @@ public class BookResponseDTO {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.imageUrl = imageUrl;
+        this.viewCount = viewCount;
     }
 
     // Getters and Setters
@@ -110,5 +112,13 @@ public class BookResponseDTO {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 }
