@@ -37,6 +37,7 @@ public class BookController {
         List<BookResponseDTO> response = books.stream()
                 .map(book -> new BookResponseDTO(
                         book.getId(),
+                        book.getViewCount(),
                         book.getTitle(),
                         book.getAuthor().getId(),
                         book.getIsbn(),

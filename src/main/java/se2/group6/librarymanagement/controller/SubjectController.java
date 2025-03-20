@@ -11,6 +11,8 @@ import se2.group6.librarymanagement.model.Book;
 import se2.group6.librarymanagement.model.Subject;
 import se2.group6.librarymanagement.service.SubjectService;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,21 +46,33 @@ public class SubjectController {
     }
 
     @GetMapping("/full")
-    public ResponseEntity<List<SubjectWithBooksDTO>> getAllSubjectsWithBooks() {
+    public ResponseEntity<List<SubjectWithBooksDTO>> getAllSubjectsWithBooks(@RequestParam(value = "sortType", required = false, defaultValue = "id") String sortType) {
         List<Subject> subjects = subjectService.getAllSubjects();
         List<SubjectWithBooksDTO> response = subjects.stream().map(subject -> {
-            List<BookResponseDTO> books = subject.getBooks().stream().map(book -> new BookResponseDTO(
-                    book.getId(),
-                    book.getTitle(),
-                    book.getAuthor().getId(), // only include author id
-                    book.getIsbn(),
-                    book.getGenre(),
-                    book.getPublisher(),
-                    book.getPublishedYear(),
-                    book.getCreatedAt(),
-                    book.getUpdatedAt(),
-                    book.getImageUrl()
-            )).collect(Collectors.toList());
+            List<Book> booksList = new ArrayList<>(subject.getBooks());
+
+            if ("most-view".equalsIgnoreCase(sortType)) {
+                booksList.sort(Comparator.comparingInt(Book::getViewCount).reversed());
+            } else if ("new".equalsIgnoreCase(sortType)) {
+                booksList.sort(Comparator.comparing(Book::getCreatedAt).reversed());
+            } else { // default: sort theo id
+                booksList.sort(Comparator.comparing(Book::getId));
+            }
+            List<BookResponseDTO> books = booksList.stream()
+                    .map(book -> new BookResponseDTO(
+                            book.getId(),
+                            book.getViewCount(),
+                            book.getTitle(),
+                            book.getAuthor().getId(),
+                            book.getIsbn(),
+                            book.getGenre(),
+                            book.getPublisher(),
+                            book.getPublishedYear(),
+                            book.getCreatedAt(),
+                            book.getUpdatedAt(),
+                            book.getImageUrl()
+                    ))
+                    .collect(Collectors.toList());
 
             return new SubjectWithBooksDTO(
                     subject.getId(),

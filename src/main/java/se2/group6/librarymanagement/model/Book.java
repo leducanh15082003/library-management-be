@@ -48,6 +48,9 @@ public class Book {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "view_count")
+    private int viewCount;
+
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BorrowedRecord> borrowedRecords = new ArrayList<>();
 
@@ -146,5 +149,13 @@ public class Book {
 
     public void setBorrowedRecords(List<BorrowedRecord> borrowedRecords) {
         this.borrowedRecords = borrowedRecords;
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 }
