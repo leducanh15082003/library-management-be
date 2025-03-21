@@ -20,6 +20,10 @@ public class BorrowedRecord {
     @JoinColumn(name = "book_id", nullable = false)
     private Book book;
 
+    @ManyToOne
+    @JoinColumn(name = "book_copy_id", nullable = false)
+    private BookCopy bookCopy;
+
     @CreationTimestamp
     @Column(name = "borrow_at", updatable = false)
     private LocalDateTime borrowAt;
@@ -66,5 +70,13 @@ public class BorrowedRecord {
 
     public void setReturnAt(LocalDateTime returnAt) {
         this.returnAt = returnAt;
+    }
+
+    public BookCopy getBookCopy() {
+        return bookCopy;
+    }
+
+    public void setBookCopy(BookCopy bookCopy) {
+        this.bookCopy = bookCopy;
     }
 }
