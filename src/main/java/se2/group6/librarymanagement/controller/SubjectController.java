@@ -11,10 +11,7 @@ import se2.group6.librarymanagement.model.Book;
 import se2.group6.librarymanagement.model.Subject;
 import se2.group6.librarymanagement.service.SubjectService;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:3000")
@@ -46,8 +43,21 @@ public class SubjectController {
     }
 
     @GetMapping("/full")
-    public ResponseEntity<List<SubjectWithBooksDTO>> getAllSubjectsWithBooks(@RequestParam(value = "sortType", required = false, defaultValue = "id") String sortType) {
+    public ResponseEntity<List<SubjectWithBooksDTO>> getAllSubjectsWithBooks(
+            @RequestParam(value = "sortType", required = false, defaultValue = "id") String sortType,
+            @RequestParam(value = "subjectIds", required = false) String subjectIds) {
         List<Subject> subjects = subjectService.getAllSubjects();
+
+        if (subjectIds != null && !subjectIds.isEmpty()) {
+            List<Long> idList = Arrays.stream(subjectIds.split(","))
+                    .map(String::trim)
+                    .map(Long::parseLong)
+                    .toList();
+            subjects = subjects.stream()
+                    .filter(subject -> idList.contains(subject.getId()))
+                    .toList();
+        }
+
         List<SubjectWithBooksDTO> response = subjects.stream().map(subject -> {
             List<Book> booksList = new ArrayList<>(subject.getBooks());
 

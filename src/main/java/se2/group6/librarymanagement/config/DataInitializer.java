@@ -282,252 +282,251 @@ public class DataInitializer {
 
             // Thêm 3 tác giả cho subject Tạp chí
             jdbcTemplate.execute("INSERT INTO author (name, bio, created_at, updated_at) VALUES " +
-                    "('Hồ Anh Thái', 'Nhà văn nổi bật với nhiều tiểu thuyết về văn hóa và lịch sử', " +
+                    "('Anna Thompson', 'Renowned journalist specializing in fashion and lifestyle', " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             jdbcTemplate.execute("INSERT INTO author (name, bio, created_at, updated_at) VALUES " +
-                    "('Phan Hoàng', 'Nhà thơ và tác giả của nhiều bài viết về thi ca', " +
+                    "('Michael Carter', 'Award-winning writer known for investigative journalism', " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             jdbcTemplate.execute("INSERT INTO author (name, bio, created_at, updated_at) VALUES " +
-                    "('Bùi Văn Tuất', 'Họa sĩ với nhiều tác phẩm nghệ thuật về miền quê', " +
+                    "('Sophia Lewis', 'Editor-in-chief with expertise in luxury and travel', " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
             // Lấy ID các tác giả cho subject Tạp chí
-            jdbcTemplate.execute("SET @author1 = (SELECT id FROM author WHERE name = 'Hồ Anh Thái')");
-            jdbcTemplate.execute("SET @author2 = (SELECT id FROM author WHERE name = 'Phan Hoàng')");
-            jdbcTemplate.execute("SET @author3 = (SELECT id FROM author WHERE name = 'Bùi Văn Tuất')");
+            jdbcTemplate.execute("SET @author1 = (SELECT id FROM author WHERE name = 'Anna Thompson')");
+            jdbcTemplate.execute("SET @author2 = (SELECT id FROM author WHERE name = 'Michael Carter')");
+            jdbcTemplate.execute("SET @author3 = (SELECT id FROM author WHERE name = 'Sophia Lewis')");
 
-            // -------------------- Tạp chí: Tạp chí của Hồ Anh Thái --------------------
+            // -------------------- Tạp chí: Tạp chí của Anna Thompson --------------------
 
-            // Thêm tạp chí "Đức Phật, nàng Savitri và tôi"
+            // Thêm tạp chí "Vogue"
             jdbcTemplate.execute("INSERT INTO book (title, author_id, isbn, genre, publisher, published_year, subject_id, image_url, created_at, updated_at, view_count) VALUES " +
-                    "('Đức Phật, nàng Savitri và tôi', " +
-                    "    (SELECT id FROM author WHERE name = 'Hồ Anh Thái'), " +
-                    "    '978-604-1-14824-3', 'Văn học', 'NXB Trẻ', '2007', " +
-                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742375740/r7rkrotirjsp9nmnhcww.jpg', " +
-                    "    DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW(), FLOOR(RAND() * 1000))");
+                    "('Vogue', (SELECT id FROM author WHERE name = 'Anna Thompson'), " +
+                    "'978-0-12345-678-9', 'Fashion', 'Condé Nast', '2023', " +
+                    "@subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742523211/lx6jz8mkr0qkkzr83ndq.jpg', " +
+                    "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW(), FLOOR(RAND() * 1000))");
 
-            // Thêm 3 bản sao cho "Đức Phật, nàng Savitri và tôi" với barcode theo format "010" + book_id + copy number
+            // Thêm 3 bản sao cho "Vogue" với barcode theo format "010" + book_id + copy number
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Đức Phật, nàng Savitri và tôi'), '1'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Đức Phật, nàng Savitri và tôi'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Vogue'), '1'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Vogue'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Đức Phật, nàng Savitri và tôi'), '2'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Đức Phật, nàng Savitri và tôi'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Vogue'), '2'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Vogue'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 3: Borrowed
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Đức Phật, nàng Savitri và tôi'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Đức Phật, nàng Savitri và tôi'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Vogue'), '3'), " +
+                    "'Borrowed', (SELECT id FROM book WHERE title = 'Vogue'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
-            // Thêm tạp chí "Mười lẻ một đêm"
+            // Thêm tạp chí "Harper’s Bazaar"
             jdbcTemplate.execute("INSERT INTO book (title, author_id, isbn, genre, publisher, published_year, subject_id, image_url, created_at, updated_at, view_count) VALUES " +
-                    "('Mười lẻ một đêm', " +
-                    "    (SELECT id FROM author WHERE name = 'Hồ Anh Thái'), " +
-                    "    '978-604-1-14825-0', 'Văn học', 'NXB Hội Nhà Văn', '2012', " +
-                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742375763/ilcuzquw0yqwr9i7yupd.jpg', " +
-                    "    DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW(), FLOOR(RAND() * 1000))");
+                    "('Harper’s Bazaar', " +
+                    "(SELECT id FROM author WHERE name = 'Anna Thompson'), " +
+                    "'978-0-23456-789-0', 'Fashion', 'Hearst', '2023', " +
+                    "@subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742523254/wdt8zhghlg3tk57sbwyy.jpg', " +
+                    "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW(), FLOOR(RAND() * 1000))");
 
-            // Thêm 3 bản sao cho "Mười lẻ một đêm" với barcode theo format "010" + book_id + copy number
+            // Thêm 3 bản sao cho "Harper’s Bazaar" với barcode theo format "010" + book_id + copy number
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Mười lẻ một đêm'), '1'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Mười lẻ một đêm'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), '1'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Mười lẻ một đêm'), '2'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Mười lẻ một đêm'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), '2'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 3: Borrowed
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Mười lẻ một đêm'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Mười lẻ một đêm'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), '3'), " +
+                    "'Borrowed', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
-            // Thêm tạp chí "Người bên này trời bên ấy"
+            // Thêm tạp chí "Elle"
             jdbcTemplate.execute("INSERT INTO book (title, author_id, isbn, genre, publisher, published_year, subject_id, image_url, created_at, updated_at, view_count) VALUES " +
-                    "('Người bên này trời bên ấy', " +
-                    "    (SELECT id FROM author WHERE name = 'Hồ Anh Thái'), " +
-                    "    '978-604-1-14826-7', 'Văn học', 'NXB Văn Học', '2015', " +
-                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742375786/alaka7xbbp3cika25aqj.jpg', " +
+                    "('Elle', " +
+                    "    (SELECT id FROM author WHERE name = 'Anna Thompson'), " +
+                    "    '978-0-34567-890-1', 'Fashion', 'Lagardère Group', '2023', " +
+                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742523273/l1cberpsnfvdsunl65mx.jpg', " +
                     "    DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW(), FLOOR(RAND() * 1000))");
 
-            // Thêm 3 bản sao cho "Người bên này trời bên ấy" với barcode theo format "010" + book_id + copy number
+            // Thêm 3 bản sao cho "Elle" với barcode theo format "010" + book_id + copy number
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Người bên này trời bên ấy'), '1'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Người bên này trời bên ấy'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Elle'), '1'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Elle'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Người bên này trời bên ấy'), '2'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Người bên này trời bên ấy'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Elle'), '2'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Elle'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 3: Borrowed
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Người bên này trời bên ấy'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Người bên này trời bên ấy'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Elle'), '3'), " +
+                    "'Borrowed', (SELECT id FROM book WHERE title = 'Elle'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
-            // -------------------- Tạp chí của Phan Hoàng --------------------
+            // -------------------- Tạp chí của Michael Carter --------------------
 
-            // Thêm tạp chí "Thơ 1-2-3: Sự đổi mới trong thi ca Việt"
+            // Thêm tạp chí "GQ"
             jdbcTemplate.execute("INSERT INTO book (title, author_id, isbn, genre, publisher, published_year, subject_id, image_url, created_at, updated_at, view_count) VALUES " +
-                    "('Thơ 1-2-3: Sự đổi mới trong thi ca Việt', " +
-                    "    (SELECT id FROM author WHERE name = 'Phan Hoàng'), " +
-                    "    '978-604-1-14827-4', 'Thơ', 'NXB Hội Nhà Văn', '2018', " +
-                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742375916/h5d0fchlgp0slvcmgnqc.jpg', " +
+                    "('GQ', " +
+                    "    (SELECT id FROM author WHERE name = 'Michael Carter'), " +
+                    "    '978-0-45678-901-2', 'Men’s Lifestyle', 'Condé Nast', '2023', " +
+                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742523320/eoiei6scxn6x3crlc6ap.jpg', " +
                     "    DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW(), FLOOR(RAND() * 1000))");
 
-            // Thêm 3 bản sao cho "Thơ 1-2-3: Sự đổi mới trong thi ca Việt"
+            // Thêm 3 bản sao cho "GQ"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Thơ 1-2-3: Sự đổi mới trong thi ca Việt'), '1'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Thơ 1-2-3: Sự đổi mới trong thi ca Việt'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'GQ'), '1'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'GQ'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Thơ 1-2-3: Sự đổi mới trong thi ca Việt'), '2'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Thơ 1-2-3: Sự đổi mới trong thi ca Việt'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'GQ'), '2'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'GQ'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 3: Borrowed
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Thơ 1-2-3: Sự đổi mới trong thi ca Việt'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Thơ 1-2-3: Sự đổi mới trong thi ca Việt'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'GQ'), '3'), " +
+                    "'Borrowed', (SELECT id FROM book WHERE title = 'GQ'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
-            // Thêm tạp chí "Những góc khuất của cuộc sống qua lăng kính thơ"
+            // Thêm tạp chí "Vanity Fair"
             jdbcTemplate.execute("INSERT INTO book (title, author_id, isbn, genre, publisher, published_year, subject_id, image_url, created_at, updated_at, view_count) VALUES " +
-                    "('Những góc khuất của cuộc sống qua lăng kính thơ', " +
-                    "    (SELECT id FROM author WHERE name = 'Phan Hoàng'), " +
-                    "    '978-604-1-14828-1', 'Thơ', 'NXB Trẻ', '2020', " +
-                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742375989/n6nzgphfbza7optsecjc.jpg', " +
+                    "('Vanity Fair', " +
+                    "    (SELECT id FROM author WHERE name = 'Michael Carter'), " +
+                    "    '978-0-56789-012-3', 'Celebrity & Culture', 'Condé Nast', '2023', " +
+                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742522874/rlqbf6aqsxsqwoyymewa.jpg', " +
                     "    DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW(), FLOOR(RAND() * 1000))");
 
-            // Thêm 3 bản sao cho "Những góc khuất của cuộc sống qua lăng kính thơ"
+            // Thêm 3 bản sao cho "Vanity Fair"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Những góc khuất của cuộc sống qua lăng kính thơ'), '1'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Những góc khuất của cuộc sống qua lăng kính thơ'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Vanity Fair'), '1'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Vanity Fair'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Những góc khuất của cuộc sống qua lăng kính thơ'), '2'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Những góc khuất của cuộc sống qua lăng kính thơ'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Vanity Fair'), '2'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Vanity Fair'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 3: Borrowed
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Những góc khuất của cuộc sống qua lăng kính thơ'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Những góc khuất của cuộc sống qua lăng kính thơ'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Vanity Fair'), '3'), " +
+                    "'Borrowed', (SELECT id FROM book WHERE title = 'Vanity Fair'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
-            // Thêm tạp chí "Tình yêu và nhân sinh trong thơ hiện đại"
+            // Thêm tạp chí "Esquire"
             jdbcTemplate.execute("INSERT INTO book (title, author_id, isbn, genre, publisher, published_year, subject_id, image_url, created_at, updated_at, view_count) VALUES " +
-                    "('Tình yêu và nhân sinh trong thơ hiện đại', " +
-                    "    (SELECT id FROM author WHERE name = 'Phan Hoàng'), " +
-                    "    '978-604-1-14829-8', 'Thơ', 'NXB Văn Học', '2021', " +
-                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742376035/ersuuw4hfzemsqelzxet.jpg', " +
+                    "('Esquire', " +
+                    "    (SELECT id FROM author WHERE name = 'Michael Carter'), " +
+                    "    '978-0-67890-123-4', 'Men’s Fashion & Culture', 'Hearst', '2023', " +
+                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742523365/qq1ceprtuxvtpe31rgug.jpg', " +
                     "    DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW(), FLOOR(RAND() * 1000))");
 
-            // Thêm 3 bản sao cho "Tình yêu và nhân sinh trong thơ hiện đại"
+            // Thêm 3 bản sao cho "Esquire"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Tình yêu và nhân sinh trong thơ hiện đại'), '1'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Tình yêu và nhân sinh trong thơ hiện đại'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Esquire'), '1'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Esquire'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Tình yêu và nhân sinh trong thơ hiện đại'), '2'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Tình yêu và nhân sinh trong thơ hiện đại'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Esquire'), '2'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Esquire'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 3: Borrowed
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Tình yêu và nhân sinh trong thơ hiện đại'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Tình yêu và nhân sinh trong thơ hiện đại'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Esquire'), '3'), " +
+                    "'Borrowed', (SELECT id FROM book WHERE title = 'Esquire'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
-            // -------------------- Tạp chí của Bùi Văn Tuất --------------------
+            // -------------------- Tạp chí của Sophia Lewis --------------------
 
-            // Thêm tạp chí "Trở về tuổi thơ qua nét vẽ"
+            // Thêm tạp chí "Cosmopolitan"
             jdbcTemplate.execute("INSERT INTO book (title, author_id, isbn, genre, publisher, published_year, subject_id, image_url, created_at, updated_at, view_count) VALUES " +
-                    "('Trở về tuổi thơ qua nét vẽ', " +
-                    "    (SELECT id FROM author WHERE name = 'Bùi Văn Tuất'), " +
-                    "    '978-604-1-14830-4', 'Nghệ thuật', 'NXB Mỹ Thuật', '2016', " +
-                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742376085/vqeowlzeoackrvpzm9wm.jpg', " +
+                    "('Cosmopolitan', " +
+                    "    (SELECT id FROM author WHERE name = 'Sophia Lewis'), " +
+                    "    '978-0-78901-234-5', 'Women’s Lifestyle', 'Hearst', '2023', " +
+                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742523390/pxgnpgw71nvna0frivqc.jpg', " +
                     "    DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW(), FLOOR(RAND() * 1000))");
-            // Thêm 3 bản sao cho "Trở về tuổi thơ qua nét vẽ"
+            // Thêm 3 bản sao cho "Cosmopolitan"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Trở về tuổi thơ qua nét vẽ'), '1'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Trở về tuổi thơ qua nét vẽ'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Cosmopolitan'), '1'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Cosmopolitan'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Trở về tuổi thơ qua nét vẽ'), '2'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Trở về tuổi thơ qua nét vẽ'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Cosmopolitan'), '2'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Cosmopolitan'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 3: Borrowed
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Trở về tuổi thơ qua nét vẽ'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Trở về tuổi thơ qua nét vẽ'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Cosmopolitan'), '3'), " +
+                    "'Borrowed', (SELECT id FROM book WHERE title = 'Cosmopolitan'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
-            // Thêm tạp chí "Hồn quê trong tranh sơn dầu"
+            // Thêm tạp chí "Marie Claire"
             jdbcTemplate.execute("INSERT INTO book (title, author_id, isbn, genre, publisher, published_year, subject_id, image_url, created_at, updated_at, view_count) VALUES " +
-                    "('Hồn quê trong tranh sơn dầu', " +
-                    "    (SELECT id FROM author WHERE name = 'Bùi Văn Tuất'), " +
-                    "    '978-604-1-14831-1', 'Nghệ thuật', 'NXB Hội Mỹ Thuật', '2019', " +
-                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742376119/fdxr5jgo2exxohop6str.jpg', " +
+                    "('Marie Claire', " +
+                    "    (SELECT id FROM author WHERE name = 'Sophia Lewis'), " +
+                    "    '978-0-89012-345-6', 'Women’s Fashion & Beauty', 'Hearst', '2023', " +
+                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742523417/jcvwe5ht3izyewsnfets.jpg', " +
                     "    DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW(), FLOOR(RAND() * 1000))");
-            // Thêm 3 bản sao cho "Hồn quê trong tranh sơn dầu"
+            // Thêm 3 bản sao cho "Marie Claire"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Hồn quê trong tranh sơn dầu'), '1'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Hồn quê trong tranh sơn dầu'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Marie Claire'), '1'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Marie Claire'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Hồn quê trong tranh sơn dầu'), '2'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Hồn quê trong tranh sơn dầu'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Marie Claire'), '2'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Marie Claire'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 3: Borrowed
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Hồn quê trong tranh sơn dầu'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Hồn quê trong tranh sơn dầu'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Marie Claire'), '3'), " +
+                    "'Borrowed', (SELECT id FROM book WHERE title = 'Marie Claire'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
-            // Thêm tạp chí "Miền ký ức và nghệ thuật đương đại"
+            // Thêm tạp chí "InStyle"
             jdbcTemplate.execute("INSERT INTO book (title, author_id, isbn, genre, publisher, published_year, subject_id, image_url, created_at, updated_at, view_count) VALUES " +
-                    "('Miền ký ức và nghệ thuật đương đại', " +
-                    "    (SELECT id FROM author WHERE name = 'Bùi Văn Tuất'), " +
-                    "    '978-604-1-14832-8', 'Nghệ thuật', 'NXB Văn Hóa', '2022', " +
-                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742376145/xmeyg75mkatcczgppb7q.jpg', " +
+                    "('InStyle', " +
+                    "    (SELECT id FROM author WHERE name = 'Sophia Lewis'), " +
+                    "    '978-0-90123-456-7', 'Fashion & Celebrity', 'Dotdash Meredith', '2023', " +
+                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742523460/qfh4qecl6ww4hw6r5fo0.jpg', " +
                     "    DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW(), FLOOR(RAND() * 1000))");
-            // Thêm 3 bản sao cho "Miền ký ức và nghệ thuật đương đại"
+            // Thêm 3 bản sao cho "InStyle"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Miền ký ức và nghệ thuật đương đại'), '1'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Miền ký ức và nghệ thuật đương đại'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'InStyle'), '1'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'InStyle'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Miền ký ức và nghệ thuật đương đại'), '2'), " +
-                    "'Available', (SELECT id FROM book WHERE title = 'Miền ký ức và nghệ thuật đương đại'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'InStyle'), '2'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'InStyle'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 3: Borrowed
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Miền ký ức và nghệ thuật đương đại'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Miền ký ức và nghệ thuật đương đại'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'InStyle'), '3'), " +
+                    "'Borrowed', (SELECT id FROM book WHERE title = 'InStyle'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
             // -------------------- Subject: Báo --------------------
