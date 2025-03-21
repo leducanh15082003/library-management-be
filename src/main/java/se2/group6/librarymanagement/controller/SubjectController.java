@@ -123,4 +123,33 @@ public class SubjectController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+    @GetMapping("/{id}/books")
+    public ResponseEntity<List<BookResponseDTO>> getBooksBySubjectId(@PathVariable Long id) {
+        Optional<Subject> optionalSubject = subjectService.getSubjectById(id);
+        if (!optionalSubject.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        List<Book> books = optionalSubject.get().getBooks();
+
+        List<BookResponseDTO> response = books.stream()
+                .map(book -> new BookResponseDTO(
+                        book.getId(),
+                        book.getViewCount(),
+                        book.getTitle(),
+                        book.getAuthor().getId(),
+                        book.getIsbn(),
+                        book.getGenre(),
+                        book.getPublisher(),
+                        book.getPublishedYear(),
+                        book.getCreatedAt(),
+                        book.getUpdatedAt(),
+                        book.getImageUrl()
+                ))
+                .collect(Collectors.toList());
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }
