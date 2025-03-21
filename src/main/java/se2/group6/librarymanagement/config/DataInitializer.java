@@ -407,7 +407,7 @@ public class DataInitializer {
                     "('Vanity Fair', " +
                     "    (SELECT id FROM author WHERE name = 'Michael Carter'), " +
                     "    '978-0-56789-012-3', 'Celebrity & Culture', 'Condé Nast', '2023', " +
-                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742522874/rlqbf6aqsxsqwoyymewa.jpg', " +
+                    "    @subject_id, 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742587124/lvirfkoadkxicvv1wqoo.jpg', " +
                     "    DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW(), FLOOR(RAND() * 1000))");
 
             // Thêm 3 bản sao cho "Vanity Fair"
