@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import se2.group6.librarymanagement.dto.BookCopyResponseDTO;
 import se2.group6.librarymanagement.dto.BookResponseDTO;
+import se2.group6.librarymanagement.dto.BookWithCopiesResponseDTO;
 import se2.group6.librarymanagement.model.Author;
 import se2.group6.librarymanagement.model.Book;
 import se2.group6.librarymanagement.model.Subject;
@@ -104,5 +106,32 @@ public class BookController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<BookResponseDTO>> searchBooks(@RequestParam("title") String title) {
+        List<Book> books = bookService.searchBooksByTitle(title);
+        List<BookResponseDTO> result = books.stream()
+                .map(book -> new BookResponseDTO(
+                        book.getId(),
+                        book.getViewCount(),
+                        book.getTitle(),
+                        book.getAuthor().getId(),
+                        book.getIsbn(),
+                        book.getGenre(),
+                        book.getPublisher(),
+                        book.getPublishedYear(),
+                        book.getCreatedAt(),
+                        book.getUpdatedAt(),
+                        book.getImageUrl()
+                ))
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/{id}/copies")
+    public ResponseEntity<BookWithCopiesResponseDTO> getBookWithCopies(@PathVariable("id") Long id) {
+        BookWithCopiesResponseDTO response = bookService.getBookWithCopies(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
