@@ -1,5 +1,6 @@
 package se2.group6.librarymanagement.service;
 
+import se2.group6.librarymanagement.dto.BookWithCopiesResponseDTO;
 import se2.group6.librarymanagement.model.Book;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface BookService {
     Book saveBook(Book book);
     Book updateBook(Book book);
     void deleteBookById(Long id);
+    List<Book> searchBooksByTitle(String title);
+    BookWithCopiesResponseDTO getBookWithCopies(Long id);
 }
