@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Thông tin sách - ' + ${book.title}">Thông tin sách</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-josefin-sans">
+<div layout:fragment="content">
+
+    <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742978726/muon-tai-lieu-2_kmm4bj.png');|"
+         class="bg-cover h-[280px] flex justify-center items-center mb-3">
+      <span class="text-white font-bold text-5xl">
+        MƯỢN TÀI LIỆU
+      </span>
+    </div>
+
+    <div class="flex justify-center">
+        <div class="w-full max-w-2xl">
+            <div class="container mx-auto pr-5">
+                <!-- Sử dụng form GET để tự động gửi khi thay đổi lựa chọn -->
+                <form th:action="@{/service/borrow-page}" method="get"
+                      class="w-[588px] h-[66px] relative bg-white border border-[#306537] flex items-center px-4">
+                    <!-- Dropdown Subject -->
+                    <div>
+                        <select name="category" class="w-[180px] text-gray-600 focus:outline-none" onchange="this.form.submit()">
+                            <option value="all" th:selected="${category == 'all'}">Tất cả</option>
+                            <option th:each="subject : ${subjectsList}"
+                                    th:value="${subject.id}"
+                                    th:text="${subject.name}"
+                                    th:selected="${category == subject.id.toString()}">
+                            </option>
+                        </select>
+                        <div class="w-[1px] h-[30px] bg-[#306537] mx-4"></div>
+                    </div>
+                    <input type="text" name="query" placeholder="Nhập tiêu đề tài liệu"
+                           class="w-full text-xl text-gray-700 placeholder-gray-400 focus:outline-none" />
+                    <button type="submit"
+                            class="ml-4 px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 transition-all">
+                        Tìm kiếm
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto p-6 mt-6 bg-white shadow-lg rounded-lg">
+        <h2 class="text-center font-bold text-2xl text-[#427B49]">KẾT QUẢ TÌM KIẾM</h2>
+        <p class="text-gray-700 text-xl">
+            Tìm thấy
+            <span class="font-extrabold text-white bg-[#306537] px-1 pt-1 rounded-sm"
+                  th:text="'1'">
+            1
+          </span>
+            kết quả
+        </p>
+
+        <div class="flex items-center mt-4 gap-6 pb-3">
+            <img th:src="@{${book.imageUrl}}"
+                 th:alt="${book.title}"
+                 class="w-38 h-50 object-cover border" />
+
+            <table class="w-full border-collapse border border-gray-300 shadow-md rounded-lg overflow-hidden">
+                <thead>
+                <tr class="bg-green-100 text-green-900">
+                    <th class="border p-3 text-center">Mã vạch</th>
+                    <th class="border p-3 text-center">Ngày nhập</th>
+                    <th class="border p-3 text-center">Thể loại</th>
+                    <th class="border p-3 text-center">Tình trạng</th>
+                    <th class="border p-3 text-center">Đặt mượn</th>
+                </tr>
+                </thead>
+                <tbody class="font-light">
+                <tr th:if="${#lists.isEmpty(book.copies)}">
+                    <td colspan="6" class="text-center text-gray-500 p-3">Không có thông tin tình trạng</td>
+                </tr>
+                <tr th:each="copy : ${book.copies}" class="bg-white hover:bg-gray-100 transition">
+                    <td class="border p-3 text-center" th:text="${copy.barcode}">Barcode</td>
+                    <td class="border p-3 text-center"
+                        th:text="${T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy').format(copy.createdAt)}">Ngày nhập</td>
+                    <td class="border p-3 text-center" th:text="${book.subject}">Thể loại</td>
+                    <td class="border p-3 text-center font-light"
+                        th:class="${copy.status.toLowerCase() == 'available' ? 'text-green-600 text-center' : 'text-red-600 text-center'}"
+                        th:text="${copy.status.toLowerCase() == 'available' ? 'Đang trống' : 'Đã có người mượn'}">
+                        Tình trạng
+                    </td>
+                    <td class="border p-3 text-center">
+                        <a th:if="${copy.status.toLowerCase() == 'available'}"
+                           th:href="@{'/borrow?copyId=' + ${copy.id}}"
+                           class="bg-green-600 text-white px-4 py-1 rounded-lg hover:bg-green-700 transition">
+                            Mượn
+                        </a>
+                        <span th:if="${copy.status.toLowerCase() != 'available'}"
+                              class="text-red-500">
+                  Hết
+                </span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div>
+            <h3 class="text-green-800 font-semibold text-2xl" th:text="${book.title}">Book Title</h3>
+            <p class="text-gray-600 mt-1">
+                Đầu mục tài liệu:
+                <span class="font-semibold text-green-700"
+                      th:text="${book.copies != null ? #lists.size(book.copies) : 0}">
+            0
+          </span>
+            </p>
+        </div>
+
+    </div>
+
+</div>
+</body>
+</html>

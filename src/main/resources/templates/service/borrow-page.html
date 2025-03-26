@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Mượn Tài Liệu - Hanoi Library</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const scrollContainers = document.querySelectorAll('.horizontal-scroll');
+            scrollContainers.forEach(function(container) {
+                let isScrolling;
+                container.addEventListener('wheel', function(event) {
+                    event.preventDefault();
+
+                    const scrollAmount = event.deltaY * 1.5;
+                    const targetScroll = container.scrollLeft + scrollAmount;
+                    const startScroll = container.scrollLeft;
+                    const duration = 50;
+
+                    let startTime = null;
+
+                    function easeOutQuad(t) {
+                        return t * (2 - t);
+                    }
+
+                    function animateScroll(timestamp) {
+                        if (!startTime) startTime = timestamp;
+                        const elapsed = timestamp - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const easedProgress = easeOutQuad(progress);
+                        container.scrollLeft = startScroll + (targetScroll - startScroll) * easedProgress;
+                        if (progress < 1) {
+                            isScrolling = requestAnimationFrame(animateScroll);
+                        }
+                    }
+
+                    if (isScrolling) {
+                        cancelAnimationFrame(isScrolling);
+                    }
+                    isScrolling = requestAnimationFrame(animateScroll);
+                });
+            });
+        });
+    </script>
+</head>
+<body class="font-josefin-sans">
+<div layout:fragment="content">
+
+    <!-- Background Image -->
+    <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742978726/muon-tai-lieu-2_kmm4bj.png');|"
+         class="bg-cover h-[280px] flex justify-center items-center mb-3">
+      <span class="text-white font-bold text-5xl">
+        MƯỢN TÀI LIỆU
+      </span>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="flex justify-center">
+        <div class="w-full max-w-2xl">
+            <div class="container mx-auto pr-5">
+                <!-- Sử dụng form GET để tự động gửi khi thay đổi lựa chọn -->
+                <form th:action="@{/service/borrow-page}" method="get"
+                      class="w-[588px] h-[66px] relative bg-white border border-[#306537] flex items-center px-4">
+                    <!-- Dropdown Subject -->
+                    <div>
+                        <select name="category" class="w-[180px] text-gray-600 focus:outline-none" onchange="this.form.submit()">
+                            <option value="all" th:selected="${category == 'all'}">Tất cả</option>
+                            <option th:each="subject : ${subjectsList}"
+                                    th:value="${subject.id}"
+                                    th:text="${subject.name}"
+                                    th:selected="${category == subject.id.toString()}">
+                            </option>
+                        </select>
+                    </div>
+                    <input type="text" name="title" placeholder="Nhập tiêu đề tài liệu"
+                           class="w-full text-xl text-gray-700 placeholder-gray-400 focus:outline-none"
+                           th:value="${title}" />
+                    <button type="submit"
+                            class="ml-4 px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 transition-all">
+                        Tìm kiếm
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${loading}">
+        <h1 class="text-center text-xl text-green-700 pt-5">Loading...</h1>
+    </div>
+
+    <div th:if="${not loading}">
+        <div th:each="subject : ${subjects}" class="container mx-auto mt-8 pr-5 grid">
+            <h3 class="font-bold text-green-700 mb-4 border-l-2 border-[#427B49] pl-2 text-2xl"
+                th:text="${subject.name}">
+                Subject Name
+            </h3>
+            <div style="overflow-x: auto;" class="hide-scrollbar horizontal-scroll">
+                <div class="flex gap-11">
+                    <div th:each="book : ${subject.books}" class="text-center flex-shrink-0 w-32">
+                        <a th:href="@{'/service/borrow-status-page'(search_id=${book.id}, search_field='TITLE')}">
+                            <img th:src="@{${book.imageUrl}}"
+                                 th:alt="${book.title}"
+                                 class="w-32 h-44 mx-auto object-cover shadow cursor-pointer" />
+                        </a>
+                        <a th:href="@{'/book-status'(search_id=${book.id}, search_field='TITLE')}">
+                            <p class="mt-2 text-sm font-medium w-32 whitespace-normal break-words cursor-pointer hover:underline"
+                               th:text="${book.title}">
+                                Book Title
+                            </p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

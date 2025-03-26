@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>Home - Hanoi Library</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+      const scrollContainers = document.querySelectorAll('.horizontal-scroll');
+      scrollContainers.forEach(function(container) {
+        let isScrolling;
+        container.addEventListener('wheel', function(event) {
+          event.preventDefault();
+
+          const scrollAmount = event.deltaY * 1.5;
+          const targetScroll = container.scrollLeft + scrollAmount;
+          const startScroll = container.scrollLeft;
+          const duration = 50;
+
+          let startTime = null;
+
+          function easeOutQuad(t) {
+            return t * (2 - t);
+          }
+
+          function animateScroll(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const elapsed = timestamp - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const easedProgress = easeOutQuad(progress);
+            container.scrollLeft = startScroll + (targetScroll - startScroll) * easedProgress;
+            if (progress < 1) {
+              isScrolling = requestAnimationFrame(animateScroll);
+            }
+          }
+
+          if (isScrolling) {
+            cancelAnimationFrame(isScrolling);
+          }
+          isScrolling = requestAnimationFrame(animateScroll);
+        });
+      });
+    });
+  </script>
+
+</head>
+<body class="font-josefin-sans">
+  <div layout:fragment="content">
+    <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742976435/Welcome_ttwk9d.png');|"
+         class="bg-cover h-[280px] flex justify-center items-center mb-3">
+          <span class="text-white font-bold text-5xl">
+              WELCOME TO HANOI LIBRARY
+          </span>
+    </div>
+
+    <div>
+      <div class="flex w-full bg-white">
+        <a th:href="@{/home(sortType='new')}"
+           class="bg-white text-black rounded-none shadow-none px-6 py-4 transition-all cursor-pointer text-xl ml-10 mt-1.5"
+           th:classappend="${sortType == 'new'} ? 'border-b-2 border-[#427B49] text-[#427B49]' : 'border-transparent text-[#000000B2]'">
+          Mới cập nhật
+        </a>
+        <a th:href="@{/home(sortType='featured')}"
+           class="bg-white text-black rounded-none shadow-none px-6 py-4 transition-all cursor-pointer text-xl ml-10 mt-1.5"
+           th:classappend="${sortType == 'featured'} ? 'border-b-2 border-[#427B49] text-[#427B49]' : 'border-transparent text-[#000000B2]'">
+          Nổi bật
+        </a>
+        <a th:href="@{/home(sortType='most-view')}"
+           class="bg-white text-black rounded-none shadow-none px-6 py-4 transition-all cursor-pointer text-xl ml-10 mt-1.5"
+           th:classappend="${sortType == 'most-view'} ? 'border-b-2 border-[#427B49] text-[#427B49]' : 'border-transparent text-[#000000B2]'">
+          Xem nhiều nhất
+        </a>
+      </div>
+    </div>
+
+    <div th:if="${#lists.isEmpty(subjects)}">
+      <h1 class="text-center text-xl text-green-700 pt-5">Loading...</h1>
+    </div>
+    <div th:if="${!#lists.isEmpty(subjects)}">
+      <div th:each="subject : ${subjects}" class="container mx-auto mt-8 pr-5 grid">
+        <h3 class="font-bold text-green-700 mb-4 border-l-2 border-[#427B49] pl-2 text-2xl"
+            th:text="${subject.name}">
+          Subject Name
+        </h3>
+        <div style="overflow-x: auto;" class="hide-scrollbar horizontal-scroll">
+          <div class="flex gap-11">
+            <div th:each="book : ${subject.books}" class="text-center flex-shrink-0 w-32">
+              <a th:href="@{'/borrow-status-page'(search_id=${book.id}, search_field='TITLE')}" >
+                <img th:src="@{${book.imageUrl}}"
+                     th:alt="${book.title}"
+                     class="w-32 h-44 mx-auto object-cover shadow cursor-pointer" />
+              </a>
+              <a th:href="@{'/book-status'(search_id=${book.id}, search_field='TITLE')}" >
+                <p class="mt-2 text-sm font-medium w-32 whitespace-normal break-words cursor-pointer hover:underline"
+                   th:text="${book.title}">Book Title</p>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

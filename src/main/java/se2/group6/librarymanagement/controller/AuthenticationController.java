@@ -1,18 +1,17 @@
 package se2.group6.librarymanagement.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import se2.group6.librarymanagement.config.security.JwtTokenProvider;
-import se2.group6.librarymanagement.dto.ForgotPasswordRequestDTO;
-import se2.group6.librarymanagement.dto.ForgotPasswordResponseDTO;
-import se2.group6.librarymanagement.dto.JwtAuthenticationResponseDTO;
-import se2.group6.librarymanagement.dto.LoginRequestDTO;
+import se2.group6.librarymanagement.dto.*;
 import se2.group6.librarymanagement.model.User;
 import se2.group6.librarymanagement.model.enums.Role;
 import se2.group6.librarymanagement.repository.UserRepository;
@@ -21,9 +20,8 @@ import se2.group6.librarymanagement.service.UserService;
 import java.util.Optional;
 import java.util.UUID;
 
-@CrossOrigin(origins = "http://localhost:3000")
-@RestController
-@RequestMapping("/api/auth")
+@Controller
+@RequestMapping("/auth")
 public class AuthenticationController {
     @Autowired
     private UserService userService;
@@ -35,42 +33,65 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private JwtTokenProvider jwtTokenProvider;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequestDTO loginRequest) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getUsername(),
-                        loginRequest.getPassword()
-                )
-        );
-        String jwt = jwtTokenProvider.generateToken(authentication);
-        String role = authentication.getAuthorities().stream()
-                .findFirst()
-                .map(GrantedAuthority::getAuthority)
-                .orElse("");
-        String username = authentication.getName();
-        return ResponseEntity.ok(new JwtAuthenticationResponseDTO(jwt, role, username));
+    @GetMapping("/login")
+    public String login() {
+        return "login";
     }
 
-    @PostMapping("/register")
-    public User createNewUser(@RequestBody LoginRequestDTO loginRequestDTO) {
+    @PostMapping("/login")
+    public String authenticateUser(@ModelAttribute LoginRequestDTO loginRequest, Model model) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()
+                    )
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            return "redirect:/home";
+        } catch (Exception e) {
+            System.out.println("Đăng nhập thất bại: " + e.getMessage());
+            model.addAttribute("error", "Tên đăng nhập hoặc mật khẩu không đúng!");
+            return "login";
+        }
+    }
+
+    @GetMapping("/signup")
+    public String showSignupForm(Model model) {
+        model.addAttribute("signupForm", new SignupFormDTO());
+        return "signup";
+    }
+
+    @PostMapping("/signup")
+    public String registerUser(@Valid @ModelAttribute("signupForm") SignupFormDTO signupForm, BindingResult bindingResult, Model model) {
+        if (!signupForm.getPassword().equals(signupForm.getConfirmPassword())) {
+            bindingResult.rejectValue("confirmPassword", "error.signupForm", "Mật khẩu xác nhận không khớp");
+        }
+        if (bindingResult.hasErrors()) {
+            return "signup";
+        }
         User user = new User();
-        user.setUserName(loginRequestDTO.getUsername());
-        user.setPassword(passwordEncoder.encode(loginRequestDTO.getPassword()));
+        user.setUserName(signupForm.getUsername());
+        user.setPassword(passwordEncoder.encode(signupForm.getPassword()));
         user.setRole(Role.LIBRARY_PATRON);
-        return userService.saveUser(user);
+        userService.saveUser(user);
+
+        return "redirect:/auth/login?registered;";
+    }
+
+    @GetMapping("/forgot-password")
+    public String showForgotPasswordForm(Model model) {
+        return "forgot-password";
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordRequestDTO request) {
-        Optional<User> userOptional = userRepository.findUserByUserName(request.getUsername());
+    public String forgotPasswordForm(@RequestParam("username") String username, Model model) {
+        Optional<User> userOptional = userRepository.findUserByUserName(username);
         if (!userOptional.isPresent()) {
-            return ResponseEntity.badRequest().body("User không tồn tại!");
+            model.addAttribute("error", "User không tồn tại!");
+            return "forgot-password";
         }
 
         User user = userOptional.get();
@@ -78,7 +99,8 @@ public class AuthenticationController {
         user.setPassword(passwordEncoder.encode(newPassword));
         userRepository.save(user);
 
-        return ResponseEntity.ok(new ForgotPasswordResponseDTO(newPassword));
+        model.addAttribute("newPassword", newPassword);
+        return "forgot-password";
     }
 
     private String generateRandomPassword() {
