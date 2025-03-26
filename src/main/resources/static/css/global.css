@@ -1,0 +1,11 @@
+body {
+    font-family: 'Josefin Sans', sans-serif;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+.horizontal-scroll {
+    scroll-behavior: smooth;
+}

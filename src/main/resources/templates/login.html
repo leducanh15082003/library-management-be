@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Đăng Nhập</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="flex flex-col items-center justify-center min-h-screen bg-[#F2F1F1] font-josefin-sans">
+    <div class="w-96 bg-white shadow-lg rounded-sm">
+        <div class="flex flex-col items-center">
+            <img th:src="'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742976410/logo_hggei6.png'" class="object-contain h-[80px] pt-5"  alt="Logo"/>
+            <div class="text-center font-bold text-2xl text-[#427B49]">
+                HANOI LIBRARY
+            </div>
+        </div>
+        <div class="px-10 py-5">
+            <div th:if="${error != null or param.error != null}" class="text-red-500 text-center mb-3">
+                <span th:text="${error != null ? error : 'Tên đăng nhập hoặc mật khẩu không đúng!'}"></span>
+            </div>
+            <form th:action="@{/auth/login}" method="post" class="space-y-4">
+                <div>
+                    <input type="text" name="username" placeholder="Tên Đăng Nhập"
+                           class="w-full px-3 py-2 border rounded-md" required/>
+                </div>
+                <div>
+                    <input type="password" name="password" placeholder="Mật khẩu"
+                           class="w-full px-3 py-2 border rounded-md" required/>
+                </div>
+                <div class="flex justify-between">
+                    <a th:href="@{/auth/forgot-password}" class="text-[#427B49B2] text-sm cursor-pointer">
+                        Quên mật khẩu?
+                    </a>
+                    <a th:href="@{/auth/signup}" class="text-[#306537] text-sm cursor-pointer">
+                        Đăng ký
+                    </a>
+                </div>
+                <div class="flex justify-center">
+                    <button type="submit" class="w-[200px] bg-[#427B49] hover:bg-[#7cbc84] cursor-pointer py-2 rounded-md">
+                        <span class="text-white text-lg font-light">ĐĂNG NHẬP</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
