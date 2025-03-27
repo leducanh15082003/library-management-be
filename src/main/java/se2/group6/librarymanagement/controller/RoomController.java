@@ -48,7 +48,6 @@ public class RoomController {
             Room room = optionalRoom.get();
             room.setRoomName(roomDetail.getRoomName());
             room.setCapacity(roomDetail.getCapacity());
-            room.setStatus(roomDetail.getStatus());
             room.setRoomBookings(null);
             Room updatedRoom = roomService.updateRoom(room);
             return new ResponseEntity<>(updatedRoom, HttpStatus.OK);

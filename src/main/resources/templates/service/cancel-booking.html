@@ -1,10 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Hủy Đặt Phòng - Hanoi Library</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="font-josefin-sans">
+<div layout:fragment="content">
+    <div class="flex flex-col">
+        <div th:if="${error}" class="bg-red-100 text-red-800 p-3 rounded mb-4" th:text="${error}">
+            Lỗi: ...
+        </div>
+        <div th:if="${success}" class="bg-green-100 text-green-800 p-3 rounded mb-4" th:text="${success}">
+            Thành công: ...
+        </div>
+        <!-- Background Image & Title -->
+        <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1743067242/huydatphong_jlls51.png');|"
+             class="bg-cover h-[280px] flex justify-center items-center mb-3">
+            <span class="text-white font-bold text-5xl">
+                HỦY ĐẶT PHÒNG
+            </span>
+        </div>
+        <h2 class="text-center font-bold text-2xl text-[#427B49] pt-5">Danh sách phòng đang đặt</h2>
 
+        <!-- Table hiển thị danh sách booking -->
+        <table class="w-full border-collapse border border-gray-300 mt-7">
+            <thead>
+            <tr class="bg-green-100 text-green-800">
+                <th class="border border-gray-300 px-4 py-2">Vị trí</th>
+                <th class="border border-gray-300 px-4 py-2">Số lượng người</th>
+                <th class="border border-gray-300 px-4 py-2">Số phòng</th>
+                <th class="border border-gray-300 px-4 py-2">Ca</th>
+                <th class="border border-gray-300 px-4 py-2">Thời gian</th>
+                <th class="border border-gray-300 px-4 py-2">Hủy đặt phòng</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(bookings)}">
+                <td colspan="6" class="text-center text-red-600 p-3">Không có thông tin đặt phòng</td>
+            </tr>
+            <tr th:each="booking, iterStat : ${bookings}"
+                th:if="${booking.status != 'DONE' and booking.status != 'CANCELLED'}" class="text-center">
+                <td class="border border-gray-300 px-4 py-2" th:text="${'Tầng ' + booking.room.floor}">Vị trí</td>
+                <td class="border border-gray-300 px-4 py-2" th:text="${booking.room.capacity}">Số lượng</td>
+                <td class="border border-gray-300 px-4 py-2" th:text="${booking.room.roomName}">Số phòng</td>
+                <td class="border border-gray-300 px-4 py-2" th:text="${booking.roomShift.shiftNumber}">Ca</td>
+                <td class="border border-gray-300 px-4 py-2">
+                    <span th:text="${T(java.time.format.DateTimeFormatter).ofPattern('HH:mm').format(booking.roomShift.startTime)}">Start</span>
+                    -
+                    <span th:text="${T(java.time.format.DateTimeFormatter).ofPattern('HH:mm').format(booking.roomShift.endTime)}">End</span>
+                </td>
+                <td class="border border-gray-300 px-4 py-2">
+                    <form th:action="@{/service/cancel-booking}" method="post">
+                        <input type="hidden" name="bookingId" th:value="${booking.id}" />
+                        <button type="submit" class="text-red-600 font-semibold hover:underline">Hủy</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="flex justify-center items-center mt-4">
+            <a th:if="${currentPage > 1}"
+               th:href="@{/service/cancel-booking(page=${currentPage - 1})}"
+               class="px-3 py-1 mx-1 border border-gray-400 rounded hover:bg-gray-100 hover:text-gray-700">
+                Prev
+            </a>
+            <span class="px-3 py-1 mx-1">
+                Page <span th:text="${currentPage}">1</span> of <span th:text="${totalPages}">1</span>
+            </span>
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{/service/cancel-booking(page=${currentPage + 1})}"
+               class="px-3 py-1 mx-1 border border-gray-400 rounded hover:bg-gray-100 hover:text-gray-700">
+                Next
+            </a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

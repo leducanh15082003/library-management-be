@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Đặt Phòng Thành Công</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-josefin-sans">
+<div layout:fragment="content">
+    <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1743062357/datphonghoc_pfjydm.png');|"
+         class="bg-cover h-[280px] flex justify-center items-center mb-3">
+      <span class="text-white font-bold text-5xl">
+        ĐẶT PHÒNG HỌC
+      </span>
+    </div>
+
+    <div class="container mx-auto p-6 mt-6 bg-white shadow-lg rounded-lg">
+        <h2 class="text-center font-bold text-2xl text-green-700 mb-4">
+            ĐẶT PHÒNG THÀNH CÔNG!
+        </h2>
+        <div class="flex flex-col items-center">
+            <p class="text-xl text-gray-700 mb-4">
+                Thông tin ca phòng đã được đặt:
+            </p>
+            <div class="border p-4 rounded-lg w-full max-w-md">
+                <p><strong>Ca:</strong> <span th:text="${shift.shiftNumber}">Ca</span></p>
+                <p><strong>Tên phòng:</strong> <span th:text="${roomName}">Tên phòng</span></p>
+                <p>
+                    <strong>Thời gian:</strong>
+                    <span th:text="${T(java.time.format.DateTimeFormatter).ofPattern('HH:mm').format(shift.startTime)}">10:00</span>
+                    -
+                    <span th:text="${T(java.time.format.DateTimeFormatter).ofPattern('HH:mm').format(shift.endTime)}">12:00</span>
+                </p>
+                <p><strong>Trạng thái:</strong>
+                    <span th:text="${shift.status.name()}">BOOKED</span>
+                </p>
+            </div>
+            <div class="mt-6">
+                <a th:href="@{/service/book-room}"
+                   class="px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 transition-all">
+                    Quay lại danh sách phòng
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

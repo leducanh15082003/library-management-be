@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Đặt Phòng Học - Ca Phòng</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-josefin-sans">
+<div layout:fragment="content">
+    <!-- Background Image -->
+    <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1743062357/datphonghoc_pfjydm.png');|"
+         class="bg-cover h-[280px] flex justify-center items-center mb-3">
+      <span class="text-white font-bold text-5xl">
+        ĐẶT PHÒNG HỌC
+      </span>
+    </div>
+
+    <div class="container mx-auto p-6 mt-6 bg-white shadow-lg rounded-lg">
+        <!-- Title Component -->
+        <h2 class="text-center font-bold text-2xl text-[#427B49]">CHỌN CA ĐẶT PHÒNG HỌC NHÓM</h2>
+        <p class="text-center text-lg text-gray-700 mt-2">
+            Phòng <span class="font-bold text-green-700" th:text="${roomName}">RoomName</span>
+        </p>
+
+        <!-- Table hiển thị danh sách ca -->
+        <div class="overflow-x-auto pt-5">
+            <table class="w-full border-collapse border border-gray-300">
+                <thead>
+                <tr class="bg-green-100 text-green-800">
+                    <th class="border border-gray-300 px-4 py-2">Ca</th>
+                    <th class="border border-gray-300 px-4 py-2">Thời gian</th>
+                    <th class="border border-gray-300 px-4 py-2">Tình trạng</th>
+                    <th class="border border-gray-300 px-4 py-2">Đặt phòng</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(shifts)}">
+                    <td colspan="4" class="text-red-600 text-center">Không có ca học nào</td>
+                </tr>
+                <tr th:each="shift : ${shifts}" class="text-center">
+                    <td class="border border-gray-300 px-4 py-2" th:text="${shift.shiftNumber}">Ca</td>
+                    <td class="border border-gray-300 px-4 py-2"
+                        th:text="${T(java.time.format.DateTimeFormatter).ofPattern('HH:mm').format(shift.startTime)
+                        + ' - ' + T(java.time.format.DateTimeFormatter).ofPattern('HH:mm').format(shift.endTime)}">
+                        Thời gian
+                    </td>
+                    <td class="border border-gray-300 px-4 py-2"
+                        th:text="${shift.status != null and shift.status.toString().trim() eq 'AVAILABLE' and currentTime.isBefore(shift.endTime) ? 'Còn trống' : 'Đã có người đặt hoặc đã quá giờ đặt'}">
+                        Tình trạng
+                    </td>
+                    <td class="border border-gray-300 px-4 py-2">
+                        <form th:if="${shift.status != null and shift.status.toString().trim() eq 'AVAILABLE' and currentTime.isBefore(shift.endTime)}"
+                              th:action="@{/service/book}" method="post">
+                            <input type="hidden" name="shiftId" th:value="${shift.id}" />
+                            <input type="hidden" name="roomId" th:value="${roomId}" />
+                            <button type="submit" class="cursor-pointer text-green-700 font-semibold hover:underline">
+                                Đặt mượn
+                            </button>
+                        </form>
+                        <span th:if="${shift.status != 'AVAILABLE'}"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Nút Quay lại -->
+        <button onclick="location.href='/service/book-room'" class="mt-6 bg-green-700 text-white px-4 py-2 rounded">
+            Quay lại
+        </button>
+    </div>
+</div>
+</body>
+</html>
