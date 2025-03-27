@@ -6,15 +6,17 @@ import se2.group6.librarymanagement.dto.BookResponseDTO;
 import se2.group6.librarymanagement.dto.SubjectWithBooksDTO;
 import se2.group6.librarymanagement.model.Book;
 import se2.group6.librarymanagement.service.BookService;
+import se2.group6.librarymanagement.service.SearchService;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
-public class SearchServiceImpl {
+public class SearchServiceImpl implements SearchService {
     @Autowired
     private BookService bookService;
 
+    @Override
     public List<SubjectWithBooksDTO> searchBooks(String title, String category) {
         if (title == null || title.trim().isEmpty()) {
             return Collections.emptyList();

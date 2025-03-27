@@ -784,6 +784,66 @@ public class DataInitializer {
                     "'Borrowed', (SELECT id FROM book WHERE title = 'Chiếc lư đồng mắt cua'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
+            // Tạo phòng học (room)
+
+            // tầng 3
+            jdbcTemplate.execute("INSERT INTO room (room_name, floor, capacity) VALUES ('Room 301', 3, 4);");
+            jdbcTemplate.execute("INSERT INTO room (room_name, floor, capacity) VALUES ('Room 302', 3, 3);");
+            jdbcTemplate.execute("INSERT INTO room (room_name, floor, capacity) VALUES ('Room 303', 3, 5);");
+
+            // tầng 4
+            jdbcTemplate.execute("INSERT INTO room (room_name, floor, capacity) VALUES ('Room 401', 4, 6);");
+            jdbcTemplate.execute("INSERT INTO room (room_name, floor, capacity) VALUES ('Room 402', 4, 3);");
+            jdbcTemplate.execute("INSERT INTO room (room_name, floor, capacity) VALUES ('Room 403', 4, 8);");
+
+            // 301
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (1, 1, '08:00:00', '10:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (1, 2, '10:00:00', '12:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (1, 3, '12:00:00', '14:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (1, 4, '14:00:00', '16:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (1, 5, '16:00:00', '18:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (1, 6, '18:00:00', '20:00:00', 'AVAILABLE');");
+
+            // 302
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (2, 1, '08:00:00', '10:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (2, 2, '10:00:00', '12:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (2, 3, '12:00:00', '14:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (2, 4, '14:00:00', '16:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (2, 5, '16:00:00', '18:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (2, 6, '18:00:00', '20:00:00', 'AVAILABLE');");
+
+            // 303
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (3, 1, '08:00:00', '10:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (3, 2, '10:00:00', '12:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (3, 3, '12:00:00', '14:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (3, 4, '14:00:00', '16:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (3, 5, '16:00:00', '18:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (3, 6, '18:00:00', '20:00:00', 'AVAILABLE');");
+
+            // 401
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (4, 1, '08:00:00', '10:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (4, 2, '10:00:00', '12:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (4, 3, '12:00:00', '14:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (4, 4, '14:00:00', '16:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (4, 5, '16:00:00', '18:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (4, 6, '18:00:00', '20:00:00', 'AVAILABLE');");
+
+            // 402
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (5, 1, '08:00:00', '10:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (5, 2, '10:00:00', '12:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (5, 3, '12:00:00', '14:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (5, 4, '14:00:00', '16:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (5, 5, '16:00:00', '18:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (5, 6, '18:00:00', '20:00:00', 'AVAILABLE');");
+
+            // 403
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (6, 1, '08:00:00', '10:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (6, 2, '10:00:00', '12:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (6, 3, '12:00:00', '14:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (6, 4, '14:00:00', '16:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (6, 5, '16:00:00', '18:00:00', 'AVAILABLE');");
+            jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (6, 6, '18:00:00', '20:00:00', 'AVAILABLE');");
+
         };
     }
 }

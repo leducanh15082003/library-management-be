@@ -1,10 +1,50 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Lịch sử đặt, hủy phòng học - Hanoi Library</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="font-josefin-sans">
+<div layout:fragment="content">
+    <!-- Background Image & Title -->
+    <div th:style="|background-image: url('@{/images/booking-history.png}');|"
+         class="bg-cover h-[280px] flex justify-center items-center mb-3">
+        <span class="text-white font-bold text-5xl">
+            LỊCH SỬ ĐẶT, HỦY PHÒNG HỌC
+        </span>
+    </div>
 
+    <!-- Title Component -->
+    <h2 class="text-center font-bold text-2xl text-[#427B49]">ĐẶT HỦY PHÒNG HỌC NHÓM</h2>
+
+    <!-- Table hiển thị danh sách booking -->
+    <table class="min-w-full border-collapse border border-gray-300 mt-7">
+        <thead>
+        <tr class="text-[18px] text-[#306537]">
+            <th class="border border-gray-300 p-2 font-normal w-16 text-center">STT</th>
+            <th class="border border-gray-300 p-2 font-normal w-32 text-center">Số phòng</th>
+            <th class="border border-gray-300 p-2 font-normal w-16 text-center">Ca</th>
+            <th class="border border-gray-300 p-2 font-normal text-center">Thời gian mượn</th>
+            <th class="border border-gray-300 p-2 font-normal text-center">Thời gian hủy</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#lists.isEmpty(records)}">
+            <td colspan="5" class="text-center text-red-600 p-3">Không có thông tin</td>
+        </tr>
+        <tr th:each="record, iterStat : ${records}" class="text-center">
+            <td class="border border-gray-300 p-2 text-center" th:text="${iterStat.index + 1}">STT</td>
+            <td class="border border-gray-300 p-2 text-center" th:text="${record.getRoom().roomName}">Số phòng</td>
+            <td class="border border-gray-300 p-2 text-center" th:text="${record.roomShift.getShiftNumber()}">Ca</td>
+            <td class="border border-gray-300 p-2 text-center" th:text="${record.startTime + ' ' + record.endTime}">Thời gian mượn</td>
+            <td class="border border-gray-300 p-2 text-center" th:text="${record.cancelTime}">Thời gian hủy</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

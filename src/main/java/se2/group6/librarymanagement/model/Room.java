@@ -1,7 +1,6 @@
 package se2.group6.librarymanagement.model;
 
 import jakarta.persistence.*;
-import se2.group6.librarymanagement.model.enums.RoomStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,11 +15,11 @@ public class Room {
     @Column(name = "room_name")
     private String roomName;
 
+    @Column(name = "floor")
+    private int floor;
+
     @Column(name = "capacity")
     private int capacity;
-
-    @Column(name = "status")
-    private RoomStatus status;
 
     @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<RoomBooking> roomBookings = new ArrayList<>();
@@ -57,11 +56,11 @@ public class Room {
         this.capacity = capacity;
     }
 
-    public RoomStatus getStatus() {
-        return status;
+    public int getFloor() {
+        return floor;
     }
 
-    public void setStatus(RoomStatus status) {
-        this.status = status;
+    public void setFloor(int floor) {
+        this.floor = floor;
     }
 }

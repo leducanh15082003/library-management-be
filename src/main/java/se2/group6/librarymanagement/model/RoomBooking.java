@@ -1,7 +1,6 @@
 package se2.group6.librarymanagement.model;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -20,11 +19,13 @@ public class RoomBooking {
     @JoinColumn(name = "room_id", nullable = false)
     private Room room;
 
-    @CreationTimestamp
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "room_shift_id" , nullable = false)
+    private RoomShift roomShift;
+
     @Column(name = "start_time")
     private LocalDateTime startTime;
 
-    @CreationTimestamp
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
@@ -69,6 +70,14 @@ public class RoomBooking {
 
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
+    }
+
+    public RoomShift getRoomShift() {
+        return roomShift;
+    }
+
+    public void setRoomShift(RoomShift roomShift) {
+        this.roomShift = roomShift;
     }
 
     public String getStatus() {
