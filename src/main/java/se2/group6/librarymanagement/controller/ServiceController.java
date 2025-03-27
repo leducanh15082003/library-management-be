@@ -1,19 +1,26 @@
 package se2.group6.librarymanagement.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import se2.group6.librarymanagement.dto.BookResponseDTO;
-import se2.group6.librarymanagement.dto.BookWithCopiesResponseDTO;
-import se2.group6.librarymanagement.dto.SubjectWithBooksDTO;
+import se2.group6.librarymanagement.config.security.CustomUserDetails;
+import se2.group6.librarymanagement.dto.*;
 import se2.group6.librarymanagement.model.Book;
+import se2.group6.librarymanagement.model.BookCopy;
+import se2.group6.librarymanagement.model.BorrowedRecord;
 import se2.group6.librarymanagement.model.Subject;
+import se2.group6.librarymanagement.service.BookCopyService;
 import se2.group6.librarymanagement.service.BookService;
+import se2.group6.librarymanagement.service.BorrowedRecordService;
 import se2.group6.librarymanagement.service.SubjectService;
+import se2.group6.librarymanagement.service.impl.SearchServiceImpl;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -25,6 +32,12 @@ public class ServiceController {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private SearchServiceImpl searchService;
+
+    @Autowired
+    private BorrowedRecordService borrowedRecordService;
 
     @GetMapping("/service-list")
     public String serviceList(Model model) {
@@ -40,7 +53,6 @@ public class ServiceController {
 
     @GetMapping("/borrow-page")
     public String borrowPage(
-            @RequestParam(value = "sortType", required = false, defaultValue = "id") String sortType,
             @RequestParam(value = "category", required = false, defaultValue = "all") String category,
             @RequestParam(value = "title", required = false, defaultValue = "") String title,
             Model model) {
@@ -48,54 +60,7 @@ public class ServiceController {
         List<SubjectWithBooksDTO> subjectDTOs;
 
         if (title != null && !title.trim().isEmpty()) {
-            List<Book> searchedBooks = bookService.searchBooksByTitle(title);
-            if (!"all".equals(category)) {
-                try {
-                    Long catId = Long.parseLong(category);
-                    searchedBooks = searchedBooks.stream()
-                            .filter(book -> book.getSubject().getId().equals(catId))
-                            .toList();
-                } catch (NumberFormatException ignored) {
-                }
-            }
-            Map<Long, List<Book>> groupedBooks = searchedBooks.stream()
-                    .collect(Collectors.groupingBy(book -> book.getSubject().getId()));
-
-            subjectDTOs = new ArrayList<>();
-            for (Map.Entry<Long, List<Book>> entry : groupedBooks.entrySet()) {
-                List<Book> booksList = new ArrayList<>(entry.getValue());
-                if ("most-view".equalsIgnoreCase(sortType)) {
-                    booksList.sort(Comparator.comparingInt(Book::getViewCount).reversed());
-                } else if ("new".equalsIgnoreCase(sortType)) {
-                    booksList.sort(Comparator.comparing(Book::getCreatedAt).reversed());
-                } else { // mặc định: sort theo id
-                    booksList.sort(Comparator.comparing(Book::getId));
-                }
-                List<BookResponseDTO> booksDTO = booksList.stream()
-                        .map(book -> new BookResponseDTO(
-                                book.getId(),
-                                book.getViewCount(),
-                                book.getTitle(),
-                                book.getAuthor().getId(),
-                                book.getIsbn(),
-                                book.getGenre(),
-                                book.getPublisher(),
-                                book.getPublishedYear(),
-                                book.getCreatedAt(),
-                                book.getUpdatedAt(),
-                                book.getImageUrl()
-                        ))
-                        .collect(Collectors.toList());
-
-                Book firstBook = booksList.getFirst();
-                SubjectWithBooksDTO subjectDto = new SubjectWithBooksDTO(
-                        firstBook.getSubject().getId(),
-                        firstBook.getSubject().getName(),
-                        firstBook.getSubject().getDescription(),
-                        booksDTO
-                );
-                subjectDTOs.add(subjectDto);
-            }
+            subjectDTOs = searchService.searchBooks(title, category);
         } else {
             List<Subject> allSubjects = subjectService.getAllSubjects();
             List<Subject> filteredSubjects = new ArrayList<>(allSubjects);
@@ -112,13 +77,7 @@ public class ServiceController {
 
             subjectDTOs = filteredSubjects.stream().map(subject -> {
                 List<Book> booksList = new ArrayList<>(subject.getBooks());
-                if ("most-view".equalsIgnoreCase(sortType)) {
-                    booksList.sort(Comparator.comparingInt(Book::getViewCount).reversed());
-                } else if ("new".equalsIgnoreCase(sortType)) {
-                    booksList.sort(Comparator.comparing(Book::getCreatedAt).reversed());
-                } else {
-                    booksList.sort(Comparator.comparing(Book::getId));
-                }
+                booksList.sort(Comparator.comparing(Book::getId));
                 List<BookResponseDTO> books = booksList.stream()
                         .map(book -> new BookResponseDTO(
                                 book.getId(),
@@ -144,7 +103,6 @@ public class ServiceController {
         }
 
         model.addAttribute("subjects", subjectDTOs);
-        model.addAttribute("sortType", sortType);
         model.addAttribute("category", category);
         model.addAttribute("title", title);
         model.addAttribute("subjectsList", subjectService.getAllSubjects());
@@ -158,7 +116,37 @@ public class ServiceController {
     public String showBorrowStatus(@RequestParam("search_id") Long id, Model model) {
         BookWithCopiesResponseDTO bookWithCopies = bookService.getBookWithCopies(id);
         model.addAttribute("book", bookWithCopies);
+        model.addAttribute("subjectsList", subjectService.getAllSubjects());
+        model.addAttribute("category", "all");
+        model.addAttribute("title", "");
         return "service/borrow-status-page";
+    }
+
+    @GetMapping("/borrow-success-page")
+    public String showBorrowSuccess(@RequestParam("search_id") Long bookId,
+                                    @RequestParam("copy_id") Long copyId,
+                                    Model model) {
+        BookWithCopiesResponseDTO bookWithCopies = bookService.getBookWithCopies(bookId);
+        if (bookWithCopies == null) {
+            throw new RuntimeException("Book not found");
+        }
+
+        if (bookWithCopies.getCopies() != null) {
+            List<BookCopyResponseDTO> filteredCopies = bookWithCopies.getCopies().stream()
+                    .filter(copy -> copy.getId().equals(copyId))
+                    .collect(Collectors.toList());
+            bookWithCopies.setCopies(filteredCopies);
+        }
+
+        LocalDateTime borrowDate = LocalDateTime.now();
+        LocalDateTime returnDate = borrowDate.plusDays(7);
+
+        model.addAttribute("book", bookWithCopies);
+        model.addAttribute("subjectsList", subjectService.getAllSubjects());
+        model.addAttribute("category", "all");
+        model.addAttribute("title", "");
+        model.addAttribute("returnDate", returnDate);
+        return "service/borrow-success-page";
     }
 
     @GetMapping("/book-room")
@@ -172,9 +160,48 @@ public class ServiceController {
     }
 
     @GetMapping("/borrow-history")
-    public String borrowHistory(Model model) {
+    public String getAllRecords(
+            @RequestParam(value = "page", defaultValue = "1") int currentPage,
+            @RequestParam(value = "size", defaultValue = "10") int rowsPerPage,
+            Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails userDetails)) {
+            return "redirect:/auth/login";
+        }
+        Long userId = userDetails.getId();
+
+        List<BorrowedRecord> allRecords = borrowedRecordService.findByUserId(userId);
+        int totalRecords = allRecords.size();
+        int totalPages = (int) Math.ceil((double) totalRecords / rowsPerPage);
+
+        int startIndex = (currentPage - 1) * rowsPerPage;
+        int endIndex = Math.min(startIndex + rowsPerPage, totalRecords);
+
+        List<BorrowedRecord> paginatedRecords = new ArrayList<>();
+        if (totalRecords > 0 && startIndex < totalRecords) {
+            paginatedRecords = allRecords.subList(startIndex, endIndex);
+        }
+
+        List<BorrowedRecordResponseDTO> response = paginatedRecords.stream()
+                .map(record -> {
+                    LocalDateTime borrowDate = record.getBorrowAt();
+                    LocalDateTime returnDate = borrowDate.plusDays(7);
+                    String barcode = record.getBookCopy().getBarcode();
+                    String title = record.getBook().getTitle();
+                    return new BorrowedRecordResponseDTO(barcode, title, borrowDate, returnDate);
+                })
+                .collect(Collectors.toList());
+
+        model.addAttribute("records", response);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("rowsPerPage", rowsPerPage);
+        model.addAttribute("totalPages", totalPages);
+
         return "service/borrow-history";
     }
+
+
+
 
     @GetMapping("/booking-history")
     public String bookingHistory(Model model) {

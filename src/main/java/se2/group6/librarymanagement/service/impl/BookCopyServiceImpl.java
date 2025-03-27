@@ -7,7 +7,7 @@ import se2.group6.librarymanagement.repository.BookCopyRepository;
 import se2.group6.librarymanagement.service.BookCopyService;
 
 @Service
-public class BookCopyImpl implements BookCopyService {
+public class BookCopyServiceImpl implements BookCopyService {
     @Autowired
     private BookCopyRepository bookCopyRepository;
 

@@ -1,10 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Lịch sử mượn trả tài liệu - Hanoi Library</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="font-josefin-sans">
+<div layout:fragment="content">
+    <!-- Background Image & Title -->
+    <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742978726/muon-tai-lieu-2_kmm4bj.png');|"
+         class="bg-cover h-[280px] flex justify-center items-center mb-3">
+    <span class="text-white font-bold text-5xl">
+      LỊCH SỬ MƯỢN TRẢ TÀI LIỆU
+    </span>
+    </div>
 
+    <h2 class="text-center font-bold text-2xl text-[#427B49]">MƯỢN TRẢ TÀI LIỆU</h2>
+
+    <div>
+        <table class="table-fixed w-full border-collapse border border-gray-300 mt-7">
+            <thead>
+            <tr class="text-[#306537] text-[18px]">
+                <th class="border border-gray-300 p-2 font-normal w-16">STT</th>
+                <th class="border border-gray-300 p-2 font-normal w-28">Mã vạch</th>
+                <th class="border border-gray-300 p-2 font-normal w-64">Nhan đề</th>
+                <th class="border border-gray-300 p-2 font-normal w-32">Ngày mượn</th>
+                <th class="border border-gray-300 p-2 font-normal w-32">Ngày trả</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${#lists.isEmpty(records)}">
+                <td colspan="5" class="text-center text-gray-500 p-3">Không có thông tin</td>
+            </tr>
+            <tr th:each="record, iterStat : ${records}" class="bg-white hover:bg-gray-100 transition">
+                <td class="border border-gray-300 p-2 text-center"
+                    th:text="${(currentPage - 1) * rowsPerPage + iterStat.index + 1}">
+                    1
+                </td>
+                <td class="border border-gray-300 p-2 text-center" th:text="${record.barcode}">Barcode</td>
+                <td class="border border-gray-300 p-2 overflow-hidden whitespace-nowrap text-ellipsis" th:text="${record.title}">
+                    Title
+                </td>
+                <td class="border border-gray-300 p-2 text-center"
+                    th:text="${T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy').format(record.borrowedDate)}">
+                    Ngày mượn
+                </td>
+                <td class="border border-gray-300 p-2 text-center"
+                    th:text="${T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy').format(record.returnedDate)}">
+                    Ngày trả
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <!-- Pagination -->
+        <div class="flex justify-center items-center mt-4">
+            <a th:if="${currentPage > 1}"
+               th:href="@{/service/borrow-history(page=${currentPage - 1})}"
+               class="px-3 py-1 mx-1 border border-gray-400 rounded hover:bg-gray-100 hover:text-gray-700">
+                Prev
+            </a>
+            <span class="px-3 py-1 mx-1">
+        Page <span th:text="${currentPage}">1</span> of <span th:text="${totalPages}">1</span>
+      </span>
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{/service/borrow-history(page=${currentPage + 1})}"
+               class="px-3 py-1 mx-1 border border-gray-400 rounded hover:bg-gray-100 hover:text-gray-700">
+                Next
+            </a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

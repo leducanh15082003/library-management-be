@@ -50,12 +50,7 @@
     <div class="container mx-auto p-6 mt-6 bg-white shadow-lg rounded-lg">
         <h2 class="text-center font-bold text-2xl text-[#427B49]">KẾT QUẢ TÌM KIẾM</h2>
         <p class="text-gray-700 text-xl">
-            Tìm thấy
-            <span class="font-extrabold text-white bg-[#306537] px-1 pt-1 rounded-sm"
-                  th:text="'1'">
-            1
-          </span>
-            kết quả
+            BẠN ĐÃ ĐẶT MƯỢN THÀNH CÔNG
         </p>
 
         <div class="flex items-center mt-4 gap-6 pb-3">
@@ -70,7 +65,7 @@
                     <th class="border p-3 text-center">Ngày nhập</th>
                     <th class="border p-3 text-center">Thể loại</th>
                     <th class="border p-3 text-center">Tình trạng</th>
-                    <th class="border p-3 text-center">Đặt mượn</th>
+                    <th class="border p-3 text-center">Hạn trả</th>
                 </tr>
                 </thead>
                 <tbody class="font-light">
@@ -82,20 +77,12 @@
                     <td class="border p-3 text-center"
                         th:text="${T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy').format(copy.createdAt)}">Ngày nhập</td>
                     <td class="border p-3 text-center" th:text="${book.subject}">Thể loại</td>
-                    <td class="border p-3 text-center font-light"
-                        th:class="${copy.status.toLowerCase() == 'available' ? 'text-green-600 text-center' : 'text-red-600 text-center'}"
-                        th:text="${copy.status.toLowerCase() == 'available' ? 'Đang trống' : 'Đã có người mượn'}">
-                        Tình trạng
+                    <td class="border p-3 text-center font-light">
+                        Bạn đang mượn
                     </td>
-                    <td class="border p-3 text-center">
-                        <form th:if="${copy.status.toLowerCase() == 'available'}" th:action="@{/service/borrow}" method="post">
-                            <input type="hidden" name="${_csrf.parameterName}"/>
-                            <input type="hidden" name="copyId" th:value="${copy.id}" />
-                            <button type="submit" class="bg-green-600 text-white px-4 py-1 rounded-lg hover:bg-green-700 transition">
-                                Mượn
-                            </button>
-                        </form>
-                        <span th:if="${copy.status.toLowerCase() != 'available'}" class="text-red-500">Hết</span>
+                    <td class="border p-3 text-center"
+                        th:text="${T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy').format(returnDate)}">
+                        Hạn trả
                     </td>
                 </tr>
                 </tbody>
