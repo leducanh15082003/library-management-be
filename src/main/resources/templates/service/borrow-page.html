@@ -58,15 +58,14 @@
     </div>
 
     <!-- Search Bar -->
-    <div class="flex justify-center">
+    <div class="flex justify-center pt-5">
         <div class="w-full max-w-2xl">
             <div class="container mx-auto pr-5">
-                <!-- Sử dụng form GET để tự động gửi khi thay đổi lựa chọn -->
                 <form th:action="@{/service/borrow-page}" method="get"
-                      class="w-[588px] h-[66px] relative bg-white border border-[#306537] flex items-center px-4">
+                      class="w-[588px] h-[66px] relative bg-white border border-[#306537] flex items-center px-4 rounded-sm">
                     <!-- Dropdown Subject -->
                     <div>
-                        <select name="category" class="w-[180px] text-gray-600 focus:outline-none" onchange="this.form.submit()">
+                        <select name="category" class="text-gray-600 focus:outline-none" onchange="this.form.submit()">
                             <option value="all" th:selected="${category == 'all'}">Tất cả</option>
                             <option th:each="subject : ${subjectsList}"
                                     th:value="${subject.id}"
@@ -76,11 +75,11 @@
                         </select>
                     </div>
                     <input type="text" name="title" placeholder="Nhập tiêu đề tài liệu"
-                           class="w-full text-xl text-gray-700 placeholder-gray-400 focus:outline-none"
+                           class="w-full text-lg text-gray-700 placeholder-gray-400 focus:outline-none"
                            th:value="${title}" />
                     <button type="submit"
-                            class="ml-4 px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 transition-all">
-                        Tìm kiếm
+                            class="px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 transition-all whitespace-nowrap">
+                        <span>Tìm kiếm</span>
                     </button>
                 </form>
             </div>
