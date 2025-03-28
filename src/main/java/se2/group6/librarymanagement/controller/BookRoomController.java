@@ -68,10 +68,9 @@ public class BookRoomController {
             }
 
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails)) {
+            if (authentication == null || !(authentication.getPrincipal() instanceof CustomUserDetails userDetails)) {
                 throw new RuntimeException("User not authenticated");
             }
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             User currentUser = userService.getUserById(userDetails.getId())
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -81,6 +80,7 @@ public class BookRoomController {
             booking.setRoomShift(shift);
             booking.setStartTime(shift.getStartTime().atDate(LocalDate.now()));
             booking.setEndTime(shift.getEndTime().atDate(LocalDate.now()));
+            booking.setBookedTime(LocalDateTime.now());
 
             roomBookingService.save(booking);
             redirectAttributes.addFlashAttribute("success", "Đặt phòng thành công");

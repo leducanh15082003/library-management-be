@@ -45,6 +45,7 @@ public class RoomBookingServiceImpl implements RoomBookingService {
             roomShiftRepository.save(shift);
         }
         booking.setStatus("CANCELLED");
+        booking.setCancelTime(now);
         roomBookingRepository.save(booking);
     }
 

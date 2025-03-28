@@ -24,13 +24,17 @@ public class SearchServiceImpl implements SearchService {
 
         List<Book> searchedBooks = bookService.searchBooksByTitle(title);
 
-        if (!"all".equals(category)) {
+        if (!"all".equalsIgnoreCase(category)) {
             try {
-                Long catId = Long.parseLong(category);
-                searchedBooks = searchedBooks.stream()
-                        .filter(book -> book.getSubject().getId().equals(catId))
+                List<Long> catIds = Arrays.stream(category.split(","))
+                        .map(String::trim)
+                        .filter(s -> !s.isEmpty())
+                        .map(Long::parseLong)
                         .toList();
-            } catch (NumberFormatException ignored) {
+                searchedBooks = searchedBooks.stream()
+                        .filter(book -> catIds.contains(book.getSubject().getId()))
+                        .toList();
+            } catch (NumberFormatException e) {
             }
         }
 
