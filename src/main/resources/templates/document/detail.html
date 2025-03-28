@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="'Thông tin tài liệu - ' + ${book.title}">Thông tin tài liệu</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="font-josefin-sans">
+<div layout:fragment="content">
+    <div class="container mx-auto p-6 mt-6 bg-white shadow-lg rounded-lg">
+        <div class="flex flex-col items-center">
+            <img th:src="@{${book.imageUrl}}" alt="Document Image" class="w-1/2 rounded-lg" />
+            <h2 class="text-center font-bold text-3xl text-green-700 mt-4" th:text="${book.title}">
+                Document Title
+            </h2>
+            <p class="text-center text-gray-700 mt-2">
+                Tác giả: <span th:text="${book.authorId}">Author Id</span>
+            </p>
+            <p class="text-center text-gray-700 mt-2">
+                ISBN: <span th:text="${book.isbn}"></span>
+            </p>
+            <p class="text-center text-gray-700 mt-2">
+                Thể loại: <span th:text="${book.genre}"></span>
+            </p>
+            <p class="text-center text-gray-700 mt-2">
+                Nhà xuất bản: <span th:text="${book.publisher}"></span>
+            </p>
+            <p class="text-center text-gray-700 mt-2">
+                Năm xuất bản: <span th:text="${book.publishedYear}"></span>
+            </p>
+            <p class="text-center text-gray-700 mt-2">
+                Lượt xem: <span th:text="${book.viewCount}"></span>
+            </p>
+            <p class="text-center text-gray-700 mt-2">
+                Ngày tạo: <span th:text="${#temporals.format(book.createdAt, 'dd/MM/yyyy HH:mm')}"></span>
+            </p>
+            <p class="text-center text-gray-700 mt-2">
+                Ngày cập nhật: <span th:text="${#temporals.format(book.updatedAt, 'dd/MM/yyyy HH:mm')}"></span>
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

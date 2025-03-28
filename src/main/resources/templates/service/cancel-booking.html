@@ -11,12 +11,6 @@
 <body class="font-josefin-sans">
 <div layout:fragment="content">
     <div class="flex flex-col">
-        <div th:if="${error}" class="bg-red-100 text-red-800 p-3 rounded mb-4" th:text="${error}">
-            Lỗi: ...
-        </div>
-        <div th:if="${success}" class="bg-green-100 text-green-800 p-3 rounded mb-4" th:text="${success}">
-            Thành công: ...
-        </div>
         <!-- Background Image & Title -->
         <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1743067242/huydatphong_jlls51.png');|"
              class="bg-cover h-[280px] flex justify-center items-center mb-3">
@@ -24,9 +18,14 @@
                 HỦY ĐẶT PHÒNG
             </span>
         </div>
+        <div th:if="${error}" class="bg-red-100 text-red-800 p-3 rounded mb-4" th:text="${error}">
+            Lỗi: ...
+        </div>
+        <div th:if="${success}" class="bg-green-100 text-green-800 p-3 rounded mb-4" th:text="${success}">
+            Thành công: ...
+        </div>
         <h2 class="text-center font-bold text-2xl text-[#427B49] pt-5">Danh sách phòng đang đặt</h2>
 
-        <!-- Table hiển thị danh sách booking -->
         <table class="w-full border-collapse border border-gray-300 mt-7">
             <thead>
             <tr class="bg-green-100 text-green-800">

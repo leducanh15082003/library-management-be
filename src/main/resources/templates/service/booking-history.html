@@ -6,12 +6,12 @@
     <meta charset="UTF-8">
     <title>Lịch sử đặt, hủy phòng học - Hanoi Library</title>
     <link rel="stylesheet" th:href="@{/css/global.css}" />
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body class="font-josefin-sans">
 <div layout:fragment="content">
     <!-- Background Image & Title -->
-    <div th:style="|background-image: url('@{/images/booking-history.png}');|"
+    <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1743062357/datphonghoc_pfjydm.png');|"
          class="bg-cover h-[280px] flex justify-center items-center mb-3">
         <span class="text-white font-bold text-5xl">
             LỊCH SỬ ĐẶT, HỦY PHÒNG HỌC
@@ -19,9 +19,8 @@
     </div>
 
     <!-- Title Component -->
-    <h2 class="text-center font-bold text-2xl text-[#427B49]">ĐẶT HỦY PHÒNG HỌC NHÓM</h2>
+    <h2 class="text-center font-bold text-2xl text-[#427B49] pt-5">ĐẶT HỦY PHÒNG HỌC NHÓM</h2>
 
-    <!-- Table hiển thị danh sách booking -->
     <table class="min-w-full border-collapse border border-gray-300 mt-7">
         <thead>
         <tr class="text-[18px] text-[#306537]">
@@ -29,6 +28,7 @@
             <th class="border border-gray-300 p-2 font-normal w-32 text-center">Số phòng</th>
             <th class="border border-gray-300 p-2 font-normal w-16 text-center">Ca</th>
             <th class="border border-gray-300 p-2 font-normal text-center">Thời gian mượn</th>
+            <th class="border border-gray-300 p-2 font-normal text-center">Thời gian đặt</th>
             <th class="border border-gray-300 p-2 font-normal text-center">Thời gian hủy</th>
         </tr>
         </thead>
@@ -40,8 +40,22 @@
             <td class="border border-gray-300 p-2 text-center" th:text="${iterStat.index + 1}">STT</td>
             <td class="border border-gray-300 p-2 text-center" th:text="${record.getRoom().roomName}">Số phòng</td>
             <td class="border border-gray-300 p-2 text-center" th:text="${record.roomShift.getShiftNumber()}">Ca</td>
-            <td class="border border-gray-300 p-2 text-center" th:text="${record.startTime + ' ' + record.endTime}">Thời gian mượn</td>
-            <td class="border border-gray-300 p-2 text-center" th:text="${record.cancelTime}">Thời gian hủy</td>
+            <td class="border border-gray-300 p-2 text-center">
+                <span th:text="${#temporals.format(record.startTime, 'HH:mm')}"></span> -
+                <span th:text="${#temporals.format(record.endTime, 'HH:mm')}"></span>,
+                ngày <span th:text="${#temporals.format(record.startTime, 'dd/MM/yyyy')}"></span>
+            </td>
+            <td class="border border-gray-300 p-2 text-center"
+                th:text="${record.bookedTime != null ? #temporals.format(record.bookedTime, 'dd/MM/yyyy HH:mm:ss') : 'N/A'}"
+            >
+                Thời gian đặt
+            </td>
+            <td class="border border-gray-300 p-2 text-center"
+                 th:if="${record.status eq 'CANCELLED'}"
+                 th:text="${record.cancelTime != null ? #temporals.format(record.cancelTime, 'dd/MM/yyyy HH:mm:ss') : 'N/A'}"
+             >
+                 Thời gian hủy
+             </td>
         </tr>
         </tbody>
     </table>

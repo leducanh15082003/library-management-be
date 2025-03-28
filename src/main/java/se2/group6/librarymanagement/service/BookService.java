@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface BookService {
     List<Book> getAllBooks();
     Optional<Book> getBookById(Long id);
-    Book saveBook(Book book);
+    void saveBook(Book book);
     Book updateBook(Book book);
     void deleteBookById(Long id);
     List<Book> searchBooksByTitle(String title);

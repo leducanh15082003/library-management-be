@@ -4,8 +4,7 @@
       layout:decorate="~{_layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Mượn Tài Liệu - Hanoi Library</title>
-    <link rel="stylesheet" th:href="@{/css/global.css}" />
+    <title>Document - Books</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function() {
@@ -45,35 +44,24 @@
             });
         });
     </script>
+
 </head>
 <body class="font-josefin-sans">
 <div layout:fragment="content">
-
-    <!-- Background Image -->
-    <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742978726/muon-tai-lieu-2_kmm4bj.png');|"
+    <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1743130796/Rectangle_3_c9spqr.png');|"
          class="bg-cover h-[280px] flex justify-center items-center mb-3">
-      <span class="text-white font-bold text-5xl">
-        MƯỢN TÀI LIỆU
-      </span>
+          <span class="text-white font-bold text-5xl">
+              SÁCH
+          </span>
     </div>
 
     <!-- Search Bar -->
     <div class="flex justify-center pt-5">
         <div class="w-full max-w-2xl">
             <div class="container mx-auto pr-5">
-                <form th:action="@{/service/borrow-page}" method="get"
+                <form th:action="@{/document/search}" method="get"
                       class="w-[588px] h-[66px] relative bg-white border border-[#306537] flex items-center px-4 rounded-sm">
-                    <!-- Dropdown Subject -->
-                    <div>
-                        <select name="category" class="text-gray-600 focus:outline-none" onchange="this.form.submit()">
-                            <option value="all" th:selected="${category == 'all'}">Tất cả</option>
-                            <option th:each="subject : ${subjectsList}"
-                                    th:value="${subject.id}"
-                                    th:text="${subject.name}"
-                                    th:selected="${category == subject.id.toString()}">
-                            </option>
-                        </select>
-                    </div>
+                    <input type="hidden" name="category" value="1" />
                     <input type="text" name="title" placeholder="Nhập tiêu đề tài liệu"
                            class="w-full text-lg text-gray-700 placeholder-gray-400 focus:outline-none"
                            th:value="${title}" />
@@ -86,11 +74,10 @@
         </div>
     </div>
 
-    <div th:if="${loading}">
+    <div th:if="${#lists.isEmpty(subjects)}">
         <h1 class="text-center text-xl text-green-700 pt-5">Loading...</h1>
     </div>
-
-    <div th:if="${not loading}">
+    <div th:if="${!#lists.isEmpty(subjects)}">
         <div th:each="subject : ${subjects}" class="container mx-auto mt-8 pr-5 grid">
             <h3 class="font-bold text-green-700 mb-4 border-l-2 border-[#427B49] pl-2 text-2xl"
                 th:text="${subject.name}">
@@ -99,12 +86,13 @@
             <div style="overflow-x: auto;" class="hide-scrollbar horizontal-scroll">
                 <div class="flex gap-11">
                     <div th:each="book : ${subject.books}" class="text-center flex-shrink-0 w-32">
-                        <a th:href="@{'/service/borrow-status-page'(search_id=${book.id}, search_field='TITLE')}">
+                        <a th:href="@{'/document/detail'(search_id=${book.id}, search_field='TITLE')}" >
                             <img th:src="@{${book.imageUrl}}"
                                  th:alt="${book.title}"
                                  class="w-32 h-44 mx-auto object-cover shadow cursor-pointer" />
                             <p class="mt-2 text-sm font-medium w-32 whitespace-normal break-words cursor-pointer hover:underline"
-                               th:text="${book.title}">
+                               th:text="${book.title}"
+                            >
                                 Book Title
                             </p>
                         </a>
@@ -114,5 +102,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>

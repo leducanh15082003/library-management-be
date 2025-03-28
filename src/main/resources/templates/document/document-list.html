@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>TÀI LIỆU - Hanoi Library</title>
+</head>
+<body class="font-josefin-sans">
+<div layout:fragment="content">
+    <!-- Background Image -->
+    <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1743130172/unsplash_2wMK7kH4kQI_px6tjo.png');|"
+         class="bg-cover h-[280px] flex justify-center items-center mb-3">
+        <span class="text-white font-bold text-5xl">TÀI LIỆU</span>
+    </div>
+
+    <div class="pt-5">
+        <div class="grid grid-cols-3 gap-y-6">
+            <div th:each="doc, iterStat : ${documents}"
+                 th:classappend="${(iterStat.index % 3 == 0 ? ' pl-0' : ' pl-5') + (iterStat.index % 3 == 2 ? ' pr-0' : ' pr-5')}"
+                 class="flex flex-col transition-transform transform hover:scale-102">
+                <a th:href="@{${doc.link}}">
+                    <img th:src="@{${doc.src}}"
+                         th:alt="${doc.text}"
+                         class="w-full h-44 object-cover rounded-lg" />
+                </a>
+                <p class="text-green-800 font-bold mt-2 text-center"
+                   th:text="${doc.text}">
+                    Service Name
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

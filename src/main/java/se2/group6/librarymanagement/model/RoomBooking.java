@@ -32,6 +32,12 @@ public class RoomBooking {
     @Column(name = "status")
     private String status;
 
+    @Column(name = "cancel_time")
+    private LocalDateTime cancelTime;
+
+    @Column(name = "booked_time")
+    private LocalDateTime bookedTime;
+
     public Long getId() {
         return id;
     }
@@ -86,5 +92,21 @@ public class RoomBooking {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public LocalDateTime getCancelTime() {
+        return cancelTime;
+    }
+
+    public void setCancelTime(LocalDateTime cancelTime) {
+        this.cancelTime = cancelTime;
+    }
+
+    public LocalDateTime getBookedTime() {
+        return bookedTime;
+    }
+
+    public void setBookedTime(LocalDateTime bookedTime) {
+        this.bookedTime = bookedTime;
     }
 }
