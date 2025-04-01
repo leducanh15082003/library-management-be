@@ -5,18 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import se2.group6.librarymanagement.dto.BookResponseDTO;
 import se2.group6.librarymanagement.dto.SubjectWithBooksDTO;
-import se2.group6.librarymanagement.model.Book;
 import se2.group6.librarymanagement.model.Subject;
 import se2.group6.librarymanagement.service.SubjectService;
 import se2.group6.librarymanagement.utils.SubjectMapper;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {

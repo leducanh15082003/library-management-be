@@ -87,15 +87,14 @@
         <div style="overflow-x: auto;" class="hide-scrollbar horizontal-scroll">
           <div class="flex gap-11">
             <div th:each="book : ${subject.books}" class="text-center flex-shrink-0 w-32">
-              <a th:href="@{'/borrow-status-page'(search_id=${book.id}, search_field='TITLE')}" >
+              <a th:href="@{'/document/detail'(search_id=${book.id}, search_field='TITLE')}" >
                 <img th:src="@{${book.imageUrl}}"
                      th:alt="${book.title}"
                      class="w-32 h-44 mx-auto object-cover shadow cursor-pointer" />
-              </a>
-              <a th:href="@{'/book-status'(search_id=${book.id}, search_field='TITLE')}" >
                 <p class="mt-2 text-sm font-medium w-32 whitespace-normal break-words cursor-pointer hover:underline"
                    th:text="${book.title}">Book Title</p>
               </a>
+
             </div>
           </div>
         </div>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+  <meta charset="UTF-8">
+  <title>Thông tin cá nhân - Hanoi Library</title>
+  <link rel="stylesheet" th:href="@{/css/global.css}" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="flex flex-col">
+    <!-- Background Image -->
+    <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1743477587/Rectangle_3_yycbmj.png');|"
+         class="bg-cover h-[280px] flex justify-center items-center mb-3">
+      <span class="text-white font-bold text-5xl">Thông tin cá nhân</span>
+    </div>
+
+    <!-- Edit User Form -->
+    <form th:action="@{/profile/save}" method="post" enctype="multipart/form-data">
+      <div class="mx-auto bg-white py-6 rounded-lg shadow-lg flex flex-col md:flex-row w-full border border-green-800">
+        <!-- Image Section -->
+        <div class="flex flex-col items-center mb-4 mx-16">
+          <label for="profileImageInput"
+                 class="relative w-24 h-24 bg-gray-300 rounded-full flex items-center justify-center overflow-hidden"
+                 th:classappend="${!isEdit} ? 'cursor-default' : 'cursor-pointer'">
+
+            <img id="profileImagePreview" th:src="${user.imageUrl != null ? user.imageUrl : 'https://placehold.co/96x96'}"
+                 alt="Profile Image" class="w-full h-full object-cover">
+
+            <div th:if="${isEdit}" class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 hover:opacity-100 transition-opacity">
+              <span class="text-white text-sm">Thay đổi</span>
+            </div>
+          </label>
+
+          <input type="file" id="profileImageInput" name="profileImage" accept="image/*"
+                 th:disabled="${!isEdit}" class="hidden">
+        </div>
+        <!-- Form Fields -->
+        <div class="flex flex-col md:flex-row gap-24 justify-center w-full mx-16">
+          <div class="w-full max-w-xl space-y-4">
+            <!-- Full Name -->
+            <div>
+              <label for="fullName" class="block text-lg font-semibold text-green-800">
+                Họ và tên:
+              </label>
+              <input type="text" id="fullName" name="fullName" th:value="${user.fullName}"
+                     th:disabled="${!isEdit}"
+                     class="mt-1 p-2 border border-gray-300 rounded-md w-full
+                                  [[${isEdit} ? 'text-black' : 'text-gray-500']]"/>
+            </div>
+
+            <div class="flex flex-col md:flex-row gap-2 justify-between">
+              <!-- Gender -->
+              <div class="w-[150px]">
+                <label for="gender" class="block text-lg font-semibold text-green-800">
+                  Giới tính:
+                </label>
+                <select id="gender" name="gender" th:field="${user.gender}" th:disabled="${!isEdit}"
+                        class="mt-1 p-2 border border-gray-300 rounded-md w-full
+                 [[${isEdit} ? 'text-black' : 'text-gray-500']]">
+                  <option value="Nam" th:selected="${user.gender == 'Nam'}">Nam</option>
+                  <option value="Nữ" th:selected="${user.gender == 'Nữ'}">Nữ</option>
+                </select>
+              </div>
+              <!-- Date of Birth -->
+              <div>
+                <label for="dateOfBirth" class="block text-lg font-semibold text-green-800">
+                  Ngày sinh:
+                </label>
+                <input type="date" id="dateOfBirth" name="dateOfBirth" th:value="${user.dateOfBirth}"
+                       th:disabled="${!isEdit}"
+                       class="mt-1 p-2 border border-gray-300 rounded-md w-full
+                                      [[${isEdit} ? 'text-black' : 'text-gray-500']]"/>
+              </div>
+            </div>
+
+            <!-- Email Address -->
+            <div>
+              <label for="email" class="block text-lg font-semibold text-green-800">
+                Email:
+              </label>
+              <input type="email" id="email" name="email" th:value="${user.email}"
+                     th:disabled="${!isEdit}"
+                     class="mt-1 p-2 border border-gray-300 rounded-md w-full
+                                  [[${isEdit} ? 'text-black' : 'text-gray-500']]"/>
+            </div>
+
+            <!-- Enrollment Date -->
+            <div>
+              <label for="createdAt" class="block text-lg font-semibold text-green-800">
+                Ngày thành viên:
+              </label>
+              <input type="text" id="createdAt" name="createdAt"
+                     th:value="${#temporals.format(user.createdAt, 'dd-MM-yyyy')}"
+                     disabled="disabled"
+                     class="mt-1 p-2 border border-gray-300 rounded-md w-full
+                                  [[${isEdit} ? 'text-black' : 'text-gray-500']]"/>
+            </div>
+          </div>
+
+          <div class="w-full max-w-xl space-y-4">
+            <!-- Student ID -->
+            <div>
+              <label for="studentId" class="block text-lg font-semibold text-green-800">
+                Mã sinh viên:
+              </label>
+              <input type="text" id="studentId" name="studentId" th:value="${user.studentId}"
+                     th:disabled="${!isEdit}"
+                     class="mt-1 p-2 border border-gray-300 rounded-md w-full
+                                  [[${isEdit} ? 'text-black' : 'text-gray-500']]"/>
+            </div>
+
+            <!-- Hometown -->
+            <div>
+              <label for="hometown" class="block text-lg font-semibold text-green-800">
+                Quê quán:
+              </label>
+              <input type="text" id="hometown" name="hometown" th:value="${user.hometown}"
+                     th:disabled="${!isEdit}"
+                     class="mt-1 p-2 border border-gray-300 rounded-md w-full
+                                  [[${isEdit} ? 'text-black' : 'text-gray-500']]"/>
+            </div>
+
+            <!-- faculty -->
+            <div>
+              <label for="faculty" class="block text-lg font-semibold text-green-800">
+                Khoa:
+              </label>
+              <input type="text" id="faculty" name="faculty" th:value="${user.faculty}"
+                     th:disabled="${!isEdit}"
+                     class="mt-1 p-2 border border-gray-300 rounded-md w-full
+                                  [[${isEdit} ? 'text-black' : 'text-gray-500']]"/>
+            </div>
+
+            <!-- Expiration Date -->
+            <div>
+              <label for="expirationDate" class="block text-lg font-semibold text-green-800">
+                Ngày hết hạn:
+              </label>
+              <input type="text" id="expirationDate" name="expirationDate"
+                     th:value="${#temporals.format(user.expirationDate, 'dd-MM-yyyy')}"
+                     disabled="disabled"
+                     class="mt-1 p-2 border border-gray-300 rounded-md w-full
+                                  [[${isEdit} ? 'text-black' : 'text-gray-500']]"/>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Button Area -->
+      <div class="flex w-full justify-end mt-4">
+        <div th:if="${!isEdit}">
+          <button type="button"
+                  th:onclick="|window.location.href='@{/profile/edit}'|"
+                  class="px-6 py-2 bg-white text-green-800 rounded-md hover:bg-green-800 hover:text-white transition-all w-full w-44">
+            Chỉnh sửa thông tin
+          </button>
+        </div>
+        <div th:if="${isEdit}" class="flex gap-4">
+          <button type="submit" class="px-6 py-2 bg-green-700 text-white rounded-md hover:bg-green-800 transition-all w-full w-44">
+            Lưu
+          </button>
+          <button type="button"
+                  th:onclick="|window.location.href='@{/profile}'|"
+                  class="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 transition-all w-full w-44">
+            Hủy
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+</div>
+
+<script>
+  document.getElementById('profileImageInput').addEventListener('change', function(event) {
+    const isEdit = /*[[${isEdit}]]*/ false; // Thymeleaf sẽ thay bằng giá trị thực tế
+
+    if (!isEdit) return; // Không cho phép thay đổi nếu không ở chế độ chỉnh sửa
+
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        document.getElementById('profileImagePreview').src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
+
+
+</body>
+</html>
