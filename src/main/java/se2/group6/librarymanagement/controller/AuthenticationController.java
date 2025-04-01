@@ -11,12 +11,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import se2.group6.librarymanagement.dto.*;
 import se2.group6.librarymanagement.model.User;
 import se2.group6.librarymanagement.model.enums.Role;
 import se2.group6.librarymanagement.repository.UserRepository;
 import se2.group6.librarymanagement.service.UserService;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -65,9 +67,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
-    public String registerUser(@Valid @ModelAttribute("signupForm") SignupFormDTO signupForm, BindingResult bindingResult, Model model) {
+    public String registerUser(@Valid @ModelAttribute("signupForm") SignupFormDTO signupForm,
+                               BindingResult bindingResult,
+                               Model model,
+                               RedirectAttributes redirectAttributes) {
         if (!signupForm.getPassword().equals(signupForm.getConfirmPassword())) {
             bindingResult.rejectValue("confirmPassword", "error.signupForm", "Mật khẩu xác nhận không khớp");
+        }
+        if (userService.isUserExists(signupForm.getUsername())) {
+            bindingResult.rejectValue("username", "error.signupForm", "Tên đăng nhập đã tồn tại!");
         }
         if (bindingResult.hasErrors()) {
             return "signup";
@@ -76,9 +84,13 @@ public class AuthenticationController {
         user.setUserName(signupForm.getUsername());
         user.setPassword(passwordEncoder.encode(signupForm.getPassword()));
         user.setRole(Role.LIBRARY_PATRON);
+        user.setCreatedAt(LocalDateTime.now());
+        user.setExpirationDate(user.getCreatedAt().toLocalDate().plusYears(1));
         userService.saveUser(user);
 
-        return "redirect:/auth/login?registered;";
+        redirectAttributes.addFlashAttribute("message", "Đăng ký thành công! Bạn có thể đăng nhập!");
+
+        return "redirect:/auth/login?registered";
     }
 
     @GetMapping("/forgot-password")

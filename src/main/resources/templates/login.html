@@ -10,6 +10,9 @@
 </head>
 <body>
 <div class="flex flex-col items-center justify-center min-h-screen bg-[#F2F1F1] font-josefin-sans">
+    <div th:if="${message}" class="alert alert-success bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 rounded-md shadow-md">
+        <p th:text="${message}"></p>
+    </div>
     <div class="w-96 bg-white shadow-lg rounded-sm">
         <div class="flex flex-col items-center">
             <img th:src="'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742976410/logo_hggei6.png'" class="object-contain h-[80px] pt-5"  alt="Logo"/>
