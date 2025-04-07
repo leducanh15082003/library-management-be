@@ -44,6 +44,13 @@ public class BorrowController {
     @Autowired
     private BookCopyService bookCopyService;
 
+    @GetMapping("/return-page")
+    public String showReturnPage(Model model) {
+        System.out.println("Vào được return-page");
+        return "manage-borrow/return-page";
+    }
+
+
     @GetMapping("/service-list")
     public String serviceList(Model model) {
         List<Map<String, String>> services = new ArrayList<>();

@@ -7,4 +7,6 @@ import java.util.List;
 public interface BorrowedRecordService {
     void saveBorrowedRecord(BorrowedRecord borrowedRecord);
     List<BorrowedRecord> findByUserId(Long id);
+    List<BorrowedRecord> findByReturnAtIsNull();
+
 }
