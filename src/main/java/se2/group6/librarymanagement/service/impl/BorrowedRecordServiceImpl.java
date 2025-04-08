@@ -22,4 +22,9 @@ public class BorrowedRecordServiceImpl implements BorrowedRecordService {
     public List<BorrowedRecord> findByUserId(Long id) {
         return borrowedRecordRepository.findByUserId(id);
     }
+
+    @Override
+    public List<BorrowedRecord> findByReturnAtIsNull() {
+        return borrowedRecordRepository.findByReturnAtIsNull();
+    }
 }
