@@ -37,7 +37,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> getAllUserDTOs() {
-        return userRepository.findAll().stream().map(this::mapToDTO).toList();
+        return userRepository.findAll().stream()
+                .filter(user -> user.getRole() == Role.LIBRARY_PATRON)
+                .map(this::mapToDTO)
+                .toList();
     }
 
     @Override
