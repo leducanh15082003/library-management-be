@@ -8,59 +8,70 @@ import java.util.List;
 @Entity
 @Table(name = "room")
 public class Room {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Long id;
 
-    @Column(name = "room_name")
-    private String roomName;
+   @Column(name = "room_name")
+   private String roomName;
 
-    @Column(name = "floor")
-    private int floor;
+   @Column(name = "floor")
+   private int floor;
 
-    @Column(name = "capacity")
-    private int capacity;
+   @Column(name = "capacity")
+   private int capacity;
 
-    @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<RoomBooking> roomBookings = new ArrayList<>();
+   @Column(name = "image_url")
+   private String imageUrl;
 
-    public List<RoomBooking> getRoomBookings() {
-        return roomBookings;
-    }
+   @OneToMany(mappedBy = "room", cascade = CascadeType.ALL, orphanRemoval = true)
+   private List<RoomBooking> roomBookings = new ArrayList<>();
 
-    public void setRoomBookings(List<RoomBooking> roomBookings) {
-        this.roomBookings = roomBookings;
-    }
+   public List<RoomBooking> getRoomBookings() {
+      return roomBookings;
+   }
 
-    public Long getId() {
-        return id;
-    }
+   public void setRoomBookings(List<RoomBooking> roomBookings) {
+      this.roomBookings = roomBookings;
+   }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+   public Long getId() {
+      return id;
+   }
 
-    public String getRoomName() {
-        return roomName;
-    }
+   public void setId(Long id) {
+      this.id = id;
+   }
 
-    public void setRoomName(String roomName) {
-        this.roomName = roomName;
-    }
+   public String getRoomName() {
+      return roomName;
+   }
 
-    public int getCapacity() {
-        return capacity;
-    }
+   public void setRoomName(String roomName) {
+      this.roomName = roomName;
+   }
 
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
+   public int getCapacity() {
+      return capacity;
+   }
 
-    public int getFloor() {
-        return floor;
-    }
+   public void setCapacity(int capacity) {
+      this.capacity = capacity;
+   }
 
-    public void setFloor(int floor) {
-        this.floor = floor;
-    }
+   public int getFloor() {
+      return floor;
+   }
+
+   public void setFloor(int floor) {
+      this.floor = floor;
+   }
+
+   public String getImageUrl() {
+      return imageUrl;
+   }
+
+   public void setImageUrl(String imageUrl) {
+      this.imageUrl = imageUrl;
+   }
 }

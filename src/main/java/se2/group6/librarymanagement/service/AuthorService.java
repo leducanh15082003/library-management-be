@@ -6,9 +6,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AuthorService {
-    List<Author> getAllAuthors();
-    Optional<Author> getAuthorById(Long id);
-    Author saveAuthor(Author author);
-    Author updateAuthor(Author author);
-    void deleteAuthorById(Long id);
+   List<Author> getAllAuthors();
+
+   Optional<Author> getAuthorById(Long id);
+
+   Optional<Author> findByName(String name);
+
+   Author saveAuthor(Author author);
+
+   Author updateAuthor(Author author);
+
+   void deleteAuthorById(Long id);
 }
