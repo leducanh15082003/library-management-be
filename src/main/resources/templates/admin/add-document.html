@@ -2,7 +2,7 @@
 <html
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{_layout}"
+	layout:decorate="~{_layout-admin}"
 >
 	<head>
 		<meta charset="UTF-8" />
@@ -50,7 +50,7 @@
 						Thêm tài liệu
 					</button>
 					<a
-						href="/librarian/document/manage"
+						href="/admin/document/manage"
 						class="bg-gray-400 hover:bg-gray-500 text-white px-6 py-2 rounded-md transition duration-150 ease-in-out"
 					>
 						Huỷ
@@ -60,7 +60,7 @@
 				<div class="bg-white rounded-lg p-6 shadow-sm">
 					<form
 						id="documentForm"
-						th:action="@{/librarian/document/add}"
+						th:action="@{/admin/document/add}"
 						method="post"
 						class="grid grid-cols-12 gap-6"
 						enctype="multipart/form-data"

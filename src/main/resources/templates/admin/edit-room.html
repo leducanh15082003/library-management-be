@@ -2,7 +2,7 @@
 <html
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{_layout}"
+	layout:decorate="~{_layout-admin}"
 >
 	<head>
 		<meta charset="UTF-8" />
@@ -53,7 +53,7 @@
 				<div class="flex justify-between items-center mb-6">
 					<div class="flex items-center">
 						<form
-							th:action="@{/librarian/room/manage}"
+							th:action="@{/admin/room/manage}"
 							method="get"
 							class="flex items-center"
 						>
@@ -87,7 +87,7 @@
 					</div>
 					<div class="flex gap-2">
 						<a
-							href="/librarian/room/manage"
+							href="/admin/room/manage"
 							class="px-6 py-2 bg-gray-400 text-white rounded-md hover:bg-gray-500"
 						>
 							Huỷ
@@ -106,7 +106,7 @@
 				<div class="bg-white rounded-lg p-6 shadow-sm">
 					<form
 						id="roomForm"
-						th:action="@{/librarian/room/edit/{id}(id=${room.id})}"
+						th:action="@{/admin/room/edit/{id}(id=${room.id})}"
 						method="post"
 						class="grid grid-cols-12 gap-6"
 						enctype="multipart/form-data"

@@ -2,11 +2,11 @@
 <html
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{_layout}"
+	layout:decorate="~{_layout-admin}"
 >
 	<head>
 		<meta charset="UTF-8" />
-		<title>Quản lý tài liệu - Thư Viện Hà Nội</title>
+		<title>Quản lý phòng học - Thư Viện Hà Nội</title>
 	</head>
 	<body>
 		<div layout:fragment="content">
@@ -16,7 +16,7 @@
 					class="bg-cover h-48 flex items-center justify-center bg-[url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1743130796/Rectangle_3_c9spqr.png')]"
 				>
 					<h1 class="text-4xl font-bold text-white tracking-wider">
-						QUẢN LÝ TÀI LIỆU
+						QUẢN LÝ PHÒNG HỌC
 					</h1>
 				</div>
 			</div>
@@ -28,28 +28,14 @@
 					<div class="flex justify-between items-center">
 						<div class="flex items-center">
 							<form
-								th:action="@{/librarian/document/manage}"
+								th:action="@{/admin/room/manage}"
 								method="get"
 								class="flex items-center"
 							>
-								<div class="relative">
-									<select
-										name="category"
-										class="h-[42px] pl-3 pr-8 border border-r-0 border-[#306537] focus:outline-none text-gray-600"
-									>
-										<option value="">Thể loại</option>
-										<option
-											th:each="subject : ${subjects}"
-											th:value="${subject.id}"
-											th:text="${subject.name}"
-											th:selected="${category == subject.id.toString()}"
-										></option>
-									</select>
-								</div>
 								<div class="flex">
 									<input
 										type="text"
-										name="title"
+										name="roomName"
 										placeholder="Tìm kiếm"
 										th:value="${searchQuery}"
 										class="w-[400px] h-[42px] pl-3 border border-[#306537] focus:outline-none"
@@ -76,7 +62,7 @@
 						</div>
 						<div>
 							<a
-								href="/librarian/document/add"
+								href="/admin/room/add"
 								class="bg-[#517A59] hover:bg-[#3c5c42] text-white px-6 py-2 rounded-md transition duration-150 ease-in-out flex items-center gap-2"
 							>
 								<svg
@@ -91,13 +77,13 @@
 										clip-rule="evenodd"
 									/>
 								</svg>
-								Thêm tài liệu
+								Thêm phòng học
 							</a>
 						</div>
 					</div>
 				</div>
 
-				<!-- Documents table -->
+				<!-- Rooms table -->
 				<div class="bg-white rounded-lg shadow overflow-hidden">
 					<table class="min-w-full divide-y divide-gray-200">
 						<thead class="bg-gray-50">
@@ -110,22 +96,17 @@
 								<th
 									class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
 								>
-									Nhan đề
+									Số phòng
 								</th>
 								<th
 									class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
 								>
-									Mã sách
+									Vị trí
 								</th>
 								<th
 									class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
 								>
-									Đầu mục tài liệu
-								</th>
-								<th
-									class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
-								>
-									Thể loại
+									Số lượng người
 								</th>
 								<th
 									class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-32"
@@ -136,7 +117,7 @@
 						</thead>
 						<tbody class="bg-white divide-y divide-gray-200">
 							<tr
-								th:each="book, iterStat : ${books}"
+								th:each="room, iterStat : ${rooms}"
 								class="divide-x divide-gray-200"
 							>
 								<td
@@ -148,49 +129,42 @@
 								<td class="px-4 py-3 whitespace-nowrap text-center">
 									<div
 										class="text-sm font-medium text-gray-900"
-										th:text="${book.title}"
+										th:text="${room.roomName}"
 									>
-										Book Title
+										305
 									</div>
 								</td>
 								<td
 									class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 text-center"
-									th:text="${book.isbn}"
 								>
-									ISBN
+									Tầng <span th:text="${room.floor}">3</span>
 								</td>
 								<td
 									class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 text-center"
-									th:text="${book.genre}"
+									th:text="${room.capacity}"
 								>
-									Genre
-								</td>
-								<td
-									class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 text-center"
-									th:text="${book.subject.name}"
-								>
-									Subject
+									15-20 người
 								</td>
 								<td
 									class="px-4 py-3 whitespace-nowrap text-sm font-medium text-center"
 								>
 									<div class="flex justify-center space-x-4">
 										<a
-											th:href="@{/librarian/document/edit/{id}(id=${book.id})}"
+											th:href="@{/admin/room/edit/{id}(id=${room.id})}"
 											class="text-blue-600 hover:text-blue-900"
 										>
 											Sửa
 										</a>
 										<form
-											th:action="@{/librarian/document/delete/{id}(id=${book.id})}"
+											th:action="@{/admin/room/delete/{id}(id=${room.id})}"
 											method="post"
 											class="inline"
-											th:data-title="${book.title}"
+											th:data-name="${room.roomName}"
 										>
 											<button
 												type="submit"
 												class="text-red-600 hover:text-red-900"
-												onclick="return confirm('Bạn có chắc chắn muốn xóa tài liệu: ' + this.closest('form').getAttribute('data-title') + '?')"
+												onclick="return confirm('Bạn có chắc chắn muốn xóa phòng: ' + this.closest('form').getAttribute('data-name') + '?')"
 											>
 												Xoá
 											</button>
@@ -206,15 +180,9 @@
 
 		<script th:inline="javascript">
 			document.addEventListener("DOMContentLoaded", function () {
-				const searchInput = document.querySelector('input[name="title"]');
-				const categorySelect = document.querySelector(
-					'select[name="category"]'
+				const searchInput = document.querySelector(
+					'input[name="roomName"]'
 				);
-
-				// Xử lý thay đổi thể loại
-				categorySelect.addEventListener("change", function () {
-					this.form.submit();
-				});
 
 				// Xử lý tìm kiếm với debounce
 				let timeout = null;

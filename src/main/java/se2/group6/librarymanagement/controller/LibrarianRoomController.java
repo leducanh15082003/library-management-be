@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/librarian/room")
+@RequestMapping("/admin/room")
 public class LibrarianRoomController {
 
    @Autowired
@@ -38,13 +38,13 @@ public class LibrarianRoomController {
       model.addAttribute("rooms", rooms);
       model.addAttribute("searchQuery", roomName);
 
-      return "librarian/manage-room";
+      return "admin/manage-room";
    }
 
    @GetMapping("/add")
    public String showAddForm(Model model) {
       model.addAttribute("searchQuery", "");
-      return "librarian/add-room";
+      return "admin/add-room";
    }
 
    @PostMapping("/add")
@@ -80,7 +80,7 @@ public class LibrarianRoomController {
 
       model.addAttribute("room", room);
       model.addAttribute("searchQuery", "");
-      return "librarian/edit-room";
+      return "admin/edit-room";
    }
 
    @PostMapping("/edit/{id}")
@@ -108,7 +108,7 @@ public class LibrarianRoomController {
          }
 
          roomService.updateRoom(room);
-         return "redirect:/librarian/room/manage";
+         return "redirect:/admin/room/manage";
       } catch (Exception e) {
          e.printStackTrace();
          throw new RuntimeException("Error updating room: " + e.getMessage());
@@ -118,6 +118,6 @@ public class LibrarianRoomController {
    @PostMapping("/delete/{id}")
    public String deleteRoom(@PathVariable Long id) {
       roomService.deleteRoomById(id);
-      return "redirect:/librarian/room/manage";
+      return "redirect:/admin/room/manage";
    }
 }
