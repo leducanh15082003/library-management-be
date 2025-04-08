@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Lưu thành công - Hanoi Library</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="font-josefin-sans">
+<div layout:fragment="content">
+    <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742976435/Welcome_ttwk9d.png');|"
+         class="bg-cover h-[280px] flex justify-center items-center mb-3">
+                      <span class="text-white font-bold text-5xl">
+                          Quản lý người dùng
+                      </span>
+    </div>
+    <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-5">
+        <div class="flex justify-end gap-5 mb-4">
+            <a th:href="@{/admin/user-management}" class="px-4 py-2 bg-green-700 text-white rounded-md">Trở về</a>
+        </div>
+
+        <div class="text-green-600 font-semibold text-xl mb-4">
+            <p th:text="${messsage}"></p>
+        </div>
+    </div>
+</div>
+</body>
+</html>
