@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout-admin}">
+<head>
+  <meta charset="UTF-8">
+  <title>Quản lý người dùng - Hanoi Library</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script th:inline="javascript">
+    window.onload = function() {
+        console.log("Window loaded");
+
+        // Function to open the confirmation dialog
+        function openConfirmDelete() {
+            console.log("Opening confirm dialog");
+            // Count selected checkboxes
+            const selectedCheckboxes = document.querySelectorAll('input[name="ids"]:checked');
+            const count = selectedCheckboxes.length;
+
+            const confirmationTitle = document.getElementById('confirmationTitle');
+            const confirmationMessage = document.getElementById('confirmationMessage');
+            const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+
+            if (!confirmationTitle || !confirmationMessage || !deleteConfirmModal) {
+                console.error("Modal elements not found!");
+                return;
+            }
+
+            // Update the modal text with the actual count
+            confirmationTitle.textContent = `Xóa ${count} người dùng?`;
+            confirmationMessage.textContent = `Bạn chắc chắn muốn xóa ${count} người dùng đã chọn?`;
+
+            // Show the modal only if at least one user is selected
+            if (count > 0) {
+                deleteConfirmModal.classList.remove('hidden');
+            } else {
+                alert('Vui lòng chọn ít nhất một người dùng để xóa');
+            }
+        }
+
+        // Function to close the confirmation dialog
+        function closeConfirmDelete() {
+            document.getElementById('deleteConfirmModal').classList.add('hidden');
+        }
+
+        // Function to clear all checkboxes
+        const cancelCheckBtn = document.querySelector('.cancel-btn');
+        if (cancelCheckBtn) {
+            cancelCheckBtn.addEventListener('click', clearSelections);
+        }
+        function clearSelections() {
+            const checkboxes = document.querySelectorAll('input[name="ids"]:checked');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        }
+
+        // Function to submit the form and delete selected users
+        function confirmDelete() {
+            document.getElementById('deleteForm').submit();
+        }
+
+        // Add event listeners
+        const deleteBtn = document.querySelector('.delete-btn');
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', openConfirmDelete);
+            console.log("Delete button listener added");
+        }
+
+        const cancelBtn = document.getElementById('cancelDeleteBtn');
+        if (cancelBtn) {
+            cancelBtn.addEventListener('click', closeConfirmDelete);
+        }
+
+        const confirmBtn = document.getElementById('confirmDeleteBtn');
+        if (confirmBtn) {
+            confirmBtn.addEventListener('click', confirmDelete);
+        }
+    };
+  </script>
+</head>
+<body class="font-josefin-sans">
+<div layout:fragment="content">
+  <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742976435/Welcome_ttwk9d.png');|"
+       class="bg-cover h-[280px] flex justify-center items-center mb-3">
+                  <span class="text-white font-bold text-5xl">
+                      Quản lý người dùng
+                  </span>
+  </div>
+  <form id="deleteForm" th:action="@{/admin/user-management/deleteUsers}" method="post">
+    <!-- Search box -->
+    <div class="flex items-center justify-between mb-4 gap-4">
+      <div class="relative w-64">
+        <input type="text" id="searchInput" placeholder="Mã sinh viên"
+               class="border border-gray-300 rounded-md py-2 px-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <button type="button" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+      </div>
+      <div class="flex space-x-2">
+        <button type="button" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 cursor-pointer cancel-btn">Huỷ</button>
+        <button type="button" class="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 cursor-pointer delete-btn">Xóa</button>
+        <a th:href="@{/admin/user-management/create}" type="button" class="px-4 py-2 bg-green-600 text-white rounded-md">
+          Thêm người dùng
+        </a>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="overflow-x-auto border border-gray-200 rounded-lg">
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
+        <tr>
+          <th class="px-4 py-3 text-center text-sm font-medium text-gray-600 uppercase">STT</th>
+          <th class="px-4 py-3 text-center text-sm font-medium text-gray-600 uppercase">Mã sinh viên</th>
+          <th class="px-4 py-3 text-center text-sm font-medium text-gray-600 uppercase">Họ và tên</th>
+          <th class="px-4 py-3 text-center text-sm font-medium text-gray-600 uppercase">Ngày thành viên</th>
+          <th class="px-4 py-3 text-center text-sm font-medium text-gray-600 uppercase">Ngày hết hạn</th>
+          <th class="px-4 py-3 text-center text-sm font-medium text-gray-600 uppercase">Chỉnh sửa</th>
+          <th class="px-4 py-3 text-center text-sm font-medium text-gray-600 uppercase">Chọn</th>
+        </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+        <tr th:each="user, iterStat : ${users}">
+          <td class="px-4 py-3 text-center text-sm text-gray-500" th:text="${iterStat.index + 1}"></td>
+          <td class="px-4 py-3 text-center text-sm text-gray-500" th:text="${user.studentId}"></td>
+          <td class="px-4 py-3 text-center text-sm text-gray-500" th:text="${user.fullName}"></td>
+          <td class="px-4 py-3 text-center text-sm text-gray-500" th:text="${#temporals.format(user.createdAt, 'dd/MM/yyyy')}"></td>
+          <td class="px-4 py-3 text-center text-sm text-gray-500" th:text="${#temporals.format(user.expirationDate, 'dd/MM/yyyy')}"></td>
+          <td class="px-4 py-3 text-center text-sm">
+            <a th:href="@{'/admin/user-management/update/' + ${user.id}}" class="text-green-600 hover:text-green-800">Sửa</a>
+          </td>
+          <td class="px-4 py-3 text-center text-sm">
+            <input type="checkbox" name="ids" th:value="${user.id}" class="user-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </form>
+  <!-- Đặt modal trong fragment "content" -->
+  <div id="deleteConfirmModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-md shadow-lg max-w-md w-full">
+      <div class="p-6">
+        <div class="text-center mb-4">
+          <h3 class="text-xl font-medium" id="confirmationTitle">Xóa 3 người dùng?</h3>
+        </div>
+        <div class="text-center mb-6">
+          <p class="text-lg" id="confirmationMessage">Bạn chắc chắn muốn xóa 3 người dùng đã chọn?</p>
+        </div>
+        <div class="flex justify-center space-x-4">
+          <button type="button" id="cancelDeleteBtn" class="px-6 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">Hủy</button>
+          <button type="button" id="confirmDeleteBtn" class="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600">Chắc chắn</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

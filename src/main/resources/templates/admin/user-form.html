@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout-admin}">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý người dùng - Hanoi Library</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            const updateBtn = document.getElementById('updateBtn');
+            const saveBtn = document.getElementById('saveBtn');
+            const confirmDialog = document.getElementById('confirmDialog');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const confirmBtn = document.getElementById('confirmBtn');
+            const userForm = document.getElementById('userForm');
+            updateBtn?.addEventListener('click', function() {
+                confirmDialog?.classList.remove('hidden');
+            });
+
+            saveBtn?.addEventListener('click', function () {
+                if (validateForm()) {
+                    userForm?.submit();
+                }
+            });
+
+            confirmBtn?.addEventListener('click', function () {
+                if (validateForm()) {
+                    userForm?.submit();
+                }
+            });
+
+            confirmBtn?.addEventListener('click', function() {
+                userForm?.submit();
+            });
+        });
+
+        function validateForm() {
+            const requiredFields = [
+                { name: 'fullName', label: 'Họ và tên' },
+                { name: 'userName', label: 'Tên đăng nhập' },
+                { name: 'studentId', label: 'Mã sinh viên' },
+                { name: 'email', label: 'Email' },
+                { name: 'dateOfBirthStr', label: 'Ngày sinh' },
+                { name: 'createdAtStr', label: 'Ngày thành viên' },
+                { name: 'expirationDateStr', label: 'Ngày hết hạn' },
+                { name: 'gender', label: 'Giới tính' }, // dạng input
+                { name: 'hometown', label: 'Quê quán' }, // có thể là input hoặc select
+                { name: 'faculty', label: 'Khoa' }       // có thể là input hoặc select
+            ];
+
+            let valid = true;
+            let message = '';
+
+            requiredFields.forEach(field => {
+                const input = document.querySelector(`[name="${field.name}"]`);
+                if (!input || input.value.trim() === '') {
+                    valid = false;
+                    message += `- ${field.label} không được để trống\n`;
+                }
+            });
+
+            if (!valid) {
+                alert('Vui lòng điền đầy đủ các trường bắt buộc:\n\n' + message);
+            }
+
+            return valid;
+        }
+
+
+        function previewImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = input.closest('.flex-shrink-0').querySelector('img');
+                    const svg = input.closest('.flex-shrink-0').querySelector('svg');
+
+                    if (!img) {
+                        const newImg = document.createElement('img');
+                        newImg.className = 'w-36 h-36 rounded-full object-cover';
+                        newImg.alt = 'User profile';
+                        svg?.replaceWith(newImg);
+                        newImg.src = e.target.result;
+                    } else {
+                        img.src = e.target.result;
+                    }
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+</head>
+<body class="font-josefin-sans">
+<div layout:fragment="content">
+    <div th:style="|background-image: url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742976435/Welcome_ttwk9d.png');|"
+         class="bg-cover h-[280px] flex justify-center items-center mb-3">
+                  <span class="text-white font-bold text-5xl">
+                      Quản lý người dùng
+                  </span>
+    </div>
+
+    <!-- content -->
+    <div class="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-5">
+        <div class="flex justify-end gap-5 mb-4">
+            <a th:href="@{/admin/user-management}" class="px-4 py-2 bg-gray-300 rounded-md" th:text="${user.id == null ? 'Hủy' : 'Hủy'}">Hủy</a>
+            <button id="updateBtn" type="button" class="px-4 py-2 bg-green-600 text-white rounded-md cursor-pointer" th:if="${user.id != null}">
+                Cập nhật
+            </button>
+            <button id="saveBtn" type="button" class="px-4 py-2 bg-green-600 text-white rounded-md cursor-pointer" th:if="${user.id == null}">
+                Thêm mới người dùng
+            </button>
+        </div>
+
+        <!-- Confirmation Dialog -->
+        <div id="confirmDialog" class="hidden fixed inset-0 overflow-y-auto h-full w-full flex items-center justify-center">
+            <div class="relative bg-white rounded-lg shadow-xl max-w-md mx-auto p-6">
+                <div class="flex flex-col items-center">
+                    <h3 class="text-xl font-semibold mb-4">Cập nhật thông tin người dùng?</h3>
+                    <p class="text-center mb-6">Bạn chắc chắn muốn lưu những thông tin đã chỉnh sửa?</p>
+                    <div class="flex gap-4">
+                        <button id="cancelBtn" class="px-6 py-2 bg-gray-400 text-white rounded-md hover:bg-gray-500 cursor-pointer">Hủy</button>
+                        <button id="confirmBtn" class="px-6 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 cursor-pointer" >Lưu</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form id="userForm" th:action="@{/admin/user-management/save}" th:object="${user}" method="post" enctype="multipart/form-data">
+            <input type="hidden" th:field="*{id}" />
+            <input type="hidden" th:field="*{imageUrl}" />
+            <input type="hidden" th:field="*{role}" />
+            <input type="hidden" th:field="*{updatedAt}" />
+
+            <div class="flex items-start gap-8">
+                <div class="flex-shrink-0 flex flex-col">
+                    <div class="w-36 h-36 bg-gray-300 rounded-full flex items-center justify-center">
+                        <img th:if="${user.imageUrl != null && !user.imageUrl.isEmpty()}" th:src="${user.imageUrl}" class="w-36 h-36 rounded-full object-cover" alt="User profile">
+                        <svg th:unless="${user.imageUrl != null && !user.imageUrl.isEmpty()}" class="w-16 h-16 text-gray-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <label class="mt-2 px-4 py-2 text-sm border border-gray-300 rounded-md w-full bg-white text-center cursor-pointer hover:bg-gray-50">
+                        Thêm ảnh
+                        <input type="file" name="imageFile" accept="image/*" class="hidden" onchange="previewImage(this)">
+                    </label>
+                </div>
+
+                <div class="grid grid-cols-2 gap-x-8 gap-y-6 flex-grow">
+                    <div>
+                        <label class="block text-green-700 font-medium mb-1">Họ và tên:</label>
+                        <input th:field="*{fullName}" type="text" class="w-full border rounded-md p-2 shadow-sm" placeholder="Họ và tên" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-green-700 font-medium mb-1">Tên đăng nhập:</label>
+                        <input th:field="*{userName}" type="text" class="w-full border rounded-md p-2 shadow-sm" placeholder="Tên đăng nhập" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-green-700 font-medium mb-1">Mã sinh viên:</label>
+                        <input th:field="*{studentId}" type="text" class="w-full border rounded-md p-2 shadow-sm" placeholder="Mã sinh viên" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-green-700 font-medium mb-1">Email:</label>
+                        <input th:field="*{email}" type="email" class="w-full border rounded-md p-2 shadow-sm" placeholder="Email" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-green-700 font-medium mb-1">Giới tính:</label>
+                        <input th:field="*{gender}" type="text" class="w-full border rounded-md p-2 shadow-sm" placeholder="Giới tính">
+                    </div>
+
+                    <div>
+                        <label class="block text-green-700 font-medium mb-1">Ngày sinh:</label>
+                        <input type="text"
+                               th:value="${user.dateOfBirth != null ? #temporals.format(user.dateOfBirth, 'dd/MM/yyyy') : ''}"
+                               name="dateOfBirthStr"
+                               class="w-full border rounded-md p-2 shadow-sm"
+                               placeholder="dd/MM/yyyy">
+                        <input type="hidden" th:field="*{dateOfBirth}">
+                    </div>
+
+                    <div>
+                        <label class="block text-green-700 font-medium mb-1">Quê quán:</label>
+                        <input th:field="*{hometown}" type="text" class="w-full border rounded-md p-2 shadow-sm" placeholder="Quê quán">
+                    </div>
+
+                    <div>
+                        <label class="block text-green-700 font-medium mb-1">Khoa:</label>
+                        <input th:field="*{faculty}" type="text" class="w-full border rounded-md p-2 shadow-sm" placeholder="Khoa">
+                    </div>
+
+                    <div>
+                        <label class="block text-green-700 font-medium mb-1">Ngày thành viên:</label>
+                        <input type="text"
+                               th:value="${user.createdAt != null ? #temporals.format(user.createdAt, 'dd/MM/yyyy') : ''}"
+                               name="createdAtStr"
+                               class="w-full border rounded-md p-2 shadow-sm"
+                               placeholder="dd/MM/yyyy">
+                        <input type="hidden" th:field="*{createdAt}">
+                    </div>
+
+                    <div>
+                        <label class="block text-green-700 font-medium mb-1">Ngày hết hạn:</label>
+                        <input type="text"
+                               th:value="${user.expirationDate != null ? #temporals.format(user.expirationDate, 'dd/MM/yyyy') : ''}"
+                               name="expirationDateStr"
+                               class="w-full border rounded-md p-2 shadow-sm"
+                               placeholder="dd/MM/yyyy">
+                        <input type="hidden" th:field="*{expirationDate}">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script th:inline="javascript">
+
+</script>
+</body>
+</html>

@@ -8,7 +8,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import se2.group6.librarymanagement.config.security.CustomUserDetails;
+import se2.group6.librarymanagement.dto.UserDTO;
 import se2.group6.librarymanagement.model.User;
+import se2.group6.librarymanagement.model.enums.Role;
 import se2.group6.librarymanagement.repository.UserRepository;
 import se2.group6.librarymanagement.service.UserService;
 
@@ -34,8 +36,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserDTO> getAllUserDTOs() {
+        return userRepository.findAll().stream().map(this::mapToDTO).toList();
+    }
+
+    @Override
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public UserDTO getUserDTOById(Long id) {
+        return mapToDTO(userRepository.findById(id).orElseThrow(() -> new RuntimeException("User not found")));
     }
 
     @Override
@@ -85,4 +97,63 @@ public class UserServiceImpl implements UserService {
     public boolean isUserExists(String username) {
         return userRepository.existsUserByUserName(username);
     }
+
+    @Override
+    public void saveUser(UserDTO userDTO, MultipartFile imageFile) {
+        User user;
+
+        if (userDTO.getId() == null) {
+            user = new User();
+            user.setPassword("123456"); // Đặt password mặc định khi tạo mới
+            user.setRole(Role.LIBRARY_PATRON); // Gán role mặc định
+        } else {
+            user = userRepository.findById(userDTO.getId())
+                    .orElseThrow(() -> new RuntimeException("User not found"));
+        }
+
+        user.setFullName(userDTO.getFullName());
+        user.setStudentId(userDTO.getStudentId());
+        user.setGender(userDTO.getGender());
+        user.setDateOfBirth(userDTO.getDateOfBirth());
+        user.setEmail(userDTO.getEmail());
+        user.setHometown(userDTO.getHometown());
+        user.setFaculty(userDTO.getFaculty());
+        user.setCreatedAt(userDTO.getCreatedAt());
+        user.setExpirationDate(userDTO.getExpirationDate());
+        user.setUserName(userDTO.getUserName());
+
+        // Xử lý ảnh
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                Map uploadResult = cloudinary.uploader().upload(imageFile.getBytes(), ObjectUtils.emptyMap());
+                String imageUrl = (String) uploadResult.get("secure_url");
+                user.setImageUrl(imageUrl);
+            } catch (IOException e) {
+                throw new RuntimeException("Lỗi upload ảnh!", e);
+            }
+        }
+
+        userRepository.save(user);
+    }
+
+
+    private UserDTO mapToDTO(User user) {
+        UserDTO dto = new UserDTO();
+        dto.setId(user.getId());
+        dto.setUserName(user.getUserName());
+        dto.setFullName(user.getFullName());
+        dto.setEmail(user.getEmail());
+        dto.setRole(user.getRole().name()); // enum → String
+        dto.setImageUrl(user.getImageUrl());
+        dto.setStudentId(user.getStudentId());
+        dto.setGender(user.getGender());
+        dto.setDateOfBirth(user.getDateOfBirth());
+        dto.setHometown(user.getHometown());
+        dto.setFaculty(user.getFaculty());
+        dto.setExpirationDate(user.getExpirationDate());
+        dto.setCreatedAt(user.getCreatedAt());
+        dto.setUpdatedAt(user.getUpdatedAt());
+        return dto;
+    }
+
 }
