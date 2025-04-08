@@ -23,7 +23,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/librarian/document")
+@RequestMapping("/admin/document")
 public class LibrarianDocumentController {
 
    @Autowired
@@ -68,7 +68,7 @@ public class LibrarianDocumentController {
       model.addAttribute("searchQuery", title);
       model.addAttribute("category", category);
 
-      return "librarian/manage-document";
+      return "admin/manage-document";
    }
 
    @GetMapping("/add")
@@ -77,7 +77,7 @@ public class LibrarianDocumentController {
       List<Author> authors = authorService.getAllAuthors();
       model.addAttribute("subjects", subjects);
       model.addAttribute("authors", authors);
-      return "librarian/add-document";
+      return "admin/add-document";
    }
 
    @PostMapping("/add")
@@ -118,7 +118,7 @@ public class LibrarianDocumentController {
          }
 
          bookService.saveBook(book);
-         return "redirect:/librarian/document/manage";
+         return "redirect:/admin/document/manage";
       } catch (Exception e) {
          // Log the error
          e.printStackTrace();
@@ -136,7 +136,7 @@ public class LibrarianDocumentController {
       model.addAttribute("book", book);
       model.addAttribute("subjects", subjects);
       model.addAttribute("authors", authors);
-      return "librarian/edit-document";
+      return "admin/edit-document";
    }
 
    @PostMapping("/edit/{id}")
@@ -181,7 +181,7 @@ public class LibrarianDocumentController {
          }
 
          bookService.saveBook(book);
-         return "redirect:/librarian/document/manage";
+         return "redirect:/admin/document/manage";
       } catch (Exception e) {
          // Log the error
          e.printStackTrace();
@@ -192,6 +192,6 @@ public class LibrarianDocumentController {
    @PostMapping("/delete/{id}")
    public String deleteDocument(@PathVariable Long id) {
       bookService.deleteBookById(id);
-      return "redirect:/librarian/document/manage";
+      return "redirect:/admin/document/manage";
    }
 }

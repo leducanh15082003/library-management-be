@@ -1,113 +1,227 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-<head>
-  <meta charset="UTF-8">
-  <title>Admin - Hanoi Library</title>
-  <link rel="stylesheet" th:href="@{/css/global.css}" />
-  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-</head>
-<body>
-<div class="min-h-screen flex flex-col bg-[#F2F1F1] pb-10 font-josefin-sans" sec:authorize="isAuthenticated()">
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Admin - Hanoi Library</title>
+		<link rel="stylesheet" th:href="@{/css/global.css}" />
+		<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Public+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<div
+			class="min-h-screen flex flex-col bg-[#F2F1F1] pb-10 font-josefin-sans"
+			sec:authorize="isAuthenticated()"
+		>
+			<!-- Header -->
+			<header class="bg-[#427B49] text-white sticky top-0 z-50">
+				<div class="flex pl-20 pr-5 py-3 items-center justify-between">
+					<div class="flex">
+						<img
+							th:src="'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742976410/logo_hggei6.png'"
+							class="object-contain w-24"
+							alt="Logo"
+						/>
+						<div class="flex flex-col pl-5">
+							<span class="font-bold text-2xl">Thư Viện Hà Nội</span>
+							<span class="font-light text-xl">Hanoi Library</span>
+						</div>
+					</div>
+					<div class="flex items-center gap-4 pr-10">
+						<div
+							class="flex items-center gap-2 cursor-pointer"
+							th:onclick="|window.location.href='@{/profile}'|"
+						>
+							<svg
+								width="28"
+								height="28"
+								viewBox="0 0 36 36"
+								fill="none"
+								xmlns="http://www.w3.org/2000/svg"
+							>
+								<path
+									d="M7.2375 26.925C8.725 25.7875 10.3875 24.8906 12.225 24.2344C14.0625 23.5781 15.9875 23.25 18 23.25C20.0125 23.25 21.9375 23.5781 23.775 24.2344C25.6125 24.8906 27.275 25.7875 28.7625 26.925C29.7833 25.7292 30.5781 24.3729 31.1469 22.8563C31.7156 21.3396 32 19.7208 32 18C32 14.1208 30.6365 10.8177 27.9094 8.09063C25.1823 5.36354 21.8792 4 18 4C14.1208 4 10.8177 5.36354 8.09063 8.09063C5.36354 10.8177 4 14.1208 4 18C4 19.7208 4.28437 21.3396 4.85313 22.8563C5.42188 24.3729 6.21667 25.7292 7.2375 26.925ZM18 19.75C16.2792 19.75 14.8281 19.1594 13.6469 17.9781C12.4656 16.7969 11.875 15.3458 11.875 13.625C11.875 11.9042 12.4656 10.4531 13.6469 9.27188C14.8281 8.09063 16.2792 7.5 18 7.5C19.7208 7.5 21.1719 8.09063 22.3531 9.27188C23.5344 10.4531 24.125 11.9042 24.125 13.625C24.125 15.3458 23.5344 16.7969 22.3531 17.9781C21.1719 19.1594 19.7208 19.75 18 19.75ZM18 35.5C15.5792 35.5 13.3042 35.0406 11.175 34.1219C9.04583 33.2031 7.19375 31.9563 5.61875 30.3813C4.04375 28.8063 2.79688 26.9542 1.87813 24.825C0.959375 22.6958 0.5 20.4208 0.5 18C0.5 15.5792 0.959375 13.3042 1.87813 11.175C2.79688 9.04583 4.04375 7.19375 5.61875 5.61875C7.19375 4.04375 9.04583 2.79688 11.175 1.87813C13.3042 0.959375 15.5792 0.5 18 0.5C20.4208 0.5 22.6958 0.959375 24.825 1.87813C26.9542 2.79688 28.8063 4.04375 30.3813 5.61875C31.9563 7.19375 33.2031 9.04583 34.1219 11.175C35.0406 13.3042 35.5 15.5792 35.5 18C35.5 20.4208 35.0406 22.6958 34.1219 24.825C33.2031 26.9542 31.9563 28.8063 30.3813 30.3813C28.8063 31.9563 26.9542 33.2031 24.825 34.1219C22.6958 35.0406 20.4208 35.5 18 35.5ZM18 32C19.5458 32 21.0042 31.774 22.375 31.3219C23.7458 30.8698 25 30.2208 26.1375 29.375C25 28.5292 23.7458 27.8802 22.375 27.4281C21.0042 26.976 19.5458 26.75 18 26.75C16.4542 26.75 14.9958 26.976 13.625 27.4281C12.2542 27.8802 11 28.5292 9.8625 29.375C11 30.2208 12.2542 30.8698 13.625 31.3219C14.9958 31.774 16.4542 32 18 32Z"
+									fill="white"
+								/>
+							</svg>
+							<span
+								class="text-xl"
+								th:text="${#authentication != null ? #authentication.name : 'Admin'}"
+								>Admin</span
+							>
+						</div>
+						<form th:action="@{/logout}" method="post">
+							<button
+								type="submit"
+								class="bg-white text-[#427B49] px-4 py-2 rounded-md font-semibold hover:bg-gray-200"
+							>
+								Đăng xuất
+							</button>
+						</form>
+					</div>
+				</div>
+			</header>
 
-  <!-- Header -->
-  <header class="bg-[#427B49] text-white sticky top-0 z-50">
-    <div class="flex pl-20 pr-5 py-3 items-center justify-between">
-      <div class="flex">
-        <img th:src="'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742976410/logo_hggei6.png'" class="object-contain w-24" alt="Logo"/>
-        <div class="flex flex-col pl-5">
-          <span class="font-bold text-2xl">Thư Viện Hà Nội</span>
-          <span class="font-light text-xl">Hanoi Library</span>
-        </div>
-      </div>
-      <div class="flex items-center gap-4 pr-10">
-        <div class="flex items-center gap-2 cursor-pointer" th:onclick="|window.location.href='@{/profile}'|">
-          <svg width="28" height="28" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M7.2375 26.925C8.725 25.7875 10.3875 24.8906 12.225 24.2344C14.0625 23.5781 15.9875 23.25 18 23.25C20.0125 23.25 21.9375 23.5781 23.775 24.2344C25.6125 24.8906 27.275 25.7875 28.7625 26.925C29.7833 25.7292 30.5781 24.3729 31.1469 22.8563C31.7156 21.3396 32 19.7208 32 18C32 14.1208 30.6365 10.8177 27.9094 8.09063C25.1823 5.36354 21.8792 4 18 4C14.1208 4 10.8177 5.36354 8.09063 8.09063C5.36354 10.8177 4 14.1208 4 18C4 19.7208 4.28437 21.3396 4.85313 22.8563C5.42188 24.3729 6.21667 25.7292 7.2375 26.925ZM18 19.75C16.2792 19.75 14.8281 19.1594 13.6469 17.9781C12.4656 16.7969 11.875 15.3458 11.875 13.625C11.875 11.9042 12.4656 10.4531 13.6469 9.27188C14.8281 8.09063 16.2792 7.5 18 7.5C19.7208 7.5 21.1719 8.09063 22.3531 9.27188C23.5344 10.4531 24.125 11.9042 24.125 13.625C24.125 15.3458 23.5344 16.7969 22.3531 17.9781C21.1719 19.1594 19.7208 19.75 18 19.75ZM18 35.5C15.5792 35.5 13.3042 35.0406 11.175 34.1219C9.04583 33.2031 7.19375 31.9563 5.61875 30.3813C4.04375 28.8063 2.79688 26.9542 1.87813 24.825C0.959375 22.6958 0.5 20.4208 0.5 18C0.5 15.5792 0.959375 13.3042 1.87813 11.175C2.79688 9.04583 4.04375 7.19375 5.61875 5.61875C7.19375 4.04375 9.04583 2.79688 11.175 1.87813C13.3042 0.959375 15.5792 0.5 18 0.5C20.4208 0.5 22.6958 0.959375 24.825 1.87813C26.9542 2.79688 28.8063 4.04375 30.3813 5.61875C31.9563 7.19375 33.2031 9.04583 34.1219 11.175C35.0406 13.3042 35.5 15.5792 35.5 18C35.5 20.4208 35.0406 22.6958 34.1219 24.825C33.2031 26.9542 31.9563 28.8063 30.3813 30.3813C28.8063 31.9563 26.9542 33.2031 24.825 34.1219C22.6958 35.0406 20.4208 35.5 18 35.5ZM18 32C19.5458 32 21.0042 31.774 22.375 31.3219C23.7458 30.8698 25 30.2208 26.1375 29.375C25 28.5292 23.7458 27.8802 22.375 27.4281C21.0042 26.976 19.5458 26.75 18 26.75C16.4542 26.75 14.9958 26.976 13.625 27.4281C12.2542 27.8802 11 28.5292 9.8625 29.375C11 30.2208 12.2542 30.8698 13.625 31.3219C14.9958 31.774 16.4542 32 18 32Z" fill="white"/>
-          </svg>
-          <span class="text-xl" th:text="${#authentication != null ? #authentication.name : 'Admin'}">Admin</span>
-        </div>
-        <form th:action="@{/logout}" method="post">
-          <button type="submit" class="bg-white text-[#427B49] px-4 py-2 rounded-md font-semibold hover:bg-gray-200">Đăng xuất</button>
-        </form>
-      </div>
-    </div>
-  </header>
+			<!-- Body -->
+			<div class="flex flex-1">
+				<!-- Sidebar --><!-- Sidebar -->
+				<aside
+					class="w-90 h-full pl-15 pr-10 pt-10 font-josefin-sans sticky top-20 z-50"
+				>
+					<div class="bg-[#427B49] border-2 border-gray-300">
+						<h2 class="text-lg font-medium text-white pl-6 py-1">
+							Thư mục
+						</h2>
+					</div>
+					<nav>
+						<ul
+							class="pl-2 space-y-2 border-l-2 border-b-2 border-r-2 border-gray-300"
+						>
+							<li class="flex gap-1 border-b-2 border-gray-300 pt-1">
+								<!-- Icon Nhà -->
+								<svg
+									width="19"
+									height="19"
+									viewBox="0 0 19 19"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<mask
+										id="mask0"
+										style="mask-type: alpha"
+										maskUnits="userSpaceOnUse"
+										x="0"
+										y="0"
+										width="19"
+										height="19"
+									>
+										<rect width="19" height="19" fill="#D9D9D9" />
+									</mask>
+									<g mask="url(#mask0)">
+										<path
+											d="M3.16666 16.625V7.125L9.5 2.375L15.8333 7.125V16.625H14.25V7.91667L9.5 4.35417L4.75 7.91667V16.625H3.16666ZM7.125 15.0417H11.875V13.4583H7.125V15.0417ZM7.125 11.875H11.875V10.2917H7.125V11.875ZM5.54166 16.625V8.70833H13.4583V16.625H5.54166Z"
+											fill="#427B49"
+										/>
+									</g>
+								</svg>
+								<a th:href="@{/admin/dashboard}" class="no-underline"
+									>Trang quản trị</a
+								>
+							</li>
 
-  <!-- Body -->
-  <div class="flex flex-1">
-    <!-- Sidebar --><!-- Sidebar -->
-    <aside class="w-90 h-full pl-15 pr-10 pt-10 font-josefin-sans sticky top-20 z-50">
-      <div class="bg-[#427B49] border-2 border-gray-300">
-        <h2 class="text-lg font-medium text-white pl-6 py-1">Thư mục</h2>
-      </div>
-      <nav>
-        <ul class="pl-2 space-y-2 border-l-2 border-b-2 border-r-2 border-gray-300">
-          <li class="flex gap-1 border-b-2 border-gray-300 pt-1">
-            <!-- Icon Nhà -->
-            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <mask id="mask0" style="mask-type: alpha;" maskUnits="userSpaceOnUse" x="0" y="0" width="19" height="19">
-                <rect width="19" height="19" fill="#D9D9D9" />
-              </mask>
-              <g mask="url(#mask0)">
-                <path d="M3.16666 16.625V7.125L9.5 2.375L15.8333 7.125V16.625H14.25V7.91667L9.5 4.35417L4.75 7.91667V16.625H3.16666ZM7.125 15.0417H11.875V13.4583H7.125V15.0417ZM7.125 11.875H11.875V10.2917H7.125V11.875ZM5.54166 16.625V8.70833H13.4583V16.625H5.54166Z" fill="#427B49" />
-              </g>
-            </svg>
-            <a th:href="@{/admin/dashboard}" class="no-underline">Trang quản trị</a>
-          </li>
+							<li class="flex gap-1 border-b-2 border-gray-300">
+								<svg
+									width="19"
+									height="19"
+									viewBox="0 0 19 19"
+									fill="none"
+									xmlns="http://www.w3.org/2000/svg"
+								>
+									<rect width="19" height="19" fill="#D9D9D9" />
+									<path d="M5 5h9v9H5V5z" stroke="#427B49" />
+								</svg>
+								<a
+									th:href="@{/admin/document/manage}"
+									class="no-underline"
+									>Quản lý tài liệu</a
+								>
+							</li>
 
-          <li class="flex gap-1 border-b-2 border-gray-300">
-            <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="19" height="19" fill="#D9D9D9"/>
-              <path d="M5 5h9v9H5V5z" stroke="#427B49"/>
-            </svg>
-            <a th:href="@{/service/return-page}" class="no-underline">Quản lý tài liệu</a>
-          </li>
+							<li class="flex gap-1 border-b-2 border-gray-300">
+								<svg
+									width="19"
+									height="19"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="#427B49"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<circle cx="12" cy="7" r="4"></circle>
+									<path d="M5.5 21a8.38 8.38 0 0 1 13 0"></path>
+								</svg>
+								<a
+									th:href="@{/admin/user-management}"
+									class="no-underline"
+									>Quản lý người dùng</a
+								>
+							</li>
 
-          <li class="flex gap-1 border-b-2 border-gray-300">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#427B49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="7" r="4"></circle>
-              <path d="M5.5 21a8.38 8.38 0 0 1 13 0"></path>
-            </svg>
-            <a th:href="@{/admin/user-management}" class="no-underline">Quản lý người dùng</a>
-          </li>
+							<li class="flex gap-1 border-b-2 border-gray-300">
+								<svg
+									width="19"
+									height="19"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="#427B49"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path d="M3 3h18v18H3z"></path>
+									<path d="M3 9h18"></path>
+								</svg>
+								<a th:href="@{/admin/room/manage}" class="no-underline"
+									>Quản lý phòng học</a
+								>
+							</li>
 
-          <li class="flex gap-1 border-b-2 border-gray-300">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#427B49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 3h18v18H3z"></path>
-              <path d="M3 9h18"></path>
-            </svg>
-            <a th:href="@{/admin/manage-rooms}" class="no-underline">Quản lý phòng học</a>
-          </li>
+							<li class="flex gap-1 border-b-2 border-gray-300">
+								<svg
+									width="19"
+									height="19"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="#427B49"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path d="M3 6h18M3 12h18M3 18h18"></path>
+								</svg>
+								<a
+									th:href="@{/admin/manage-topics}"
+									class="no-underline"
+									>Quản lý chủ đề</a
+								>
+							</li>
 
-          <li class="flex gap-1 border-b-2 border-gray-300">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#427B49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 6h18M3 12h18M3 18h18"></path>
-            </svg>
-            <a th:href="@{/admin/manage-topics}" class="no-underline">Quản lý chủ đề</a>
-          </li>
+							<li class="flex gap-1">
+								<svg
+									width="19"
+									height="19"
+									viewBox="0 0 24 24"
+									fill="none"
+									stroke="#427B49"
+									stroke-width="2"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+								>
+									<path d="M12 20l9-5-9-5-9 5 9 5z"></path>
+									<path d="M12 12V4"></path>
+								</svg>
+								<a th:href="@{/profile}" class="no-underline"
+									>Thông tin cá nhân</a
+								>
+							</li>
+						</ul>
+					</nav>
+				</aside>
 
-          <li class="flex gap-1">
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#427B49" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 20l9-5-9-5-9 5 9 5z"></path>
-              <path d="M12 12V4"></path>
-            </svg>
-            <a th:href="@{/profile}" class="no-underline">Thông tin cá nhân</a>
-          </li>
-        </ul>
-      </nav>
-    </aside>
-
-
-    <!-- Main Content -->
-    <main class="flex-1 pt-10 pr-10">
-      <div layout:fragment="content"></div>
-    </main>
-  </div>
-</div>
-</body>
+				<!-- Main Content -->
+				<main class="flex-1 pt-10 pr-10">
+					<div layout:fragment="content"></div>
+				</main>
+			</div>
+		</div>
+	</body>
 </html>
