@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{_layout}"
+>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Thêm tài liệu - Thư Viện Hà Nội</title>
+		<script th:inline="javascript">
+			document.addEventListener("DOMContentLoaded", function () {
+				const imageInput = document.getElementById("image");
+				const preview = document.getElementById("preview");
+
+				imageInput.addEventListener("change", function () {
+					const file = this.files[0];
+					if (file) {
+						const reader = new FileReader();
+						reader.onload = function (e) {
+							preview.src = e.target.result;
+							preview.classList.remove("hidden");
+						};
+						reader.readAsDataURL(file);
+					}
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<div layout:fragment="content">
+			<!-- Banner image with title -->
+			<div class="relative mb-8">
+				<div
+					class="bg-cover h-48 flex items-center justify-center bg-[url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1743130796/Rectangle_3_c9spqr.png')]"
+				>
+					<h1 class="text-4xl font-bold text-white tracking-wider">
+						QUẢN LÝ TÀI LIỆU
+					</h1>
+				</div>
+			</div>
+
+			<!-- Main content -->
+			<div class="container mx-auto px-4">
+				<div class="flex justify-end gap-2 mb-4">
+					<button
+						type="submit"
+						form="documentForm"
+						class="bg-[#517A59] hover:bg-[#3c5c42] text-white px-6 py-2 rounded-md transition duration-150 ease-in-out"
+					>
+						Thêm tài liệu
+					</button>
+					<a
+						href="/librarian/document/manage"
+						class="bg-gray-400 hover:bg-gray-500 text-white px-6 py-2 rounded-md transition duration-150 ease-in-out"
+					>
+						Huỷ
+					</a>
+				</div>
+
+				<div class="bg-white rounded-lg p-6 shadow-sm">
+					<form
+						id="documentForm"
+						th:action="@{/librarian/document/add}"
+						method="post"
+						class="grid grid-cols-12 gap-6"
+						enctype="multipart/form-data"
+					>
+						<!-- Left side - Image upload -->
+						<div class="col-span-4 flex flex-col items-center">
+							<div
+								class="w-full aspect-[3/4] bg-gray-100 rounded-lg mb-4 overflow-hidden"
+							>
+								<img
+									id="preview"
+									src="#"
+									alt="Preview"
+									class="w-full h-full object-cover hidden"
+								/>
+							</div>
+							<label
+								for="image"
+								class="bg-white border border-[#517A59] text-[#517A59] px-6 py-2 rounded-md cursor-pointer hover:bg-[#517A59] hover:text-white transition duration-150 ease-in-out"
+							>
+								Thêm ảnh
+							</label>
+							<input
+								type="file"
+								id="image"
+								name="image"
+								accept="image/*"
+								class="hidden"
+							/>
+						</div>
+
+						<!-- Right side - Form fields -->
+						<div class="col-span-8 grid grid-cols-2 gap-x-6 gap-y-4">
+							<!-- Nhan đề -->
+							<div class="col-span-1">
+								<label class="block text-sm font-medium mb-1"
+									>Nhan đề:</label
+								>
+								<input
+									type="text"
+									id="title"
+									name="title"
+									required
+									class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-[#517A59]"
+								/>
+							</div>
+
+							<!-- Mã vạch -->
+							<div class="col-span-1">
+								<label class="block text-sm font-medium mb-1"
+									>Mã vạch:</label
+								>
+								<input
+									type="text"
+									id="isbn"
+									name="isbn"
+									required
+									class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-[#517A59]"
+								/>
+							</div>
+
+							<!-- Tác giả -->
+							<div class="col-span-1">
+								<label class="block text-sm font-medium mb-1"
+									>Tác giả:</label
+								>
+								<input
+									type="text"
+									id="authorName"
+									name="authorName"
+									required
+									class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-[#517A59]"
+								/>
+							</div>
+
+							<!-- Thể loại -->
+							<div class="col-span-1">
+								<label class="block text-sm font-medium mb-1"
+									>Thể loại:</label
+								>
+								<select
+									id="subject"
+									name="subject.id"
+									required
+									class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-[#517A59]"
+								>
+									<option value="">Thể loại</option>
+									<option
+										th:each="subject : ${subjects}"
+										th:value="${subject.id}"
+										th:text="${subject.name}"
+									></option>
+								</select>
+							</div>
+
+							<!-- Vị trí -->
+							<div class="col-span-1">
+								<label class="block text-sm font-medium mb-1"
+									>Vị trí:</label
+								>
+								<input
+									type="text"
+									id="publisher"
+									name="publisher"
+									required
+									class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-[#517A59]"
+								/>
+							</div>
+
+							<!-- Đầu mục tài liệu -->
+							<div class="col-span-1">
+								<label class="block text-sm font-medium mb-1"
+									>Đầu mục tài liệu:</label
+								>
+								<input
+									type="text"
+									id="genre"
+									name="genre"
+									required
+									class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-[#517A59]"
+								/>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{_layout}"
+>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Quản lý tài liệu - Thư Viện Hà Nội</title>
+	</head>
+	<body>
+		<div layout:fragment="content">
+			<!-- Banner image with title -->
+			<div class="relative mb-8">
+				<div
+					class="bg-cover h-48 flex items-center justify-center bg-[url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1743130796/Rectangle_3_c9spqr.png')]"
+				>
+					<h1 class="text-4xl font-bold text-white tracking-wider">
+						QUẢN LÝ TÀI LIỆU
+					</h1>
+				</div>
+			</div>
+
+			<!-- Main content -->
+			<div class="container mx-auto px-4">
+				<!-- Search and action buttons -->
+				<div class="mb-6 space-y-4">
+					<div class="flex justify-between items-center">
+						<div class="flex items-center">
+							<form
+								th:action="@{/librarian/document/manage}"
+								method="get"
+								class="flex items-center"
+							>
+								<div class="relative">
+									<select
+										name="category"
+										class="h-[42px] pl-3 pr-8 border border-r-0 border-[#306537] focus:outline-none text-gray-600"
+									>
+										<option value="">Thể loại</option>
+										<option
+											th:each="subject : ${subjects}"
+											th:value="${subject.id}"
+											th:text="${subject.name}"
+											th:selected="${category == subject.id.toString()}"
+										></option>
+									</select>
+								</div>
+								<div class="flex">
+									<input
+										type="text"
+										name="title"
+										placeholder="Tìm kiếm"
+										th:value="${searchQuery}"
+										class="w-[400px] h-[42px] pl-3 border border-[#306537] focus:outline-none"
+									/>
+									<button
+										type="submit"
+										class="h-[42px] px-4 bg-[#517A59] text-white border border-[#517A59] hover:bg-[#3c5c42]"
+									>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											class="h-5 w-5"
+											viewBox="0 0 20 20"
+											fill="currentColor"
+										>
+											<path
+												fill-rule="evenodd"
+												d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+												clip-rule="evenodd"
+											/>
+										</svg>
+									</button>
+								</div>
+							</form>
+						</div>
+						<div>
+							<a
+								href="/librarian/document/add"
+								class="bg-[#517A59] hover:bg-[#3c5c42] text-white px-6 py-2 rounded-md transition duration-150 ease-in-out flex items-center gap-2"
+							>
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-5 w-5"
+									viewBox="0 0 20 20"
+									fill="currentColor"
+								>
+									<path
+										fill-rule="evenodd"
+										d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
+										clip-rule="evenodd"
+									/>
+								</svg>
+								Thêm tài liệu
+							</a>
+						</div>
+					</div>
+				</div>
+
+				<!-- Documents table -->
+				<div class="bg-white rounded-lg shadow overflow-hidden">
+					<table class="min-w-full divide-y divide-gray-200">
+						<thead class="bg-gray-50">
+							<tr class="divide-x divide-gray-200">
+								<th
+									class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-16"
+								>
+									STT
+								</th>
+								<th
+									class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+								>
+									Nhan đề
+								</th>
+								<th
+									class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+								>
+									Mã sách
+								</th>
+								<th
+									class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+								>
+									Đầu mục tài liệu
+								</th>
+								<th
+									class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider"
+								>
+									Thể loại
+								</th>
+								<th
+									class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider w-32"
+								>
+									Thao tác
+								</th>
+							</tr>
+						</thead>
+						<tbody class="bg-white divide-y divide-gray-200">
+							<tr
+								th:each="book, iterStat : ${books}"
+								class="divide-x divide-gray-200"
+							>
+								<td
+									class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 text-center"
+									th:text="${iterStat.count}"
+								>
+									1
+								</td>
+								<td class="px-4 py-3 whitespace-nowrap text-center">
+									<div
+										class="text-sm font-medium text-gray-900"
+										th:text="${book.title}"
+									>
+										Book Title
+									</div>
+								</td>
+								<td
+									class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 text-center"
+									th:text="${book.isbn}"
+								>
+									ISBN
+								</td>
+								<td
+									class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 text-center"
+									th:text="${book.genre}"
+								>
+									Genre
+								</td>
+								<td
+									class="px-4 py-3 whitespace-nowrap text-sm text-gray-500 text-center"
+									th:text="${book.subject.name}"
+								>
+									Subject
+								</td>
+								<td
+									class="px-4 py-3 whitespace-nowrap text-sm font-medium text-center"
+								>
+									<div class="flex justify-center space-x-4">
+										<a
+											th:href="@{/librarian/document/edit/{id}(id=${book.id})}"
+											class="text-blue-600 hover:text-blue-900"
+										>
+											Sửa
+										</a>
+										<form
+											th:action="@{/librarian/document/delete/{id}(id=${book.id})}"
+											method="post"
+											class="inline"
+											th:data-title="${book.title}"
+										>
+											<button
+												type="submit"
+												class="text-red-600 hover:text-red-900"
+												onclick="return confirm('Bạn có chắc chắn muốn xóa tài liệu: ' + this.closest('form').getAttribute('data-title') + '?')"
+											>
+												Xoá
+											</button>
+										</form>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<script th:inline="javascript">
+			document.addEventListener("DOMContentLoaded", function () {
+				const searchInput = document.querySelector('input[name="title"]');
+				const categorySelect = document.querySelector(
+					'select[name="category"]'
+				);
+
+				// Xử lý thay đổi thể loại
+				categorySelect.addEventListener("change", function () {
+					this.form.submit();
+				});
+
+				// Xử lý tìm kiếm với debounce
+				let timeout = null;
+				searchInput.addEventListener("input", function () {
+					clearTimeout(timeout);
+					timeout = setTimeout(() => {
+						this.form.submit();
+					}, 500);
+				});
+			});
+		</script>
+	</body>
+</html>

@@ -6,5 +6,7 @@ import se2.group6.librarymanagement.model.RoomBooking;
 import java.util.List;
 
 public interface RoomBookingRepository extends JpaRepository<RoomBooking, Long> {
-    List<RoomBooking> findByUserId(Long id);
+   List<RoomBooking> findByUserId(Long userId);
+
+   List<RoomBooking> findByRoomId(Long roomId);
 }
