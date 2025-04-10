@@ -844,6 +844,90 @@ public class DataInitializer {
             jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (6, 5, '16:00:00', '18:00:00', 'AVAILABLE');");
             jdbcTemplate.execute("INSERT INTO room_shift (room_id, shift_number, start_time, end_time, status) VALUES (6, 6, '18:00:00', '20:00:00', 'AVAILABLE');");
 
+            // Tạo người dùng 1
+            jdbcTemplate.execute("INSERT INTO user (user_name, password, role, full_name, email, faculty) VALUES " +
+                    "('user1', 'password123', 0, 'User One', 'user1@example.com', 'Faculty A')");
+
+// Tạo người dùng 2
+            jdbcTemplate.execute("INSERT INTO user (user_name, password, role, full_name, email, faculty) VALUES " +
+                    "('user2', 'password123', 0, 'User Two', 'user2@example.com', 'Faculty B')");
+
+// Tạo người dùng 3
+            jdbcTemplate.execute("INSERT INTO user (user_name, password, role, full_name, email, faculty) VALUES " +
+                    "('user3', 'password123', 0, 'User Three', 'user3@example.com', 'Faculty C')");
+
+// Tạo người dùng 4
+            jdbcTemplate.execute("INSERT INTO user (user_name, password, role, full_name, email, faculty) VALUES " +
+                    "('user4', 'password123', 0, 'User Four', 'user4@example.com', 'Faculty D')");
+
+// Tạo người dùng 5
+            jdbcTemplate.execute("INSERT INTO user (user_name, password, role, full_name, email, faculty) VALUES " +
+                    "('user5', 'password123', 0, 'User Five', 'user5@example.com', 'Faculty E')");
+
+            System.out.println("5 users have been added to the database!");
+            // Tạo 10 bản ghi mượn
+            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+                    "(NOW(), DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 30) DAY), " +
+                    "(SELECT id FROM book WHERE title = 'Cho tôi xin một vé đi tuổi thơ'), " +
+                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Cho tôi xin một vé đi tuổi thơ') LIMIT 1), " +
+                    "(SELECT id FROM user WHERE user_name = 'user1'))");
+
+            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+                    "(NOW(), DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 30) DAY), " +
+                    "(SELECT id FROM book WHERE title = 'Cô gái đến từ hôm qua'), " +
+                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Cô gái đến từ hôm qua') LIMIT 1), " +
+                    "(SELECT id FROM user WHERE user_name = 'user2'))");
+
+            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+                    "(NOW(), DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 30) DAY), " +
+                    "(SELECT id FROM book WHERE title = 'Mắt biếc'), " +
+                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Mắt biếc') LIMIT 1), " +
+                    "(SELECT id FROM user WHERE user_name = 'user3'))");
+
+            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+                    "(NOW(), DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 30) DAY), " +
+                    "(SELECT id FROM book WHERE title = 'Nỗi buồn chiến tranh'), " +
+                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Nỗi buồn chiến tranh') LIMIT 1), " +
+                    "(SELECT id FROM user WHERE user_name = 'user4'))");
+
+            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+                    "(NOW(), DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 30) DAY), " +
+                    "(SELECT id FROM book WHERE title = 'Trại bảy chú lùn'), " +
+                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Trại bảy chú lùn') LIMIT 1), " +
+                    "(SELECT id FROM user WHERE user_name = 'user5'))");
+
+            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+                    "(NOW(), DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 30) DAY), " +
+                    "(SELECT id FROM book WHERE title = 'Chim én bay'), " +
+                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Chim én bay') LIMIT 1), " +
+                    "(SELECT id FROM user WHERE user_name = 'user1'))");
+
+            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+                    "(NOW(), DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 30) DAY), " +
+                    "(SELECT id FROM book WHERE title = 'Cánh đồng bất tận'), " +
+                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Cánh đồng bất tận') LIMIT 1), " +
+                    "(SELECT id FROM user WHERE user_name = 'user2'))");
+
+            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+                    "(NOW(), DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 30) DAY), " +
+                    "(SELECT id FROM book WHERE title = 'Gió lẻ và 9 câu chuyện khác'), " +
+                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Gió lẻ và 9 câu chuyện khác') LIMIT 1), " +
+                    "(SELECT id FROM user WHERE user_name = 'user3'))");
+
+            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+                    "(NOW(), DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 30) DAY), " +
+                    "(SELECT id FROM book WHERE title = 'Khói trời lộng lẫy'), " +
+                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Khói trời lộng lẫy') LIMIT 1), " +
+                    "(SELECT id FROM user WHERE user_name = 'user4'))");
+
+            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+                    "(NOW(), DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 30) DAY), " +
+                    "(SELECT id FROM book WHERE title = 'Vogue'), " +
+                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Vogue') LIMIT 1), " +
+                    "(SELECT id FROM user WHERE user_name = 'user5'))");
+
+            System.out.println("10 borrowed records have been added to the database!");
+
         };
     }
 }
