@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Service
 public class SubjectServiceImpl implements SubjectService {
+
     private final SubjectRepository subjectRepository;
 
     @Autowired
