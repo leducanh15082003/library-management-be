@@ -43,4 +43,9 @@ public class SubjectServiceImpl implements SubjectService {
     public void deleteSubjectById(Long id) {
         subjectRepository.deleteById(id);
     }
+
+    @Override
+    public List<Subject> searchByName(String name) {
+        return subjectRepository.findByNameContainingIgnoreCase(name);
+    }
 }
