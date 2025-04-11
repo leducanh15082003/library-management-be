@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{_layout-admin}">
+<head>
+    <meta charset="UTF-8">
+    <title>Trả tài liệu</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div>
+        <!-- Banner -->
+        <div class="relative mb-1">
+            <div
+                    class="bg-cover h-48 flex items-center justify-center bg-[url('https://res.cloudinary.com/dlqpdl4mz/image/upload/v1743130796/Rectangle_3_c9spqr.png')]"
+            >
+                <h1 class="text-4xl font-bold text-white tracking-wider">
+                    TRẢ TÀI LIỆU
+                </h1>
+            </div>
+        </div>
+        <!-- Search -->
+        <div class="container mx-auto py-5">
+            <div class="flex justify-center mb-5">
+                <form class="flex items-center relative" th:action="@{/admin/return-page}" method="get">
+                    <input
+                            type="text"
+                            id="studentId"
+                            name="studentId"
+                            placeholder="Mã sinh viên"
+                            class="px-3 py-2 border border-gray-300 rounded-md pr-10"
+                            th:value="${searchValue}"
+                    />
+                    <!-- Kính lúp icon -->
+                    <svg  class="absolute right-30 top-5 transform -translate-y-1/2 text-gray-500"
+                        width="21" height="18" viewBox="0 0 21 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18.51 18L11.596 11.7C11.0472 12.1 10.4162 12.4167 9.70281 12.65C8.98946 12.8833 8.23037 13 7.42556 13C5.43182 13 3.74446 12.3708 2.36347 11.1125C0.982485 9.85417 0.291992 8.31667 0.291992 6.5C0.291992 4.68333 0.982485 3.14583 2.36347 1.8875C3.74446 0.629167 5.43182 0 7.42556 0C9.4193 0 11.1067 0.629167 12.4876 1.8875C13.8686 3.14583 14.5591 4.68333 14.5591 6.5C14.5591 7.23333 14.4311 7.925 14.175 8.575C13.9189 9.225 13.5714 9.8 13.1324 10.3L20.0465 16.6L18.51 18ZM7.42556 11C8.7974 11 9.96346 10.5625 10.9238 9.6875C11.884 8.8125 12.3642 7.75 12.3642 6.5C12.3642 5.25 11.884 4.1875 10.9238 3.3125C9.96346 2.4375 8.7974 2 7.42556 2C6.05372 2 4.88766 2.4375 3.92737 3.3125C2.96708 4.1875 2.48694 5.25 2.48694 6.5C2.48694 7.75 2.96708 8.8125 3.92737 9.6875C4.88766 10.5625 6.05372 11 7.42556 11Z" fill="#1C1B1F" fill-opacity="0.5"/>
+                    </svg>
+
+                    <button
+                            type="submit"
+                            class="ml-3 px-4 py-2 bg-[#427B49] text-white rounded-md hover:bg-green-600">
+                        Tìm kiếm
+                    </button>
+                </form>
+            </div>
+
+            <!-- Table -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto border-separate border border-gray-300 rounded-md">
+                    <thead>
+                    <tr class="bg-white text-[#427B49]">
+                        <th class="py-3 px-5 text-left">STT</th>
+                        <th class="py-3 px-5 text-left">Mã sinh viên</th>
+                        <th class="py-3 px-5 text-left">Mã vạch</th>
+                        <th class="py-3 px-5 text-left">Nhan đề</th>
+                        <th class="py-3 px-5 text-left">Ngày mượn</th>
+                        <th class="py-3 px-5 text-left">Xác nhận đã trả sách</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="borrowedRecord, iterStat : ${borrowedRecordList}" class="bg-white text-black">
+                        <td class="py-3 px-5 border-b border-gray-300 text-center" th:text="${iterStat.index + 1}"></td>
+                        <td class="py-3 px-5 border-b border-gray-300" th:text="${borrowedRecord.user.studentId}"></td>
+                        <td class="py-3 px-5 border-b border-gray-300" th:text="${borrowedRecord.bookCopy.barcode}"></td>
+                        <td class="py-3 px-5 border-b border-gray-300" th:text="${borrowedRecord.book.title}"></td>
+                        <td class="py-3 px-5 border-b border-gray-300" th:text="${borrowedRecord.borrowAt}"></td>
+                        <td class="py-3 px-5 border-b border-gray-300 text-center">
+                            <form th:action="@{/admin/return-book/{id}(id=${borrowedRecord.id})}" method="post">
+                                <button
+                                        type="submit"
+                                        class="text-green-500 rounded-md hover:text-green-600"
+                                        th:text="${borrowedRecord.returnAt != null ? 'Đã trả' : 'Xác nhận'}"
+                                        th:disabled="${borrowedRecord.returnAt != null}">
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

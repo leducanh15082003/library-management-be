@@ -42,7 +42,10 @@ public class SecurityCfg {
                         .permitAll()
 
                         // Role.LIBRARY_PATRON chỉ được truy cập URL bình thường
-                        .requestMatchers("/admin/**").hasRole("LIBRARIAN") // Chỉ Role.LIBRARIAN mới vào /admin/*
+                        .requestMatchers("/admin/return-test").permitAll()  // Đảm bảo /return-test không bị bảo mật
+                        .requestMatchers("/admin/return-page").permitAll()  // Đảm bảo /return-test không bị bảo mật
+
+                        .requestMatchers("/**").hasRole("LIBRARIAN")
                         .requestMatchers("/**").hasRole("LIBRARY_PATRON") // Role.LIBRARY_PATRON chỉ vào các URL bình thường
 
                         .anyRequest().authenticated() // Các yêu cầu còn lại phải xác thực

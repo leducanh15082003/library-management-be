@@ -11,4 +11,6 @@ public interface SubjectService {
     Subject saveSubject(Subject subject);
     Subject updateSubject(Subject subject);
     void deleteSubjectById(Long id);
+
+    List<Subject> searchByName(String name);
 }

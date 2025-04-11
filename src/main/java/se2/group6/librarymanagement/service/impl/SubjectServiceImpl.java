@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Service
 public class SubjectServiceImpl implements SubjectService {
+
     private final SubjectRepository subjectRepository;
 
     @Autowired
@@ -41,5 +42,10 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public void deleteSubjectById(Long id) {
         subjectRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Subject> searchByName(String name) {
+        return subjectRepository.findByNameContainingIgnoreCase(name);
     }
 }
