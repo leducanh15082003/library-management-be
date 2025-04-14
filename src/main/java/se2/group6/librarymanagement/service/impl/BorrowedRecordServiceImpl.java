@@ -27,4 +27,9 @@ public class BorrowedRecordServiceImpl implements BorrowedRecordService {
     public List<BorrowedRecord> findByReturnAtIsNull() {
         return borrowedRecordRepository.findByReturnAtIsNull();
     }
+    @Override
+    public long countCurrentlyBorrowedBooks() {
+        return borrowedRecordRepository.countByReturnAtIsNull();
+    }
+
 }

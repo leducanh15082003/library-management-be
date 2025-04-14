@@ -17,6 +17,6 @@ public interface UserService {
     void deleteUserById(Long id);
     User getCurrentUser();
     boolean isUserExists(String username);
-
+    long countAllUsers();
     void saveUser(UserDTO user, MultipartFile imageFile);
 }

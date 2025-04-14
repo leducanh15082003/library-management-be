@@ -9,4 +9,6 @@ public interface RoomBookingService {
     List<RoomBooking> findByUserId(Long userId);
     void cancelBooking(Long roomBookingId);
     void deleteBooking(Long roomBookingId);
+
+    long countCurrentlyBorrowedRooms();
 }

@@ -8,5 +8,6 @@ import java.util.List;
 public interface BorrowedRecordRepository extends JpaRepository<BorrowedRecord, Long> {
     List<BorrowedRecord> findByUserId(Long userId);
     List<BorrowedRecord> findByReturnAtIsNull();
+    long countByReturnAtIsNull();
 
 }

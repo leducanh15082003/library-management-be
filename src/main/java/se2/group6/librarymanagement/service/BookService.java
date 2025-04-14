@@ -14,4 +14,6 @@ public interface BookService {
     void deleteBookById(Long id);
     List<Book> searchBooksByTitle(String title);
     BookWithCopiesResponseDTO getBookWithCopies(Long id);
+    long countAllBooks();
+    long countByGenre(String genre);
 }

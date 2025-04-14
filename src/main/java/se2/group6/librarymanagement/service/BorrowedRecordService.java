@@ -8,5 +8,6 @@ public interface BorrowedRecordService {
     void saveBorrowedRecord(BorrowedRecord borrowedRecord);
     List<BorrowedRecord> findByUserId(Long id);
     List<BorrowedRecord> findByReturnAtIsNull();
+    long countCurrentlyBorrowedBooks();
 
 }
