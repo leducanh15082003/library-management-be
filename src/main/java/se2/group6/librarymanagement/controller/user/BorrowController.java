@@ -1,4 +1,4 @@
-package se2.group6.librarymanagement.controller;
+package se2.group6.librarymanagement.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -43,13 +43,6 @@ public class BorrowController {
 
     @Autowired
     private BookCopyService bookCopyService;
-
-    @GetMapping("/return-page")
-    public String showReturnPage(Model model) {
-        System.out.println("Vào được return-page");
-        return "manage-borrow/return-page";
-    }
-
 
     @GetMapping("/service-list")
     public String serviceList(Model model) {

@@ -1,4 +1,4 @@
-package se2.group6.librarymanagement.controller;
+package se2.group6.librarymanagement.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin/room")
-public class LibrarianRoomController {
+public class RoomManagementController {
 
    @Autowired
    private RoomService roomService;

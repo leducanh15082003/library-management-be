@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>403 - Access Denied</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+<div class="text-center bg-white p-10 rounded-2xl shadow-xl max-w-md">
+    <div class="flex flex-col items-center">
+        <img th:src="'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1742976410/logo_hggei6.png'" class="object-contain h-[80px] pt-5"  alt="Logo"/>
+        <div class="text-center font-bold text-2xl text-[#427B49]">
+            HANOI LIBRARY
+        </div>
+    </div>
+    <p class="text-xl text-gray-800 mb-6">Bạn không có quyền truy cập trang này.</p>
+    <a th:href="@{/}" class="inline-block bg-green-600 text-white px-6 py-2 rounded-xl hover:bg-green-700 transition">
+        Quay lại trang chủ
+    </a>
+</div>
+</body>
+</html>

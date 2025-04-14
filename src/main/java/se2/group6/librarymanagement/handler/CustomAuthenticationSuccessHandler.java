@@ -12,13 +12,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-        // Kiểm tra vai trò của người dùng và chuyển hướng đến trang tương ứng
-        if (authentication.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_LIBRARIAN"))) {
-            response.sendRedirect("/admin/user-management");  // Role LIBRARIAN đi đến trang admin
-        } else if (authentication.getAuthorities().stream().anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_LIBRARY_PATRON"))) {
-            response.sendRedirect("/home");  // Role LIBRARY_PATRON đi đến trang home
+        if (authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_LIBRARIAN"))) {
+            response.sendRedirect("/admin/user-management");
+        } else if (authentication.getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_LIBRARY_PATRON"))) {
+            response.sendRedirect("/home");
         } else {
-            response.sendRedirect("/");  // Mặc định, chuyển hướng đến trang chủ
+            response.sendRedirect("/");
         }
     }
 }

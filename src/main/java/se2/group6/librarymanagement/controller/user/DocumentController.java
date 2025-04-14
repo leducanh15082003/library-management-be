@@ -1,10 +1,9 @@
-package se2.group6.librarymanagement.controller;
+package se2.group6.librarymanagement.controller.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import se2.group6.librarymanagement.dto.BookResponseDTO;
@@ -16,7 +15,6 @@ import se2.group6.librarymanagement.service.SearchService;
 import se2.group6.librarymanagement.service.SubjectService;
 import se2.group6.librarymanagement.utils.SubjectMapper;
 
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
