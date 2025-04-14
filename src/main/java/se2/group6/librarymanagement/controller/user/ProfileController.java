@@ -1,7 +1,6 @@
-package se2.group6.librarymanagement.controller;
+package se2.group6.librarymanagement.controller.user;
 
 import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,8 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import se2.group6.librarymanagement.model.User;
 import se2.group6.librarymanagement.service.UserService;
-
-import java.util.Map;
 
 @Controller
 @RequestMapping("/profile")

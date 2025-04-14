@@ -1,4 +1,4 @@
-package se2.group6.librarymanagement.controller;
+package se2.group6.librarymanagement.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,18 +13,12 @@ import se2.group6.librarymanagement.service.BookService;
 import se2.group6.librarymanagement.service.CloudinaryService;
 import se2.group6.librarymanagement.service.SubjectService;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin/document")
-public class LibrarianDocumentController {
+public class DocumentManagementController {
 
    @Autowired
    private BookService bookService;

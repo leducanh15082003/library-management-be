@@ -1,4 +1,4 @@
-package se2.group6.librarymanagement.controller;
+package se2.group6.librarymanagement.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +11,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
-public class ReturnBookController {
+public class ReturnedBookManagementController {
 
     @Autowired
     private BorrowedRecordService borrowedRecordService;

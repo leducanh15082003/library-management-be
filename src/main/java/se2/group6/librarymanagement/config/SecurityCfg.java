@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import se2.group6.librarymanagement.config.security.CustomUserDetailsService;
+import se2.group6.librarymanagement.handler.CustomAccessDeniedHandler;
 import se2.group6.librarymanagement.handler.CustomAuthenticationSuccessHandler;
 
 @Configuration
@@ -26,6 +27,9 @@ public class SecurityCfg {
     @Autowired
     private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
+    @Autowired
+    private CustomAccessDeniedHandler customAccessDeniedHandler;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -37,18 +41,12 @@ public class SecurityCfg {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(auth -> auth
-                        // Các URL công khai
                         .requestMatchers("/auth/**", "/images/**", "/css/**", "/js/**")
                         .permitAll()
-
-                        // Role.LIBRARY_PATRON chỉ được truy cập URL bình thường
-                        .requestMatchers("/admin/return-test").permitAll()  // Đảm bảo /return-test không bị bảo mật
-                        .requestMatchers("/admin/return-page").permitAll()  // Đảm bảo /return-test không bị bảo mật
-
-                        .requestMatchers("/**").hasRole("LIBRARIAN")
-                        .requestMatchers("/**").hasRole("LIBRARY_PATRON") // Role.LIBRARY_PATRON chỉ vào các URL bình thường
-
-                        .anyRequest().authenticated() // Các yêu cầu còn lại phải xác thực
+                        .requestMatchers("/admin/**").hasRole("LIBRARIAN")
+                        .requestMatchers("/service/**", "/document/**", "/profile/**", "/home", "/").hasRole("LIBRARY_PATRON")
+                        .requestMatchers("/").hasRole("LIBRARY_PATRON")
+                        .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
                         .loginPage("/auth/login")
@@ -62,8 +60,9 @@ public class SecurityCfg {
                         .deleteCookies("JSESSIONID")
                         .permitAll()
                 )
-        ;
-
+                .exceptionHandling(ex -> ex
+                        .accessDeniedHandler(customAccessDeniedHandler)
+                );
         return http.build();
     }
 

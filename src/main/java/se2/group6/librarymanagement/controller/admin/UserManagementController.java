@@ -1,4 +1,4 @@
-package se2.group6.librarymanagement.controller;
+package se2.group6.librarymanagement.controller.admin;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,18 +8,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import se2.group6.librarymanagement.dto.UserDTO;
 import se2.group6.librarymanagement.service.UserService;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
-public class AdminController {
+public class UserManagementController {
 
     private final UserService userService;
 
-    public AdminController(UserService userService) {
+    public UserManagementController(UserService userService) {
         this.userService = userService;
 
     }
