@@ -9,4 +9,6 @@ public interface RoomBookingRepository extends JpaRepository<RoomBooking, Long> 
    List<RoomBooking> findByUserId(Long userId);
 
    List<RoomBooking> findByRoomId(Long roomId);
+   long countByStatus(String status);  // Đếm số lượng phòng đang mượn
+
 }

@@ -11,6 +11,7 @@ public interface BorrowedRecordService {
     List<BorrowedRecord> findByUserId(Long id);
 
     List<BorrowedRecord> findByReturnAtIsNull();
+    long countCurrentlyBorrowedBooks();
 
     List<BorrowedRecord> findAll();
 

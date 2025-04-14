@@ -75,4 +75,14 @@ public class BookServiceImpl implements BookService {
                 copiesDTO
         );
     }
+    @Override
+    public long countAllBooks() {
+        return bookRepository.count();
+    }
+
+    @Override
+    public long countByGenre(String genre) {
+        return bookRepository.countByGenre(genre);
+    }
+
 }

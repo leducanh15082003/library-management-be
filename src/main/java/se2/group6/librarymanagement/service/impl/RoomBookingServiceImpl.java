@@ -48,6 +48,10 @@ public class RoomBookingServiceImpl implements RoomBookingService {
         booking.setCancelTime(now);
         roomBookingRepository.save(booking);
     }
+    @Override
+    public long countCurrentlyBorrowedRooms() {
+        return roomBookingRepository.countByStatus("BORROWED");
+    }
 
     @Override
     public void deleteBooking(Long roomBookingId) {

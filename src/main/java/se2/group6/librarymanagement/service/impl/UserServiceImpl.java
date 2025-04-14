@@ -158,5 +158,10 @@ public class UserServiceImpl implements UserService {
         dto.setUpdatedAt(user.getUpdatedAt());
         return dto;
     }
+    @Override
+    public long countAllUsers() {
+        return userRepository.count();
+    }
+
 
 }

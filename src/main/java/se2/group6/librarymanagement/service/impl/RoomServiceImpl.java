@@ -65,4 +65,10 @@ public class RoomServiceImpl implements RoomService {
       // Delete the room
       roomRepository.deleteById(id);
    }
+   @Override
+   public long countAllRooms() {
+      return roomRepository.count(); // JPA method đếm tổng số phòng
+   }
+
+
 }
