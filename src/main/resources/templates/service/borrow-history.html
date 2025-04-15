@@ -45,11 +45,11 @@
                     Title
                 </td>
                 <td class="border border-gray-300 p-2 text-center"
-                    th:text="${T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy').format(record.borrowedDate)}">
+                    th:text="${#dates.format(record.borrowedDate, 'dd/MM/yyyy') ?: 'N/A'}">
                     Ngày mượn
                 </td>
                 <td class="border border-gray-300 p-2 text-center"
-                    th:text="${T(java.time.format.DateTimeFormatter).ofPattern('dd/MM/yyyy').format(record.returnedDate)}">
+                    th:text="${#dates.format(record.returnedDate, 'dd/MM/yyyy') ?: 'N/A'}">
                     Ngày trả
                 </td>
             </tr>

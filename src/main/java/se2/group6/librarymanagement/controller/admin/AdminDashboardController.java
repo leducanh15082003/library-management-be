@@ -1,4 +1,4 @@
-package se2.group6.librarymanagement.controller;
+package se2.group6.librarymanagement.controller.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,27 +24,28 @@ public class AdminDashboardController {
     @Autowired
     private RoomBookingService roomBookingService;
 
+    @Autowired
+    private RoomShiftService roomShiftService;
+
+    @Autowired
+    private BookCopyService bookCopyService;
+
     @GetMapping("/admin/dashboard")
     public String showDashboard(Model model) {
-        // Tổng số tài liệu (sách, báo, tạp chí, nghiên cứu, ...)
-        model.addAttribute("totalBooks", bookService.countAllBooks());
+        model.addAttribute("totalDocuments", bookCopyService.countAllBookCopies());
 
-        // Tổng số phòng học
         model.addAttribute("totalRooms", roomService.countAllRooms());
 
-        // Tổng số người dùng
         model.addAttribute("totalUsers", userService.countAllUsers());
 
-        // Tổng số tài liệu đang được mượn
-        model.addAttribute("borrowedBooks", borrowedRecordService.countCurrentlyBorrowedBooks());
+        model.addAttribute("borrowedBooks", bookCopyService.countBorrowedBooks());
 
-        // Tổng số phòng đang được sử dụng
-        model.addAttribute("borrowedRooms", roomBookingService.countCurrentlyBorrowedRooms());
+        model.addAttribute("borrowedRooms", roomShiftService.countRoomsBeingBooked());
 
-        // Tài liệu theo thể loại
-        model.addAttribute("totalReports", bookService.countByGenre("Tờ báo"));
-        model.addAttribute("totalMagazines", bookService.countByGenre("Tạp chí"));
-        model.addAttribute("totalResearch", bookService.countByGenre("Nghiên cứu"));
+        model.addAttribute("totalBooks", bookService.countBySubject(1L));
+        model.addAttribute("totalMagazines", bookService.countBySubject(2L));
+        model.addAttribute("totalReports", bookService.countBySubject(3L));
+        model.addAttribute("totalResearch", bookService.countBySubject(1L));
 
         return "admin/dashboard";
     }

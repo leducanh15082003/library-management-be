@@ -8,4 +8,5 @@ public interface RoomShiftService {
     List<RoomShift> findByRoomId(Long roomId);
     RoomShift findById(Long id);
     void bookShift(Long shiftId);
+    long countRoomsBeingBooked();
 }

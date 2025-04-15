@@ -41,7 +41,7 @@ public class SecurityCfg {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/images/**", "/css/**", "/js/**")
+                        .requestMatchers("/auth/**", "/images/**", "/css/**", "/js/**", "/send-email")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("LIBRARIAN")
                         .requestMatchers("/service/**", "/document/**", "/profile/**", "/home", "/").hasRole("LIBRARY_PATRON")

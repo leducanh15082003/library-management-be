@@ -85,4 +85,9 @@ public class BookServiceImpl implements BookService {
         return bookRepository.countByGenre(genre);
     }
 
+    @Override
+    public long countBySubject(Long id) {
+        return bookRepository.countBooksBySubject_Id(id);
+    }
+
 }

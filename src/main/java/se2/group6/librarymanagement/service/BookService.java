@@ -16,4 +16,5 @@ public interface BookService {
     BookWithCopiesResponseDTO getBookWithCopies(Long id);
     long countAllBooks();
     long countByGenre(String genre);
+    long countBySubject(Long id);
 }

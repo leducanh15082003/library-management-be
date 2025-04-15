@@ -20,4 +20,14 @@ public class BookCopyServiceImpl implements BookCopyService {
     public BookCopy save(BookCopy bookCopy) {
         return bookCopyRepository.save(bookCopy);
     }
+
+    @Override
+    public long countAllBookCopies() {
+        return bookCopyRepository.findAll().size();
+    }
+
+    @Override
+    public long countBorrowedBooks() {
+        return bookCopyRepository.countBookCopiesByStatus("Borrowed");
+    }
 }

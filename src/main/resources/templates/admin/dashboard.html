@@ -1,21 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{_layout-admin}">
+      layout:decorate="~{_layout}">
 <head>
   <meta charset="UTF-8">
   <title>Trang chủ Admin</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.1.2/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 <body>
 <div layout:fragment="content">
-  <div class="container mx-auto px-6">
+  <div class="container mx-auto px-6 py-6 bg-white rounded-lg shadow-lg">
+    <div class="flex items-center text-center gap-3 mb-6 border-b-[1px] justify-center">
+      <!-- Icon -->
+      <svg width="34" height="35" viewBox="0 0 34 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g filter="url(#filter0_d_234_1486)">
+          <mask id="mask0_234_1486" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="2" y="0" width="30" height="30">
+            <rect x="2" width="30" height="30" fill="#D9D9D9"/>
+          </mask>
+          <g mask="url(#mask0_234_1486)">
+            <path d="M4.5 26.25V23.75H29.5V26.25H4.5ZM5.75 22.5V13.75H9.5V22.5H5.75ZM12 22.5V7.5H15.75V22.5H12ZM18.25 22.5V11.25H22V22.5H18.25ZM24.5 22.5V3.75H28.25V22.5H24.5Z" fill="#1C1B1F" fill-opacity="0.7"/>
+          </g>
+        </g>
+        <defs>
+          <filter id="filter0_d_234_1486" x="0.5" y="3.75" width="33" height="30.5" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+            <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+            <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+            <feOffset dy="4"/>
+            <feGaussianBlur stdDeviation="2"/>
+            <feComposite in2="hardAlpha" operator="out"/>
+            <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+            <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_234_1486"/>
+            <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_234_1486" result="shape"/>
+          </filter>
+        </defs>
+      </svg>
+      <!-- Tiêu đề -->
+      <h1 class="text-2xl font-bold text-[#427B49]">Thống kê nhanh</h1>
+    </div>
+
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-15">
       <!-- Hàng 1, Cột 1: Tài liệu hiện có -->
       <div class="bg-white rounded-md shadow p-4 border-b-4 border-red-500 min-h-40">
         <p class="text-gray-600 mt-5">Tổng số tài liệu hiện có</p>
         <div class="flex justify-between items-center mt-3">
-          <p class="text-3xl font-bold text-black" th:text="${totalBooks}">0</p>
+          <p class="text-3xl font-bold text-black" th:text="${totalDocuments}">0</p>
           <svg width="40" height="40" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg">
             <mask id="mask0_234_1527" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="58" height="58">
               <rect width="58" height="58" fill="#D9D9D9"/>
@@ -93,7 +121,7 @@
 
       <!-- Hàng 2, Cột 3: Sách -->
       <div class="bg-white rounded-md shadow p-4 border-b-4 border-green-600 min-h-40">
-        <p class="text-gray-600 mt-5">Tổng số sách hiện có</p>
+        <p class="text-gray-600 mt-5">Tổng số loại sách hiện có</p>
         <div class="flex justify-between items-center mt-3">
           <p class="text-3xl font-bold text-black" th:text="${totalBooks}">0</p>
           <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -109,7 +137,7 @@
 
       <!-- Hàng 3, Cột 1: Báo -->
       <div class="bg-white rounded-md shadow p-4 border-b-4 border-pink-500 min-h-40">
-        <p class="text-gray-600 mt-5">Tổng số tờ báo</p>
+        <p class="text-gray-600 mt-5">Tổng số loại tờ báo hiện có</p>
         <div class="flex justify-between items-center mt-3">
           <p class="text-3xl font-bold text-black" th:text="${totalReports}">0</p>
           <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -125,7 +153,7 @@
 
       <!-- Hàng 3, Cột 2: Tạp chí -->
       <div class="bg-white rounded-md shadow p-4 border-b-4 border-red-500 min-h-40">
-        <p class="text-gray-600 mt-5">Tổng số tạp chí</p>
+        <p class="text-gray-600 mt-5">Tổng số loại tạp chí hiện có</p>
         <div class="flex justify-between items-center mt-3">
           <p class="text-3xl font-bold text-black" th:text="${totalMagazines}">0</p>
           <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -141,7 +169,7 @@
 
       <!-- Hàng 3, Cột 3: Nghiên cứu -->
       <div class="bg-white rounded-md shadow p-4 border-b-4 border-blue-500 min-h-40">
-        <p class="text-gray-600 mt-5">Nghiên cứu khoa học</p>
+        <p class="text-gray-600 mt-5">Tổng số loại nghiên cứu khoa học hiện có</p>
         <div class="flex justify-between items-center mt-3">
           <p class="text-3xl font-bold text-black" th:text="${totalResearch}">0</p>
           <svg width="52" height="47" viewBox="0 0 52 47" fill="none" xmlns="http://www.w3.org/2000/svg">
