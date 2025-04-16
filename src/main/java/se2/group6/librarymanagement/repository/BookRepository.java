@@ -11,4 +11,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     long countByGenre(String genre);
 
     long countBooksBySubject_Id(Long subjectId);
+
+    List<Book> findBySubject_Id(Long subjectId);
 }

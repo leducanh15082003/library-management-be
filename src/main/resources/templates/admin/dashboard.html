@@ -75,7 +75,7 @@
       <div class="bg-white rounded-md shadow p-4 border-b-4 border-blue-500 min-h-40">
         <p class="text-gray-600 mt-5">Tổng số người dùng</p>
         <div class="flex justify-between items-center mt-3">
-          <p class="text-3xl font-bold text-black" th:text="${totalUsers}">0</p>
+          <p class="text-3xl font-bold text-black" th:text="${(totalUsers ?: 0) - 1}">0</p>
           <svg width="58" height="58" viewBox="0 0 58 58" fill="none" xmlns="http://www.w3.org/2000/svg">
             <mask id="mask0_234_1572" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="58" height="58">
               <rect width="58" height="58" fill="#D9D9D9"/>

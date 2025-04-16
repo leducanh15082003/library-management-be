@@ -56,8 +56,14 @@ public class BorrowedRecordServiceImpl implements BorrowedRecordService {
 
     @Override
     public List<BorrowedRecord> findByStudentId(String studentId) {
-        return borrowedRecordRepository.findByUser_StudentId(studentId); // Sửa để gọi theo thuộc tính user.studentId
+        return borrowedRecordRepository.findByUser_StudentId(studentId);
     }
+
+    @Override
+    public List<BorrowedRecord> findByStudentIdContaining(String studentId) {
+        return borrowedRecordRepository.findByUser_StudentIdContaining(studentId);
+    }
+
     @Override
     public long countCurrentlyBorrowedBooks() {
         return borrowedRecordRepository.countByReturnAtIsNull();

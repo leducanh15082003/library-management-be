@@ -27,7 +27,7 @@ public class ReturnedBookManagementController {
         List<BorrowedRecord> borrowedRecordList;
 
         if (studentId != null && !studentId.isEmpty()) {
-            borrowedRecordList = borrowedRecordService.findByStudentId(studentId);
+            borrowedRecordList = borrowedRecordService.findByStudentIdContaining(studentId);
         } else {
             borrowedRecordList = borrowedRecordService.findAll();
         }

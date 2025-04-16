@@ -11,8 +11,13 @@ public class DataInitializer {
     @Bean
     public CommandLineRunner initData(JdbcTemplate jdbcTemplate) {
         return args -> {
-            Integer count = jdbcTemplate.queryForObject("select count(*) from subject", Integer.class);
-            if (count != null && count > 0) {
+            Integer subjectCount = jdbcTemplate.queryForObject("select count(*) from subject", Integer.class);
+            if (subjectCount != null && subjectCount > 0) {
+                System.out.println("Data is initialized!");
+                return;
+            }
+            Integer authorCount = jdbcTemplate.queryForObject("select count(*) from author", Integer.class);
+            if (authorCount != null && authorCount > 0) {
                 System.out.println("Data is initialized!");
                 return;
             }

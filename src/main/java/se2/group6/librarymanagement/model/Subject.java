@@ -22,7 +22,7 @@ public class Subject {
     private String imageUrl;
 
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Book> books = new ArrayList<Book>();
+    private List<Book> books = new ArrayList<>();
 
     public Long getId() {
         return id;

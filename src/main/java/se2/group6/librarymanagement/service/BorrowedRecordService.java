@@ -12,6 +12,6 @@ public interface BorrowedRecordService {
     long countCurrentlyBorrowedBooks();
     List<BorrowedRecord> findAll();
     void markAsReturned(Long id);
-    List<BorrowedRecord> findByStudentId(String studentId); // Thêm phương thức tìm kiếm theo studentId
-
+    List<BorrowedRecord> findByStudentId(String studentId);
+    List<BorrowedRecord> findByStudentIdContaining(String studentId);
 }

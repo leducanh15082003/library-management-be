@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/admin/subject")
-public class SubjectController {
+public class SubjectManagementController {
 
     @Autowired
     private SubjectService subjectService;
