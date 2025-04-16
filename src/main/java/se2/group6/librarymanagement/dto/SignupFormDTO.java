@@ -2,6 +2,7 @@ package se2.group6.librarymanagement.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Email;
 
 public class SignupFormDTO {
     @NotBlank(message = "Tên đăng nhập không được để trống")
@@ -15,6 +16,10 @@ public class SignupFormDTO {
     @NotBlank(message = "Xác nhận mật khẩu không được để trống")
     @Size(min = 6, message = "Xác nhận mật khẩu có ít nhất 6 ký tự")
     private String confirmPassword;
+    
+    @NotBlank(message = "Email không được để trống")
+    @Email(message = "Email không đúng định dạng")
+    private String email;
 
     public String getUsername() {
         return username;
@@ -38,5 +43,13 @@ public class SignupFormDTO {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+    
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

@@ -17,6 +17,12 @@
       <span class="text-white font-bold text-5xl">Thông tin cá nhân</span>
     </div>
 
+    <!-- Profile Completion Message Alert -->
+    <div th:if="${profileCompletionMessage}" class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4 mx-auto w-full max-w-6xl" role="alert">
+      <p class="font-bold">Thông báo!</p>
+      <p th:text="${profileCompletionMessage}">Vui lòng cập nhật đầy đủ thông tin cá nhân của bạn.</p>
+    </div>
+
     <!-- Edit User Form -->
     <form th:action="@{/profile/save}" method="post" enctype="multipart/form-data">
       <div class="mx-auto bg-white py-6 rounded-lg shadow-lg flex flex-col md:flex-row w-full border border-green-800">
