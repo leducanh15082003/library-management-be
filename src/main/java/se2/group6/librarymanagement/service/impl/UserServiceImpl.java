@@ -107,12 +107,20 @@ public class UserServiceImpl implements UserService {
         User user;
 
         if (userDTO.getId() == null) {
+            if (isUserExists(userDTO.getUserName())) {
+                throw new RuntimeException("Username already exists");
+            }
+            
             user = new User();
             user.setPassword("123456"); // Đặt password mặc định khi tạo mới
             user.setRole(Role.LIBRARY_PATRON); // Gán role mặc định
         } else {
             user = userRepository.findById(userDTO.getId())
                     .orElseThrow(() -> new RuntimeException("User not found"));
+                    
+            if (!user.getUserName().equals(userDTO.getUserName()) && isUserExists(userDTO.getUserName())) {
+                throw new RuntimeException("Username already exists");
+            }
         }
 
         user.setFullName(userDTO.getFullName());
