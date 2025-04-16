@@ -68,6 +68,7 @@ public class UserServiceImpl implements UserService {
         currentUser.setEmail(user.getEmail());
         currentUser.setHometown(user.getHometown());
         currentUser.setFaculty(user.getFaculty());
+        currentUser.setProfileCompleted(true);
         if (profileImage != null && !profileImage.isEmpty()) {
             try {
                 Map uploadResult = cloudinary.uploader().upload(profileImage.getBytes(), ObjectUtils.emptyMap());

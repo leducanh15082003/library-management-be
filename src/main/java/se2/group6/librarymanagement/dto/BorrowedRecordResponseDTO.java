@@ -9,6 +9,7 @@ public class BorrowedRecordResponseDTO {
     private String title;
     private LocalDateTime borrowedDate;
     private LocalDateTime returnedDate;
+    private LocalDateTime dueDate;
 
     public BorrowedRecordResponseDTO() {
     }
@@ -19,13 +20,14 @@ public class BorrowedRecordResponseDTO {
         this.barcode = barcode;
         this.title = title;
         this.borrowedDate = borrowedDate;
-        this.returnedDate = returnedDate;
+        this.dueDate = returnedDate;
     }
 
-    public BorrowedRecordResponseDTO(String barcode, String title, LocalDateTime borrowDate, LocalDateTime returnDate) {
+    public BorrowedRecordResponseDTO(String barcode, String title, LocalDateTime borrowedDate, LocalDateTime dueDate, LocalDateTime returnedDate) {
         this.barcode = barcode;
         this.title = title;
         this.borrowedDate = borrowedDate;
+        this.dueDate = dueDate;
         this.returnedDate = returnedDate;
     }
 
@@ -75,5 +77,13 @@ public class BorrowedRecordResponseDTO {
 
     public void setReturnedDate(LocalDateTime returnedDate) {
         this.returnedDate = returnedDate;
+    }
+
+    public LocalDateTime getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDateTime dueDate) {
+        this.dueDate = dueDate;
     }
 }

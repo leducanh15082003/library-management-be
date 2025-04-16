@@ -19,7 +19,7 @@ public class DataInitializer {
             // -------------------- Subject: Sách --------------------
             // Thêm subject "Sách"
             jdbcTemplate.execute("INSERT INTO subject (name, description, image_url) VALUES " +
-                    "('Sách', 'Danh mục chứa các tác phẩm văn học', 'https://example.com/sach.jpg')");
+                    "('Sách', 'Danh mục chứa các tác phẩm văn học', 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1743130172/sach_tm6kxq.png')");
             jdbcTemplate.execute("SET @subject_id = LAST_INSERT_ID()");
 
             // Thêm 3 tác giả cho subject Sách
@@ -51,18 +51,18 @@ public class DataInitializer {
             // Chèn 3 bản sao cho cuốn "Cho tôi xin một vé đi tuổi thơ"
             // Bản sao 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Cho tôi xin một vé đi tuổi thơ'), '1'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Cho tôi xin một vé đi tuổi thơ'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Cho tôi xin một vé đi tuổi thơ'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Bản sao 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Cho tôi xin một vé đi tuổi thơ'), '2'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Cho tôi xin một vé đi tuổi thơ'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Cho tôi xin một vé đi tuổi thơ'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Bản sao 3: Borrowed
+            // Bản sao 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Cho tôi xin một vé đi tuổi thơ'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Cho tôi xin một vé đi tuổi thơ'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Cho tôi xin một vé đi tuổi thơ'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Cho tôi xin một vé đi tuổi thơ'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -77,18 +77,18 @@ public class DataInitializer {
             // Chèn 3 bản sao cho cuốn "Cô gái đến từ hôm qua"
             // Bản sao 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Cô gái đến từ hôm qua'), '1'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Cô gái đến từ hôm qua'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Cô gái đến từ hôm qua'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Bản sao 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Cô gái đến từ hôm qua'), '2'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Cô gái đến từ hôm qua'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Cô gái đến từ hôm qua'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Bản sao 3: Borrowed
+            // Bản sao 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Cô gái đến từ hôm qua'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Cô gái đến từ hôm qua'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Cô gái đến từ hôm qua'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Cô gái đến từ hôm qua'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -103,18 +103,18 @@ public class DataInitializer {
             // Chèn 3 bản sao cho cuốn "Mắt biếc"
             // Bản sao 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Mắt biếc'), '1'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Mắt biếc'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Mắt biếc'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Bản sao 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Mắt biếc'), '2'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Mắt biếc'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Mắt biếc'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Bản sao 3: Borrowed
+            // Bản sao 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Mắt biếc'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Mắt biếc'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Mắt biếc'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Mắt biếc'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
             // -------------------- Sách của Bảo Ninh --------------------
@@ -130,18 +130,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Nỗi buồn chiến tranh"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Nỗi buồn chiến tranh'), '1'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Nỗi buồn chiến tranh'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Nỗi buồn chiến tranh'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Nỗi buồn chiến tranh'), '2'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Nỗi buồn chiến tranh'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Nỗi buồn chiến tranh'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Nỗi buồn chiến tranh'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Nỗi buồn chiến tranh'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Nỗi buồn chiến tranh'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Nỗi buồn chiến tranh'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -156,18 +156,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Trại bảy chú lùn"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Trại bảy chú lùn'), '1'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Trại bảy chú lùn'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Trại bảy chú lùn'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Trại bảy chú lùn'), '2'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Trại bảy chú lùn'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Trại bảy chú lùn'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Trại bảy chú lùn'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Trại bảy chú lùn'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Trại bảy chú lùn'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Trại bảy chú lùn'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -182,18 +182,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Chim én bay"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Chim én bay'), '1'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Chim én bay'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Chim én bay'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Chim én bay'), '2'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Chim én bay'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Chim én bay'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Chim én bay'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Chim én bay'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Chim én bay'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Chim én bay'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
             // -------------------- Sách của Nguyễn Ngọc Tư --------------------
@@ -209,18 +209,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Cánh đồng bất tận"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Cánh đồng bất tận'), '1'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Cánh đồng bất tận'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Cánh đồng bất tận'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Cánh đồng bất tận'), '2'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Cánh đồng bất tận'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Cánh đồng bất tận'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Cánh đồng bất tận'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Cánh đồng bất tận'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Cánh đồng bất tận'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Cánh đồng bất tận'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -235,18 +235,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Gió lẻ và 9 câu chuyện khác"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Gió lẻ và 9 câu chuyện khác'), '1'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Gió lẻ và 9 câu chuyện khác'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Gió lẻ và 9 câu chuyện khác'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Gió lẻ và 9 câu chuyện khác'), '2'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Gió lẻ và 9 câu chuyện khác'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Gió lẻ và 9 câu chuyện khác'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Gió lẻ và 9 câu chuyện khác'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Gió lẻ và 9 câu chuyện khác'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Gió lẻ và 9 câu chuyện khác'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Gió lẻ và 9 câu chuyện khác'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -261,23 +261,23 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Khói trời lộng lẫy"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Khói trời lộng lẫy'), '1'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Khói trời lộng lẫy'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Khói trời lộng lẫy'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Khói trời lộng lẫy'), '2'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Khói trời lộng lẫy'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Khói trời lộng lẫy'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('000', (SELECT id FROM book WHERE title = 'Khói trời lộng lẫy'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Khói trời lộng lẫy'), " +
+                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Khói trời lộng lẫy'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Khói trời lộng lẫy'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
             // -------------------- Subject: Tạp chí --------------------
             jdbcTemplate.execute("INSERT INTO subject (name, description, image_url) VALUES " +
-                    "('Tạp chí', 'Danh mục chứa các tạp chí nổi bật', 'https://example.com/tapchi.jpg')");
+                    "('Tạp chí', 'Danh mục chứa các tạp chí nổi bật', 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1744768705/tap_chi_m2mmey.jpg')");
             jdbcTemplate.execute("SET @subject_id = LAST_INSERT_ID()");
 
             // Thêm 3 tác giả cho subject Tạp chí
@@ -308,18 +308,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Vogue" với barcode theo format "010" + book_id + copy number
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Vogue'), '1'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Vogue'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Vogue'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Vogue'), '2'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Vogue'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Vogue'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Vogue'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Vogue'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Vogue'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Vogue'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -334,18 +334,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Harper’s Bazaar" với barcode theo format "010" + book_id + copy number
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), '1'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), '2'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Harper’s Bazaar'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -360,18 +360,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Elle" với barcode theo format "010" + book_id + copy number
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Elle'), '1'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Elle'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Elle'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Elle'), '2'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Elle'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Elle'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Elle'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Elle'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Elle'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Elle'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
             // -------------------- Tạp chí của Michael Carter --------------------
@@ -387,18 +387,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "GQ"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'GQ'), '1'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'GQ'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'GQ'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'GQ'), '2'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'GQ'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'GQ'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'GQ'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'GQ'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'GQ'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'GQ'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -413,18 +413,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Vanity Fair"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Vanity Fair'), '1'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Vanity Fair'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Vanity Fair'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Vanity Fair'), '2'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Vanity Fair'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Vanity Fair'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Vanity Fair'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Vanity Fair'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Vanity Fair'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Vanity Fair'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -439,18 +439,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Esquire"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Esquire'), '1'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Esquire'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Esquire'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Esquire'), '2'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Esquire'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Esquire'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Esquire'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Esquire'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Esquire'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Esquire'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
             // -------------------- Tạp chí của Sophia Lewis --------------------
@@ -465,18 +465,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Cosmopolitan"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Cosmopolitan'), '1'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Cosmopolitan'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Cosmopolitan'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Cosmopolitan'), '2'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Cosmopolitan'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Cosmopolitan'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Cosmopolitan'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Cosmopolitan'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Cosmopolitan'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Cosmopolitan'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -490,18 +490,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Marie Claire"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Marie Claire'), '1'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Marie Claire'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Marie Claire'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Marie Claire'), '2'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Marie Claire'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Marie Claire'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'Marie Claire'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Marie Claire'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Marie Claire'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Marie Claire'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -515,23 +515,23 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "InStyle"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'InStyle'), '1'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'InStyle'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'InStyle'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'InStyle'), '2'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'InStyle'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'InStyle'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('010', (SELECT id FROM book WHERE title = 'InStyle'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'InStyle'), " +
+                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'InStyle'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'InStyle'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
             // -------------------- Subject: Báo --------------------
             jdbcTemplate.execute("INSERT INTO subject (name, description, image_url) VALUES " +
-                    "('Báo', 'Danh mục chứa các bài báo nổi bật', 'https://example.com/bao.jpg')");
+                    "('Báo', 'Danh mục chứa các bài báo nổi bật', 'https://res.cloudinary.com/dlqpdl4mz/image/upload/v1743130172/bao_nagage.png')");
             jdbcTemplate.execute("SET @subject_id = LAST_INSERT_ID()");
 
             // Thêm 3 tác giả cho subject Báo
@@ -563,18 +563,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Kỹ nghệ lấy Tây"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Kỹ nghệ lấy Tây'), '1'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Kỹ nghệ lấy Tây'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Kỹ nghệ lấy Tây'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Kỹ nghệ lấy Tây'), '2'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Kỹ nghệ lấy Tây'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Kỹ nghệ lấy Tây'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Kỹ nghệ lấy Tây'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Kỹ nghệ lấy Tây'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Kỹ nghệ lấy Tây'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Kỹ nghệ lấy Tây'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -589,18 +589,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Cơm thầy cơm cô"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Cơm thầy cơm cô'), '1'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Cơm thầy cơm cô'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Cơm thầy cơm cô'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Cơm thầy cơm cô'), '2'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Cơm thầy cơm cô'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Cơm thầy cơm cô'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Cơm thầy cơm cô'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Cơm thầy cơm cô'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Cơm thầy cơm cô'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Cơm thầy cơm cô'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -615,18 +615,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Lục xì"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Lục xì'), '1'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Lục xì'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Lục xì'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Lục xì'), '2'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Lục xì'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Lục xì'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Lục xì'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Lục xì'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Lục xì'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Lục xì'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
             // -------------------- Báo: Bài báo của Nam Cao --------------------
@@ -642,18 +642,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Đời thừa"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Đời thừa'), '1'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Đời thừa'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Đời thừa'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Đời thừa'), '2'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Đời thừa'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Đời thừa'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Đời thừa'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Đời thừa'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Đời thừa'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Đời thừa'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -668,18 +668,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Sống mòn"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Sống mòn'), '1'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Sống mòn'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Sống mòn'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Sống mòn'), '2'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Sống mòn'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Sống mòn'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Sống mòn'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Sống mòn'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Sống mòn'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Sống mòn'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -694,18 +694,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Chí Phèo"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Chí Phèo'), '1'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Chí Phèo'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Chí Phèo'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Chí Phèo'), '2'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Chí Phèo'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Chí Phèo'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Chí Phèo'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Chí Phèo'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Chí Phèo'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Chí Phèo'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
             // -------------------- Báo: Bài báo của Nguyễn Tuân --------------------
@@ -720,18 +720,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Vang bóng một thời"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Vang bóng một thời'), '1'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Vang bóng một thời'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Vang bóng một thời'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Vang bóng một thời'), '2'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Vang bóng một thời'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Vang bóng một thời'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Vang bóng một thời'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Vang bóng một thời'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Vang bóng một thời'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Vang bóng một thời'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -745,18 +745,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Tùy bút Sông Đà"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Tùy bút Sông Đà'), '1'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Tùy bút Sông Đà'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Tùy bút Sông Đà'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Tùy bút Sông Đà'), '2'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Tùy bút Sông Đà'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Tùy bút Sông Đà'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Tùy bút Sông Đà'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Tùy bút Sông Đà'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Tùy bút Sông Đà'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Tùy bút Sông Đà'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
 
@@ -770,18 +770,18 @@ public class DataInitializer {
             // Thêm 3 bản sao cho "Chiếc lư đồng mắt cua"
             // Copy 1: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Chiếc lư đồng mắt cua'), '1'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Chiếc lư đồng mắt cua'), '001'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Chiếc lư đồng mắt cua'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
             // Copy 2: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Chiếc lư đồng mắt cua'), '2'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Chiếc lư đồng mắt cua'), '002'), " +
                     "'Available', (SELECT id FROM book WHERE title = 'Chiếc lư đồng mắt cua'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
-            // Copy 3: Borrowed
+            // Copy 3: Available
             jdbcTemplate.execute("INSERT INTO book_copy (barcode, status, book_id, created_at, updated_at) VALUES " +
-                    "(CONCAT('020', (SELECT id FROM book WHERE title = 'Chiếc lư đồng mắt cua'), '3'), " +
-                    "'Borrowed', (SELECT id FROM book WHERE title = 'Chiếc lư đồng mắt cua'), " +
+                    "(CONCAT('030', (SELECT id FROM book WHERE title = 'Chiếc lư đồng mắt cua'), '003'), " +
+                    "'Available', (SELECT id FROM book WHERE title = 'Chiếc lư đồng mắt cua'), " +
                     "DATE_SUB(NOW(), INTERVAL FLOOR(RAND() * 365) DAY), NOW())");
 
             // Tạo phòng học (room)
@@ -867,68 +867,68 @@ public class DataInitializer {
 //
 //
 //            System.out.println("5 users have been added to the database!");
-//            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+//            jdbcTemplate.execute("INSERT INTO Available_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
 //                    "(NOW(), NULL, " + // return_at = NULL
 //                    "(SELECT id FROM book WHERE title = 'Cho tôi xin một vé đi tuổi thơ'), " +
 //                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Cho tôi xin một vé đi tuổi thơ') LIMIT 1), " +
 //                    "(SELECT id FROM user WHERE user_name = 'user1'))");
 //
-//            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+//            jdbcTemplate.execute("INSERT INTO Available_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
 //                    "(NOW(), NULL, " + // return_at = NULL
 //                    "(SELECT id FROM book WHERE title = 'Cô gái đến từ hôm qua'), " +
 //                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Cô gái đến từ hôm qua') LIMIT 1), " +
 //                    "(SELECT id FROM user WHERE user_name = 'user2'))");
 //
-//            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+//            jdbcTemplate.execute("INSERT INTO Available_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
 //                    "(NOW(), NULL, " + // return_at = NULL
 //                    "(SELECT id FROM book WHERE title = 'Mắt biếc'), " +
 //                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Mắt biếc') LIMIT 1), " +
 //                    "(SELECT id FROM user WHERE user_name = 'user3'))");
 //
-//            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+//            jdbcTemplate.execute("INSERT INTO Available_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
 //                    "(NOW(), NULL, " + // return_at = NULL
 //                    "(SELECT id FROM book WHERE title = 'Nỗi buồn chiến tranh'), " +
 //                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Nỗi buồn chiến tranh') LIMIT 1), " +
 //                    "(SELECT id FROM user WHERE user_name = 'user4'))");
 //
-//            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+//            jdbcTemplate.execute("INSERT INTO Available_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
 //                    "(NOW(), NULL, " + // return_at = NULL
 //                    "(SELECT id FROM book WHERE title = 'Trại bảy chú lùn'), " +
 //                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Trại bảy chú lùn') LIMIT 1), " +
 //                    "(SELECT id FROM user WHERE user_name = 'user5'))");
 //
-//            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+//            jdbcTemplate.execute("INSERT INTO Available_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
 //                    "(NOW(), NULL, " + // return_at = NULL
 //                    "(SELECT id FROM book WHERE title = 'Chim én bay'), " +
 //                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Chim én bay') LIMIT 1), " +
 //                    "(SELECT id FROM user WHERE user_name = 'user1'))");
 //
-//            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+//            jdbcTemplate.execute("INSERT INTO Available_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
 //                    "(NOW(), NULL, " + // return_at = NULL
 //                    "(SELECT id FROM book WHERE title = 'Cánh đồng bất tận'), " +
 //                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Cánh đồng bất tận') LIMIT 1), " +
 //                    "(SELECT id FROM user WHERE user_name = 'user2'))");
 //
-//            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+//            jdbcTemplate.execute("INSERT INTO Available_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
 //                    "(NOW(), NULL, " + // return_at = NULL
 //                    "(SELECT id FROM book WHERE title = 'Gió lẻ và 9 câu chuyện khác'), " +
 //                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Gió lẻ và 9 câu chuyện khác') LIMIT 1), " +
 //                    "(SELECT id FROM user WHERE user_name = 'user3'))");
 //
-//            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+//            jdbcTemplate.execute("INSERT INTO Available_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
 //                    "(NOW(), NULL, " + // return_at = NULL
 //                    "(SELECT id FROM book WHERE title = 'Khói trời lộng lẫy'), " +
 //                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Khói trời lộng lẫy') LIMIT 1), " +
 //                    "(SELECT id FROM user WHERE user_name = 'user4'))");
 //
-//            jdbcTemplate.execute("INSERT INTO borrowed_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
+//            jdbcTemplate.execute("INSERT INTO Available_record (borrow_at, return_at, book_id, book_copy_id, user_id) VALUES " +
 //                    "(NOW(), NULL, " + // return_at = NULL
 //                    "(SELECT id FROM book WHERE title = 'Vogue'), " +
 //                    "(SELECT id FROM book_copy WHERE book_id = (SELECT id FROM book WHERE title = 'Vogue') LIMIT 1), " +
 //                    "(SELECT id FROM user WHERE user_name = 'user5'))");
 //
 //
-//            System.out.println("10 borrowed records have been added to the database!");
+//            System.out.println("10 Available records have been added to the database!");
 
         };
     }

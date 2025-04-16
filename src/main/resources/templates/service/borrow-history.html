@@ -28,6 +28,7 @@
                 <th class="border border-gray-300 p-2 font-normal w-28">Mã vạch</th>
                 <th class="border border-gray-300 p-2 font-normal w-64">Nhan đề</th>
                 <th class="border border-gray-300 p-2 font-normal w-32">Ngày mượn</th>
+                <th class="border border-gray-300 p-2 font-normal w-32">Hạn trả</th>
                 <th class="border border-gray-300 p-2 font-normal w-32">Ngày trả</th>
             </tr>
             </thead>
@@ -45,11 +46,15 @@
                     Title
                 </td>
                 <td class="border border-gray-300 p-2 text-center"
-                    th:text="${#dates.format(record.borrowedDate, 'dd/MM/yyyy') ?: 'N/A'}">
+                    th:text="${record.borrowedDate != null ? #temporals.format(record.borrowedDate, 'dd/MM/yyyy') : 'N/A'}">
                     Ngày mượn
                 </td>
-                <td class="border border-gray-300 p-2 text-center"
-                    th:text="${#dates.format(record.returnedDate, 'dd/MM/yyyy') ?: 'N/A'}">
+                <td class="border border-gray-300 p-2 text-center text-red-500"
+                    th:text="${record.dueDate != null ? #temporals.format(record.dueDate, 'dd/MM/yyyy') : 'N/A'}">
+                    Hạn trả
+                </td>
+                <td class="border border-gray-300 p-2 text-center text-green-500"
+                    th:text="${record.returnedDate != null ? #temporals.format(record.returnedDate, 'dd/MM/yyyy') : 'N/A'}">
                     Ngày trả
                 </td>
             </tr>

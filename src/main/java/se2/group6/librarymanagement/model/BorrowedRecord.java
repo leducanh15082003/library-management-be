@@ -28,7 +28,6 @@ public class BorrowedRecord {
     @Column(name = "borrow_at", updatable = false)
     private LocalDateTime borrowAt;
 
-    @CreationTimestamp
     @Column(name = "return_at")
     private LocalDateTime returnAt;
 

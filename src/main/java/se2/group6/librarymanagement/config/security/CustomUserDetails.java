@@ -56,4 +56,10 @@ public class CustomUserDetails implements UserDetails {
     public String getImageUrl() {
         return user.getImageUrl();
     }
+    public User getUser() {
+        return user;
+    }
+    public String fullName() {
+        return user.getFullName();
+    }
 }

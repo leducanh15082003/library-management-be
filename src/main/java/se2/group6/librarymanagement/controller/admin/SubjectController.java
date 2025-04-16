@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import se2.group6.librarymanagement.model.Subject;
 import se2.group6.librarymanagement.service.SubjectService;
 
@@ -37,8 +39,15 @@ public class SubjectController {
     }
 
     @PostMapping
-    public String createSubject(@ModelAttribute("subject") Subject subject) {
-        subjectService.saveSubject(subject);
+    public String createSubject(@ModelAttribute Subject subject,
+                                @RequestParam("imageFile") MultipartFile imageFile,
+                                RedirectAttributes redirectAttributes) {
+        try {
+            subjectService.saveSubject(subject, imageFile);
+            redirectAttributes.addFlashAttribute("success", "Lưu thành công");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Lỗi: " + e.getMessage());
+        }
         return "redirect:/admin/subject";
     }
 

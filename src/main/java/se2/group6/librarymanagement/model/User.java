@@ -52,6 +52,9 @@ public class User {
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
 
+    @Column(name = "profile_completed")
+    private Boolean profileCompleted = false;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -200,5 +203,13 @@ public class User {
 
     public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public boolean isProfileCompleted() {
+        return Boolean.TRUE.equals(profileCompleted);
+    }
+
+    public void setProfileCompleted(Boolean profileCompleted) {
+        this.profileCompleted = profileCompleted;
     }
 }

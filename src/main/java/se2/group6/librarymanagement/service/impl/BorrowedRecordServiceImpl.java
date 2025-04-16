@@ -1,8 +1,11 @@
 package se2.group6.librarymanagement.service.impl;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import se2.group6.librarymanagement.model.BookCopy;
 import se2.group6.librarymanagement.model.BorrowedRecord;
+import se2.group6.librarymanagement.repository.BookCopyRepository;
 import se2.group6.librarymanagement.repository.BorrowedRecordRepository;
 import se2.group6.librarymanagement.service.BorrowedRecordService;
 
@@ -14,6 +17,9 @@ public class BorrowedRecordServiceImpl implements BorrowedRecordService {
 
     @Autowired
     private BorrowedRecordRepository borrowedRecordRepository;
+
+    @Autowired
+    private BookCopyRepository bookCopyRepository;
 
     @Override
     public void saveBorrowedRecord(BorrowedRecord borrowedRecord) {
@@ -32,19 +38,19 @@ public class BorrowedRecordServiceImpl implements BorrowedRecordService {
 
     @Override
     public List<BorrowedRecord> findAll() {
-        return borrowedRecordRepository.findAll(); // Trả về tất cả các bản ghi mượn
+        return borrowedRecordRepository.findAll();
     }
 
+    @Transactional
     @Override
     public void markAsReturned(Long id) {
-        // Lấy bản ghi mượn từ repository theo id
         BorrowedRecord borrowedRecord = borrowedRecordRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Bản ghi không tồn tại"));
 
-        // Cập nhật ngày trả sách
         borrowedRecord.setReturnAt(LocalDateTime.now());
-
-        // Lưu bản ghi đã được cập nhật vào cơ sở dữ liệu
+        BookCopy bookCopy = borrowedRecord.getBookCopy();
+        bookCopy.setStatus("Available");
+        bookCopyRepository.save(bookCopy);
         borrowedRecordRepository.save(borrowedRecord);
     }
 

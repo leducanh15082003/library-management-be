@@ -7,4 +7,6 @@ public interface BookCopyService {
     BookCopy save(BookCopy bookCopy);
     long countAllBookCopies();
     long countBorrowedBooks();
+    long countByBookId(Long id);
+
 }

@@ -64,14 +64,15 @@
                         <td class="py-3 px-5 border-b border-gray-300" th:text="${borrowedRecord.user.studentId}"></td>
                         <td class="py-3 px-5 border-b border-gray-300" th:text="${borrowedRecord.bookCopy.barcode}"></td>
                         <td class="py-3 px-5 border-b border-gray-300" th:text="${borrowedRecord.book.title}"></td>
-                        <td class="py-3 px-5 border-b border-gray-300" th:text="${borrowedRecord.borrowAt}"></td>
+                        <td class="py-3 px-5 border-b border-gray-300" th:text="${borrowedRecord.borrowAt != null ? #temporals.format(borrowedRecord.borrowAt, 'dd/MM/yyyy') : 'N/A'}"></td>
                         <td class="py-3 px-5 border-b border-gray-300 text-center">
                             <form th:action="@{/admin/return-book/{id}(id=${borrowedRecord.id})}" method="post">
                                 <button
                                         type="submit"
-                                        class="text-green-500 rounded-md hover:text-green-600"
-                                        th:text="${borrowedRecord.returnAt != null ? 'Đã trả' : 'Xác nhận'}"
-                                        th:disabled="${borrowedRecord.returnAt != null}">
+                                        class="rounded-md px-2 py-1"
+                                        th:classappend="${borrowedRecord.bookCopy.status != 'Borrowed'} ? ' text-gray-400 cursor-not-allowed' : ' text-green-500 hover:text-green-600'"
+                                        th:text="${borrowedRecord.bookCopy.status == 'Borrowed' ? 'Xác nhận' : 'Đã trả'}"
+                                        th:disabled="${borrowedRecord.bookCopy.status != 'Borrowed'}">
                                 </button>
                             </form>
                         </td>

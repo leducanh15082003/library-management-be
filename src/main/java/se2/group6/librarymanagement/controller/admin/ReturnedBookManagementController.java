@@ -22,16 +22,13 @@ public class ReturnedBookManagementController {
         return "This is a simple text response";
     }
 
-    // Hiển thị trang trả tài liệu
     @GetMapping("/return-page")
     public String showReturnPage(@RequestParam(name = "studentId", required = false) String studentId, Model model) {
         List<BorrowedRecord> borrowedRecordList;
 
         if (studentId != null && !studentId.isEmpty()) {
-            // Lọc các bản ghi theo mã sinh viên
             borrowedRecordList = borrowedRecordService.findByStudentId(studentId);
         } else {
-            // Lấy tất cả các bản ghi mượn
             borrowedRecordList = borrowedRecordService.findAll();
         }
 
@@ -40,7 +37,6 @@ public class ReturnedBookManagementController {
         return "admin/return-page";
     }
 
-    // Xác nhận đã trả sách
     @PostMapping("/return-book/{id}")
     public String returnBook(@PathVariable Long id) {
         borrowedRecordService.markAsReturned(id);

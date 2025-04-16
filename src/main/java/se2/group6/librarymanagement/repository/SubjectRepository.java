@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface SubjectRepository extends JpaRepository<Subject, Long> {
     List<Subject> findByNameContainingIgnoreCase(String name);
+    Subject findByName(String name);
 }

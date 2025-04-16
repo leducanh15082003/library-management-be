@@ -180,10 +180,11 @@ public class BorrowController {
         List<BorrowedRecordResponseDTO> response = paginatedRecords.stream()
                 .map(record -> {
                     LocalDateTime borrowDate = record.getBorrowAt();
-                    LocalDateTime returnDate = borrowDate.plusDays(7);
+                    LocalDateTime dueDate = borrowDate.plusDays(7);
+                    LocalDateTime returnedDate = record.getReturnAt();
                     String barcode = record.getBookCopy().getBarcode();
                     String title = record.getBook().getTitle();
-                    return new BorrowedRecordResponseDTO(barcode, title, borrowDate, returnDate);
+                    return new BorrowedRecordResponseDTO(barcode, title, borrowDate, dueDate, returnedDate);
                 })
                 .collect(Collectors.toList());
 
