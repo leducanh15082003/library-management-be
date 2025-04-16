@@ -76,18 +76,25 @@ public class UserManagementController {
             user.setCreatedAt(createdDate.atStartOfDay());
         }
 
-
-
         System.out.println("new user: " + user);
         System.out.println("anh moi " + imageFile.getOriginalFilename());
 
-        userService.saveUser(user, imageFile);
-        String successMessage = (user.getId() == null)
-                ? "ĐÃ THÊM NGƯỜI DÙNG " + user.getStudentId() + " THÀNH CÔNG !"
-                : "CẬP NHẬT NGƯỜI DÙNG " + user.getStudentId() + " THÀNH CÔNG !";
+        try {
+            userService.saveUser(user, imageFile);
+            String successMessage = (user.getId() == null)
+                    ? "ĐÃ THÊM NGƯỜI DÙNG " + user.getStudentId() + " THÀNH CÔNG !"
+                    : "CẬP NHẬT NGƯỜI DÙNG " + user.getStudentId() + " THÀNH CÔNG !";
 
-        redirectAttributes.addFlashAttribute("messsage", successMessage);
-        return "redirect:/admin/user-management/save-success";
+            redirectAttributes.addFlashAttribute("messsage", successMessage);
+            return "redirect:/admin/user-management/save-success";
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("Username already exists")) {
+                redirectAttributes.addFlashAttribute("error", "Tên đăng nhập đã tồn tại!");
+                return "redirect:/500";
+            }
+            // Handle other exceptions
+            throw e;
+        }
     }
 
     @GetMapping("/user-management/save-success")
