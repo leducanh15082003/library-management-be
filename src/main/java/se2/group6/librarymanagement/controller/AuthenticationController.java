@@ -83,6 +83,7 @@ public class AuthenticationController {
         User user = new User();
         user.setUserName(signupForm.getUsername());
         user.setPassword(passwordEncoder.encode(signupForm.getPassword()));
+        user.setEmail(signupForm.getEmail());
         user.setRole(Role.LIBRARY_PATRON);
         user.setCreatedAt(LocalDateTime.now());
         user.setExpirationDate(user.getCreatedAt().toLocalDate().plusYears(1));
