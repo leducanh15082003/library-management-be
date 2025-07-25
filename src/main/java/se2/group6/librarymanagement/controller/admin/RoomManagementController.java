@@ -66,7 +66,7 @@ public class RoomManagementController {
          }
 
          roomService.saveRoom(room);
-         return "redirect:/librarian/room/manage";
+         return "redirect:/admin/room/manage";
       } catch (Exception e) {
          e.printStackTrace();
          throw new RuntimeException("Error adding room: " + e.getMessage());
